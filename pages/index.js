@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import Card from '../components/Card'
-import GoogleMap from '../components/GoogleMap'
 
 export default function Home() {
 
@@ -39,7 +38,7 @@ export default function Home() {
               </div>
             </div>
             <div className='row-start-2 row-span-1 col-start-2 col-span-1 rounded-2xl flex justify-center place-items-end'>
-              <GoogleMap />
+
             </div>
 
           </div>
