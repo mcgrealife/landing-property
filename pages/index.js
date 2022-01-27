@@ -2,20 +2,30 @@ import Head from 'next/head'
 import Card from '../components/Card'
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
-// import { ScrollTrigger } from "gsap/dist/ScrollTrigger"
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger"
 
 
 
 export default function Home() {
 
+  gsap.registerPlugin(ScrollTrigger)
+
   const title = useRef()
 
   const cards = useRef()
 
+  const scheduleTour = useRef()
+
   useEffect(() => {
 
-    gsap.to(title.current, { x: 1000, duration: 3 })
-    gsap.to(cards.current, { x: 1000, duration: 3 })
+    gsap.to(title.current, {
+      scrollTrigger: {
+        trigger: scheduleTour.current,
+        // start: "top center"
+      },
+      x: 1000, duration: 3
+    })
+    // gsap.to(cards.current, { x: 1000, duration: 3 })
 
   })
 
@@ -73,7 +83,7 @@ export default function Home() {
           </div>
           <p>below phone</p>
         </div>
-        <div className='bg-white shadow border p-4 grid'>
+        <div ref={scheduleTour} className='bg-white shadow border p-4 grid'>
           <button className='bg-blue-600 border rounded text-white p-2 shadow'>Schedule Tour</button>
         </div>
       </div>
