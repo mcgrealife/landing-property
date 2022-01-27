@@ -20,25 +20,35 @@ export default function Home() {
 
   const [markerStyle, setMarkerStyle] = useState('selected')
 
-  const tl = useRef()
+  let tl = useRef()
 
   useEffect(() => {
+
     tl.current = gsap.timeline()
       .to(cards.current, {
         x: -460,
-        onComplete: () => { setMarkerStyle('viewed') }
+        onComplete: update,
       })
       .to(floatingText1.current, { y: -1000 }, "<1%")
 
-    ScrollTrigger.create({
-      animation: tl.current,
-      trigger: frameContainer.current,
-      pin: true,
-      scrub: 2
-    })
+    return () => tl.current.kill()
 
-  })
+    // ScrollTrigger.create({
+    //   animation: tl,
+    //   trigger: frameContainer.current,
+    //   pin: true,
+    //   scrub: 2
+    // })
 
+
+  }, [])
+
+
+
+  const update = () => {
+    setMarkerStyle('viewed')
+    console.log('completed')
+  }
 
 
   return (
