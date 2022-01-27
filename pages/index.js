@@ -13,41 +13,35 @@ export default function Home() {
         <div className='bg-white shadow p-4'>
           header
         </div>
-        <div className='flex-1'>
+        <div className='grow'>
           <p>title</p>
-          <div className='grid grid-cols-[9.5px_255px_9.5px] grid-rows-[8px_552.2px_8.1px] justify-center '>
-
-
-
-
-
+          <div className='grid grid-cols-[9.5px_255px_9.5px] grid-rows-[8px_552.2px_8.1px]  justify-center'>
             <img src="/map-1.png" alt="map" className='row-start-2 row-span-4 col-start-2 col-span-2 pt-[101px] z-2' />
 
             <img src="/status-search-filter.svg" alt="status"
               className='row-start-2 row-span-4 col-start-2 col-span-2 z-2 shadow-lg' />
 
-            <div className='row-start-1 row-span-4 col-start-2 col-span-1 rounded-2xl flex justify-center place-items-end z-10 overflow-x-auto scrollbar-hide pb-[28.5px] snap-x'>
-              <div className='flex justify-start gap-[5.5px] snap-x'>
+            <div className='row-start-2 col-start-2 rounded-2xl z-4 pb-[28.5px]'>
+              <div className='flex flex-row'>
                 <Card />
                 <Card />
-                <Card className='shadow-lg' />
+                <Card />
                 <Card />
                 <Card />
                 <Card />
                 <Card />
                 <Card />
               </div>
-            </div>
-            <div className='row-start-2 row-span-1 col-start-2 col-span-1 rounded-2xl flex justify-center place-items-end'>
 
             </div>
+
 
             <img src="/home.svg" alt="home" className='row-start-2 col-start-2 justify-self-center self-end pb-[5.23px] z-20' />
             {/* shadow-frame should work tailwing.conifig */}
 
             <img
               src='/frame-hollow.svg'
-              className='row-start-1 row-span-3 col-start-1 col-span-3 z-9'
+              className='row-start-1 row-span-3 col-start-1 col-span-3 z-6'
             />
 
           </div>
