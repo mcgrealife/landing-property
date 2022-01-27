@@ -6,6 +6,7 @@ module.exports = {
     "./components/**/*.{js,ts,jsx}",
   ],
   theme: {
+    // make gilroy first font in family (not override it in index)
     extend: {
       BoxShadow: {
         'card': '0px 0.654028px 3.92417px rgba(60, 64, 67, 0.24)',

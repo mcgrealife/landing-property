@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Card from '../components/Card'
-// import Marker from '../components/Marker'
-import { useEffect, useRef } from 'react'
+import Marker from '../components/Marker'
+import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger"
 
@@ -10,37 +10,35 @@ import { ScrollTrigger } from "gsap/dist/ScrollTrigger"
 export default function Home() {
 
   gsap.registerPlugin(ScrollTrigger)
-  const tl = gsap.timeline()
+
 
   const cards = useRef()
   const scheduleTour = useRef()
   const frameContainer = useRef()
   const floatingText1 = useRef()
-  const marker1Viewed = useRef()
-  const marker1Selected = useRef()
-  const marker2Viewed = useRef()
-  const marker2Unviewed = useRef()
-  const marker2Selected = useRef()
+
+
+  const [markerStyle, setMarkerStyle] = useState('selected')
+
+  const tl = useRef()
 
   useEffect(() => {
-
-
-    tl.to(cards.current, {
-      x: -327,
-    })
-    tl.to(floatingText1.current, { y: -1000 }, "<1%")
-    tl.to(marker1Selected.current, { opacity: 100 }, "<1%")
-    tl.to(marker1Viewed.current, { opacity: 0 }, "<1%")
-
+    tl.current = gsap.timeline()
+      .to(cards.current, {
+        x: -460,
+        onComplete: () => { setMarkerStyle('viewed') }
+      })
+      .to(floatingText1.current, { y: -1000 }, "<1%")
 
     ScrollTrigger.create({
-      animation: tl,
+      animation: tl.current,
       trigger: frameContainer.current,
       pin: true,
       scrub: 2
     })
 
   })
+
 
 
   return (
@@ -58,11 +56,20 @@ export default function Home() {
 
           <div ref={frameContainer} className='grid grid-cols-[9.5px_255px_9.5px] grid-rows-[8px_552.2px_8.1px] ml-[24px]'>
             <div className='row-start-2 col-start-2 z-4 place-self-center'>
-              <img src="/markers/marker1-selected.svg" alt="marker1-selected" ref={marker1Selected} />
-              <img src="/markers/marker1-viewed.svg" alt="marker1-viewed" ref={marker1Viewed} />
-              <img src="/markers/marker2-selected.svg" alt="marker2-selected" ref={marker2Selected} />
-              <img src="/markers/marker2-viewed.svg" alt="marker2-viewed" ref={marker2Viewed} />
-              <img src="/markers/marker2-unviewed.svg" alt="marker2-unviewed" ref={marker2Unviewed} />
+              <Marker
+                text={markerStyle}
+                state='selected'
+              />
+
+              <Marker
+                text='$3000'
+                state='viewed'
+              />
+
+              <Marker
+                text='$2700'
+                state='unviewed'
+              />
 
 
 
