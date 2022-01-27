@@ -34,7 +34,6 @@ module.exports = {
           }
         }
       }
-
     },
 
   },
@@ -52,6 +51,18 @@ module.exports = {
           '&::-webkit-scrollbar': {
             display: 'none'
           }
+        }
+      }
+      )
+    }),
+    plugin(function ({ addUtilities }) {
+      addUtilities({
+        '.arrowDown': {
+          'width': '0',
+          'height': '0',
+          'border-style': 'solid',
+          'border-width': '3.92px 3.27px 0 3.27px',
+          'border-color': '#ffffff transparent transparent transparent'
         }
       }
       )

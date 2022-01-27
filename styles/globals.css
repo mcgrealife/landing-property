@@ -1,3 +1,51 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: 'Gilroy';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Gilroy'), local('Gilroy-Regular'),
+    url('./regular.woff2') format('woff2'), url('./regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: local('Gilroy Medium'), local('Gilroy-Medium'),
+    url('./medium.woff2') format('woff2'), url('./medium.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Gilroy SemiBold'), local('Gilroy-SemiBold'),
+    url('./semi-bold.woff2') format('woff2'),
+    url('./semi-bold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Gilroy Italic'), local('Gilroy-Italic'),
+    url('./italic-regular.woff2') format('woff2'),
+    url('./italic-regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: local('Gilroy Medium Italic'), local('Gilroy-MediumItalic'),
+    url('./italic-medium.woff2') format('woff2'),
+    url('./italic-medium.woff') format('woff');
+}
