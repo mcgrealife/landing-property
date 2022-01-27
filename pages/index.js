@@ -9,26 +9,26 @@ import { ScrollTrigger } from "gsap/dist/ScrollTrigger"
 export default function Home() {
 
   gsap.registerPlugin(ScrollTrigger)
-
   const tl = gsap.timeline()
 
-  const title = useRef()
-
   const cards = useRef()
-
   const scheduleTour = useRef()
+  const frameContainer = useRef()
+  const floatingText1 = useRef()
 
   useEffect(() => {
 
 
-    tl.to(title.current, {
-      x: 1000, duration: 3,
+    tl.to(cards.current, {
+      x: -327,
     })
-    // gsap.to(cards.current, { x: 1000, duration: 3 })
+    tl.to(floatingText1.current, { y: -1000 }, "<1%")
 
     ScrollTrigger.create({
       animation: tl,
-      trigger: scheduleTour.current
+      trigger: frameContainer.current,
+      pin: true,
+      scrub: 2
     })
 
   })
@@ -42,15 +42,11 @@ export default function Home() {
         <title>Resider</title>
       </Head>
 
-
-      <div className='flex flex-col min-h-screen'>
-        <div className='bg-white shadow p-4'>
-          header
-        </div>
+      <div className='flex flex-col min-h-screen '>
 
         <div className='grow'>
-          <p ref={title}>title</p>
-          <div className='grid grid-cols-[9.5px_255px_9.5px] grid-rows-[8px_552.2px_8.1px]  justify-center'>
+
+          <div ref={frameContainer} className='grid grid-cols-[9.5px_255px_9.5px] grid-rows-[8px_552.2px_8.1px] justify-center '>
 
             <img src="/map-1.png" alt="map" className='row-start-2 row-span-4 col-start-2 col-span-2 pt-[101px] z-2' />
 
@@ -85,15 +81,27 @@ export default function Home() {
               className='row-start-1 row-span-3 col-start-1 col-span-3 z-5'
             />
 
+
+
           </div>
-          <p>below phone</p>
+          <div ref={scheduleTour} className='bg-white shadow border p-4 w-full grid fixed bottom-0 z-20'>
+            <button className='bg-blue-primary border rounded text-white p-2 shadow align-center'>Schedule Tour</button>
+          </div>
+
         </div>
 
 
-        <div ref={scheduleTour} className='bg-white shadow border p-4 grid'>
-          <button className='bg-blue-600 border rounded text-white p-2 shadow'>Schedule Tour</button>
+
+        <div ref={floatingText1} className='grid self-center justify-center bg-white border-2 rounded shadow h-full w-80'>
+          <p>floating text</p>
+          <p>floating text</p>
+          <p>floating text</p>
         </div>
+
+
+
       </div>
+
     </>
 
   )
