@@ -1,20 +1,40 @@
 import Head from 'next/head'
 import Card from '../components/Card'
+import { useEffect, useRef } from 'react'
+import { gsap } from 'gsap'
+// import { ScrollTrigger } from "gsap/dist/ScrollTrigger"
+
+
 
 export default function Home() {
 
+  const title = useRef()
+
+  const cards = useRef()
+
+  useEffect(() => {
+
+    gsap.to(title.current, { x: 1000, duration: 3 })
+    gsap.to(cards.current, { x: 1000, duration: 3 })
+
+  })
+
+
   return (
+
 
     <>
       <Head>
         <title>Resider</title>
       </Head>
+
+
       <div className='flex flex-col min-h-screen'>
         <div className='bg-white shadow p-4'>
           header
         </div>
         <div className='grow'>
-          <p>title</p>
+          <p ref={title}>title</p>
           <div className='grid grid-cols-[9.5px_255px_9.5px] grid-rows-[8px_552.2px_8.1px]  justify-center'>
 
             <img src="/map-1.png" alt="map" className='row-start-2 row-span-4 col-start-2 col-span-2 pt-[101px] z-2' />
@@ -24,7 +44,7 @@ export default function Home() {
 
             <div className='row-start-2 col-start-2 self-end z-6 pb-[28.5px] overflow-x-scroll scrollbar-hide snap-x'>
 
-              <div className='flex flex-row min-w-max gap-2 px-4 '>
+              <div ref={cards} className='flex flex-row min-w-max gap-2 px-4 '>
                 <Card />
                 <Card />
                 <Card />
