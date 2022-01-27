@@ -25,7 +25,14 @@ module.exports = {
         '9': '9',
       },
       colors: {
-        'blue-primary': '#366CA5'
+        'resider': {
+          'blue': {
+            'primary': '#366CA5'
+          },
+          'text': {
+            'p': '#606367'
+          }
+        }
       }
 
     },

@@ -85,17 +85,18 @@ export default function Home() {
 
           </div>
           <div ref={scheduleTour} className='bg-white shadow border p-4 w-full grid fixed bottom-0 z-20'>
-            <button className='bg-blue-primary border rounded text-white p-2 shadow align-center'>Schedule Tour</button>
+            <button className='bg-resider-blue-primary border rounded text-white p-2 shadow align-center'>Schedule Tour</button>
           </div>
 
         </div>
 
 
 
-        <div ref={floatingText1} className='grid self-center justify-center bg-white border-2 rounded shadow h-full w-80'>
-          <p>floating text</p>
-          <p>floating text</p>
-          <p>floating text</p>
+        <div ref={floatingText1} className='grid self-center justify-center bg-white text-resider-text-p rounded shadow-[0_1px_6px_rgba(60,64,67,0.24)] h-content w-content'>
+          <div className='py-[32px] px-[24px] flex flex-col gap-[16px] rounded-[12px]'>
+            <h1 className='font-bold text-[18px]'>Platform <span className='text-resider-blue-primary '>integrity</span></h1>
+            <p className='text-[12px] font-medium'>floating text</p>
+          </div>
         </div>
 
 
