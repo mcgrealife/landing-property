@@ -10,6 +10,8 @@ export default function Home() {
 
   gsap.registerPlugin(ScrollTrigger)
 
+  const tl = gsap.timeline()
+
   const title = useRef()
 
   const cards = useRef()
@@ -18,14 +20,16 @@ export default function Home() {
 
   useEffect(() => {
 
-    gsap.to(title.current, {
-      scrollTrigger: {
-        trigger: scheduleTour.current,
-        // start: "top center"
-      },
-      x: 1000, duration: 3
+
+    tl.to(title.current, {
+      x: 1000, duration: 3,
     })
     // gsap.to(cards.current, { x: 1000, duration: 3 })
+
+    ScrollTrigger.create({
+      animation: tl,
+      trigger: scheduleTour.current
+    })
 
   })
 
@@ -43,6 +47,7 @@ export default function Home() {
         <div className='bg-white shadow p-4'>
           header
         </div>
+
         <div className='grow'>
           <p ref={title}>title</p>
           <div className='grid grid-cols-[9.5px_255px_9.5px] grid-rows-[8px_552.2px_8.1px]  justify-center'>
@@ -83,6 +88,8 @@ export default function Home() {
           </div>
           <p>below phone</p>
         </div>
+
+
         <div ref={scheduleTour} className='bg-white shadow border p-4 grid'>
           <button className='bg-blue-600 border rounded text-white p-2 shadow'>Schedule Tour</button>
         </div>
