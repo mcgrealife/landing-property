@@ -1,7 +1,8 @@
 export default function Card() {
   return (
-    <div className='bg-white shadow-lg h-[68px] px-20 rounded-lg grid snap-center'>
-      Card
-    </div>
+    // shadow-card should work 
+    // w-[219.1px]
+    <div className={`w-[219.1px] h-[68px] rounded-lg snap-center bg-white shadow-lg grid`} >
+    </div >
   )
 }
