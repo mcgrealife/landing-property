@@ -39,7 +39,7 @@ export default function Home() {
     tl.current = gsap.timeline({
       scrollTrigger: {
         trigger: trigger.current,
-        start: 'top 30%', // https://greensock.com/docs/v3/Plugins/ScrollTrigger/
+        start: 'top 40%', // https://greensock.com/docs/v3/Plugins/ScrollTrigger/
         end: "+=10",
         onEnter: () => {
           gsap.to(cards.current, {
@@ -60,6 +60,10 @@ export default function Home() {
         markers: true
       }, paused: true
     })
+    // .to(floatingText1.current, {
+    //   y: '=+1000'
+    // }, "<1%")
+
   }, [])
 
 
@@ -130,7 +134,7 @@ export default function Home() {
         />
       </div>
 
-      <div ref={trigger} className='h-[500px] bg-red-100 opacity-25' />
+      <div ref={trigger} className='h-[450px] bg-red-100 opacity-25' />
 
       <div ref={floatingText1} className='grid bg-white  rounded shadow-[0_1px_6px_rgba(60,64,67,0.24)] h-fit w-fit self-end mr-[12px] z-10'>
         <div className='py-[32px] px-[24px] flex flex-col gap-[16px] rounded-[12px]'>
