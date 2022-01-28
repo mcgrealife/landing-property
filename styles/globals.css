@@ -49,3 +49,12 @@
     url('./italic-medium.woff2') format('woff2'),
     url('./italic-medium.woff') format('woff');
 }
+
+div {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+div::-webkit-scrollbar {
+  display: none;
+}

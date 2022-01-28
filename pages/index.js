@@ -15,11 +15,8 @@ export default function Home() {
     return alert('💰 $50 showing, $500 max. 50% per lease. 💰 ')
   }
 
-
   const cards = useRef()
-  const scheduleTour = useRef()
   const trigger = useRef()
-  const floatingText1 = useRef()
 
 
   const [markerStyle, setMarkerStyle] = useState('selected')
@@ -27,13 +24,11 @@ export default function Home() {
   const update = () => {
     setMarkerStyle('viewed')
     setMarkerStyle2('selected')
-    console.log('completed')
   }
 
   const reverseUpdate = () => {
     setMarkerStyle('selected')
     setMarkerStyle2('viewed')
-    console.log('uncomplete')
   }
 
   let tl = useRef()
@@ -43,7 +38,7 @@ export default function Home() {
       scrollTrigger: {
         trigger: trigger.current,
         start: 'top 40%', // https://greensock.com/docs/v3/Plugins/ScrollTrigger/
-        end: "+=10",
+        end: "+=1",
         onEnter: () => {
           gsap.to(cards.current, {
             x: -230,
@@ -57,8 +52,15 @@ export default function Home() {
             onStart: reverseUpdate,
           })
         },
+        onLeave: () => { console.log('onLeave') },
+        onScrubComplete: () => { console.log('onScrubComplete') },
+        onLeaveBack: () => { console.log('onLeaveBack') },
+        onRefresh: () => { console.log('onRefresh') },
+        onfullscreenchange: () => { console.log('onFullScreenChange') },
+        onSnapComplete: () => { console.log('onSnacpComplete') },
+        onToggle: () => { console.log('onToggle') },
         // pin: true,
-        scrub: 2,
+        // scrub: 2,
         // anticipatePin: 1,
         markers: true
       }, paused: true
@@ -73,7 +75,7 @@ export default function Home() {
   return (
 
 
-    <div className='flex flex-col'>
+    <div className='flex flex-col will-change-transform scrollbar-hide font-[gilroy]'>
       <Head>
         <title>Resider</title>
 
@@ -81,10 +83,10 @@ export default function Home() {
 
 
 
-      <div className='grid grid-cols-[9.5px_255px_9.5px] grid-rows-[8px_552.2px_8.1px] ml-[24px] sticky h-auto font-[gilroy] items-start overflow-auto top-[38px]'>
+      <div className='grid grid-cols-[9.5px_255px_9.5px] grid-rows-[8px_552.2px_8.1px] ml-[24px] sticky h-auto font-[gilroy] items-start overflow-auto top-[38px] will-change-transform'>
 
 
-        <div className='row-start-2 col-start-2 z-4 place-self-center'>
+        <div className='flex row-start-2 col-start-2 z-4 place-self-center gap-4'>
           <Marker
             text='5 units'
             state={markerStyle}
@@ -103,7 +105,7 @@ export default function Home() {
         </div>
 
 
-        <img src="/map-1.png" alt="map" className='row-start-2 row-span-4 col-start-2 col-span-2 pt-[101px] z-2' />
+        <img src="/map-4x.png" alt="map" className='row-start-2 col-start-2 col-span-1 pt-[101px] z-2 rounded-xl' />
 
         <img src="/status-search-filter.svg" alt="status"
           className='row-start-2 row-span-4 col-start-2 col-span-2 z-2 shadow-lg' />
@@ -137,18 +139,19 @@ export default function Home() {
         />
       </div>
 
-      <div ref={trigger} className='h-[450px] bg-red-100 opacity-25' />
+      <div ref={trigger} className='h-[450px]  will-change-transform' />
 
-      <div ref={floatingText1} className='grid bg-white  rounded shadow-[0_1px_6px_rgba(60,64,67,0.24)] h-fit w-fit self-end mr-[12px] z-10'>
+      <div className='grid bg-white  rounded shadow-[0_1px_6px_rgba(60,64,67,0.24)] h-fit w-fit self-end mr-[12px] z-10 will-change-transform'>
         <div className='py-[32px] px-[24px] flex flex-col gap-[16px] rounded-[12px]'>
           <h1 className='font-bold text-[18px]'>Platform <span className='text-resider-blue-primary '>integrity</span></h1>
           <p className='text-[12px] font-medium max-w-[244px] text-resider-text-p'>Resider solely consists of rental properties syndicated through data API’s. With up to date and accurate listings, your clients can browse with confidence.</p>
         </div>
       </div>
 
-      <div className='h-[1000px]' />
-      <div ref={scheduleTour} className='bg-white shadow-[0_-2px_4px_rgba(60,64,67,0.1)]  p-[8px] w-full grid sticky bottom-0 z-20'>
-        <button className='bg-resider-blue-primary  rounded text-white p-2 shadow-[0_1px_2px_rgba(60,64,67,0.3)] align-center font-[500] text-[14px] leading-[18px] tracking-[0.2px] px-[32px] py-[15px]' onClick={scheduleDemoClick}>Schedule Demo</button>
+      <div className='h-[1000px] will-change-transform' />
+
+      <div className='bg-white shadow-[0_-2px_4px_rgba(60,64,67,0.1)]  p-[8px] w-full grid sticky bottom-0 z-20 will-change-transform'>
+        <button className='bg-resider-blue-primary  rounded text-white p-2 shadow-[0_1px_2px_rgba(60,64,67,0.3)] align-center font-[500] text-[14px] leading-[18px] tracking-[0.2px] px-[32px] py-[15px] will-change-transform' onClick={scheduleDemoClick}>Schedule Demo</button>
       </div>
 
 
