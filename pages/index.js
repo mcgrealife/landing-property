@@ -52,11 +52,11 @@ export default function Home() {
 
       </Head>
 
-      <div className='flex flex-col min-h-screen font-[gilroy]'>
+      <div ref={frameContainer} className='flex flex-col min-h-screen font-[gilroy]'>
 
         <div className='grow'>
 
-          <div ref={frameContainer} className='grid grid-cols-[9.5px_255px_9.5px] grid-rows-[8px_552.2px_8.1px] ml-[24px]'>
+          <div className='grid grid-cols-[9.5px_255px_9.5px] grid-rows-[8px_552.2px_8.1px] ml-[24px] sticky'>
             <div className='row-start-2 col-start-2 z-4 place-self-center'>
               <Marker
                 text={markerStyle}
@@ -108,25 +108,24 @@ export default function Home() {
               src='/frame-hollow.svg'
               className='row-start-1 row-span-3 col-start-1 col-span-3 z-5'
             />
-
-            <div className='h-[1000px]' />
-
           </div>
+
+
+
           <div ref={scheduleTour} className='bg-white shadow-[0_-2px_4px_rgba(60,64,67,0.1)]  p-[8px] w-full grid fixed bottom-0 z-20'>
             <button className='bg-resider-blue-primary  rounded text-white p-2 shadow-[0_1px_2px_rgba(60,64,67,0.3)] align-center font-[500] text-[14px] leading-[18px] tracking-[0.2px] px-[32px] py-[15px]'>Schedule Demo</button>
           </div>
 
         </div>
 
-
-
         <div ref={floatingText1} className='grid bg-white  rounded shadow-[0_1px_6px_rgba(60,64,67,0.24)] h-fit w-fit self-end mr-[12px]'>
           <div className='py-[32px] px-[24px] flex flex-col gap-[16px] rounded-[12px]'>
             <h1 className='font-bold text-[18px]'>Platform <span className='text-resider-blue-primary '>integrity</span></h1>
             <p className='text-[12px] font-medium max-w-[244px] text-resider-text-p'>Resider solely consists of rental properties syndicated through data API’s. With up to date and accurate listings, your clients can browse with confidence.</p>
           </div>
-
         </div>
+
+
 
 
 
