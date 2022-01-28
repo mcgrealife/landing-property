@@ -20,7 +20,7 @@ export default function Home() {
 
 
   const [markerStyle, setMarkerStyle] = useState('selected')
-  const [markerStyle2, setMarkerStyle2] = useState('viewed')
+  const [markerStyle2, setMarkerStyle2] = useState('unviewed')
   const update = () => {
     setMarkerStyle('viewed')
     setMarkerStyle2('selected')
