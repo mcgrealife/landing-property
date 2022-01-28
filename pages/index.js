@@ -41,37 +41,26 @@ export default function Home() {
         trigger: trigger.current,
         start: 'top 30%', // https://greensock.com/docs/v3/Plugins/ScrollTrigger/
         end: "+=10",
-        // toggleActionsL: 'play reverse',
-        onEnter: () => { setMarkerStyle('onEnter') },
-        onEnterBack: () => { setMarkerStyle('uncomplete') },
-        // pin: true,
-        // scrub: 1,
-        // anticipatePin: 1,
-        markers: true
-      }, paused: true
-    })
-      // .to(cards.current, {
-      //   x: -460,
-      //   duration: 1,
-      //   onComplete: update,
-      //   onReverseComplete: reverseUpdate,
-
-      // })
-      .to(floatingText1.current, {
-        // y: -1,
-        onStart: () => {
+        onEnter: () => {
           gsap.to(cards.current, {
             x: -460,
             duration: 1,
             onStart: update,
           })
         },
-        onReverseComplete: () => {
+        onEnterBack: () => {
           gsap.to(cards.current, {
             x: '+=460',
             onStart: reverseUpdate,
           })
-        }
+        },
+        // pin: true,
+        // scrub: 1,
+        // anticipatePin: 1,
+        markers: true
+      }, paused: true
+    })
+      .to(floatingText1.current, {
 
       }, "<1%")
 
