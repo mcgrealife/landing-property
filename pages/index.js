@@ -42,7 +42,7 @@ export default function Home() {
         onEnter: () => {
           gsap.to(cards.current, {
             x: -230,
-            duration: 1,
+            // duration: 1,
             onStart: update,
           })
         },
