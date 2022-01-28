@@ -55,15 +55,11 @@ export default function Home() {
           })
         },
         // pin: true,
-        // scrub: 1,
+        scrub: 2,
         // anticipatePin: 1,
         markers: true
       }, paused: true
     })
-      .to(floatingText1.current, {
-
-      }, "<1%")
-
   }, [])
 
 
