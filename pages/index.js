@@ -19,36 +19,28 @@ export default function Home() {
 
 
   const [markerStyle, setMarkerStyle] = useState('selected')
-
-  let tl = useRef()
-
-  useEffect(() => {
-
-    tl.current = gsap.timeline()
-      .to(cards.current, {
-        x: -460,
-        onComplete: update,
-      })
-      .to(floatingText1.current, { y: -1000 }, "<1%")
-
-    return () => tl.current.kill()
-
-    // ScrollTrigger.create({
-    //   animation: tl,
-    //   trigger: frameContainer.current,
-    //   pin: true,
-    //   scrub: 2
-    // })
-
-
-  }, [])
-
-
-
   const update = () => {
     setMarkerStyle('viewed')
     console.log('completed')
   }
+
+  let tl = useRef()
+
+  useEffect(() => {
+    tl.current = gsap.timeline({ paused: true })
+      .to(cards.current, {
+        x: -460,
+        onComplete: () => { console.log('testing') }
+      })
+      .to(floatingText1.current, { y: -1000 }, "<1%")
+
+    ScrollTrigger.create({
+      trigger: frameContainer.current,
+      pin: true,
+      scrub: 2
+    })
+
+  }, [])
 
 
   return (
@@ -60,7 +52,7 @@ export default function Home() {
 
       </Head>
 
-      <div className='flex flex-col min-h-screen font-[gilroy] overscroll-none'>
+      <div className='flex flex-col min-h-screen font-[gilroy]'>
 
         <div className='grow'>
 
@@ -121,7 +113,7 @@ export default function Home() {
               className='row-start-1 row-span-3 col-start-1 col-span-3 z-5'
             />
 
-
+            <div className='h-[1000px]' />
 
           </div>
           <div ref={scheduleTour} className='bg-white shadow-[0_-2px_4px_rgba(60,64,67,0.1)]  p-[8px] w-full grid fixed bottom-0 z-20'>
@@ -137,7 +129,12 @@ export default function Home() {
             <h1 className='font-bold text-[18px]'>Platform <span className='text-resider-blue-primary '>integrity</span></h1>
             <p className='text-[12px] font-medium max-w-[244px] text-resider-text-p'>Resider solely consists of rental properties syndicated through data API’s. With up to date and accurate listings, your clients can browse with confidence.</p>
           </div>
+
         </div>
+
+
+
+
 
 
 
