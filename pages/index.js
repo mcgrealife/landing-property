@@ -23,13 +23,16 @@ export default function Home() {
 
 
   const [markerStyle, setMarkerStyle] = useState('selected')
+  const [markerStyle2, setMarkerStyle2] = useState('viewed')
   const update = () => {
     setMarkerStyle('viewed')
+    setMarkerStyle2('selected')
     console.log('completed')
   }
 
   const reverseUpdate = () => {
-    setMarkerStyle('unviewed')
+    setMarkerStyle('selected')
+    setMarkerStyle2('viewed')
     console.log('uncomplete')
   }
 
@@ -43,14 +46,14 @@ export default function Home() {
         end: "+=10",
         onEnter: () => {
           gsap.to(cards.current, {
-            x: -460,
+            x: -230,
             duration: 1,
             onStart: update,
           })
         },
         onEnterBack: () => {
           gsap.to(cards.current, {
-            x: '+=460',
+            x: '+=230',
             onStart: reverseUpdate,
           })
         },
@@ -83,13 +86,13 @@ export default function Home() {
 
         <div className='row-start-2 col-start-2 z-4 place-self-center'>
           <Marker
-            text={markerStyle}
-            state='selected'
+            text='5 units'
+            state={markerStyle}
           />
 
           <Marker
             text='$3000'
-            state='viewed'
+            state={markerStyle2}
           />
 
           <Marker

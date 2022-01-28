@@ -58,13 +58,21 @@ module.exports = {
     }),
     plugin(function ({ addUtilities }) {
       addUtilities({
-        '.arrowDown': {
+        '.arrowDownWhite': {
           'width': '0',
           'height': '0',
           'border-style': 'solid',
           'border-width': '3.92px 3.27px 0 3.27px',
           'border-color': '#ffffff transparent transparent transparent'
-        }
+        },
+        '.arrowDownBlue': {
+          'width': '0',
+          'height': '0',
+          'border-style': 'solid',
+          'border-width': '3.92px 3.27px 0 3.27px',
+          'border-color': '#366CA5 transparent transparent transparent'
+        },
+
       }
       )
     })
