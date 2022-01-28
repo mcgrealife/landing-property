@@ -1,6 +1,7 @@
 // https://greensock.com/react/#timelines
 // https://greensock.com/react-advanced/#component-communication
 
+// https://greensock.com/forums/topic/28797-animate-tween-independent-of-scroll-trigger/
 
 export default function Marker({ text, state }) {
   return (
