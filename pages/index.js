@@ -27,18 +27,18 @@ export default function Home() {
   let tl = useRef()
 
   useEffect(() => {
-    tl.current = gsap.timeline({ paused: true })
+    tl.current = gsap.timeline({
+      scrollTrigger: {
+        trigger: frameContainer.current,
+        pin: true,
+        scrub: 2
+      }, paused: true
+    })
       .to(cards.current, {
         x: -460,
-        onComplete: () => { console.log('testing') }
+        onComplete: update
       })
       .to(floatingText1.current, { y: -1000 }, "<1%")
-
-    ScrollTrigger.create({
-      trigger: frameContainer.current,
-      pin: true,
-      scrub: 2
-    })
 
   }, [])
 
@@ -72,10 +72,6 @@ export default function Home() {
                 text='$2700'
                 state='unviewed'
               />
-
-
-
-
 
             </div>
 
