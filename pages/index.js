@@ -42,6 +42,7 @@ export default function Home() {
         onEnter: () => {
           gsap.to(cards.current, {
             x: -230,
+            // ease: 'power4.out',
             // duration: 1,
             onStart: update,
           })
@@ -49,6 +50,7 @@ export default function Home() {
         onEnterBack: () => {
           gsap.to(cards.current, {
             x: '+=230',
+            // ease: 'power4.out', https://greensock.com/docs/v3/Eases
             onStart: reverseUpdate,
           })
         },
@@ -83,7 +85,7 @@ export default function Home() {
 
 
 
-      <div className='grid grid-cols-[9.5px_255px_9.5px] grid-rows-[8px_552.2px_8.1px] ml-[24px] sticky h-auto font-[gilroy] items-start overflow-auto top-[38px] will-change-transform'>
+      <div className='grid grid-cols-[9.5px_255px_9.5px] grid-rows-[8px_552.2px_8.1px] ml-[24px] sticky h-auto font-[gilroy] items-start overflow-visible top-[38px] will-change-transform frame-shadow'>
 
 
         <div className='flex row-start-2 col-start-2 z-4 place-self-center gap-4'>
@@ -131,7 +133,6 @@ export default function Home() {
 
 
         <img src="/home.svg" alt="home" className='row-start-2 col-start-2 justify-self-center self-end pb-[5.23px] z-20' />
-        {/* shadow-frame should work tailwing.conifig */}
 
         <img
           src='/frame-hollow.svg'
@@ -141,7 +142,7 @@ export default function Home() {
 
       <div ref={trigger} className='h-[450px]  will-change-transform' />
 
-      <div className='grid bg-white  rounded shadow-[0_1px_6px_rgba(60,64,67,0.24)] h-fit w-fit self-end mr-[12px] z-10 will-change-transform'>
+      <div className='grid bg-white  shadow-[0_1px_6px_rgba(60,64,67,0.24)] rounded h-fit w-fit self-end mr-[12px] z-10 will-change-transform'>
         <div className='py-[32px] px-[24px] flex flex-col gap-[16px] rounded-[12px]'>
           <h1 className='font-bold text-[18px]'>Platform <span className='text-resider-blue-primary '>integrity</span></h1>
           <p className='text-[12px] font-medium max-w-[244px] text-resider-text-p'>Resider solely consists of rental properties syndicated through data API’s. With up to date and accurate listings, your clients can browse with confidence.</p>
