@@ -84,7 +84,6 @@ export default function Home() {
       </Head>
 
 
-
       <div className='grid grid-cols-[9.5px_255px_9.5px] grid-rows-[8px_552.2px_8.1px] ml-[24px] sticky h-auto font-[gilroy] items-start overflow-visible top-[38px] will-change-transform frame-shadow'>
 
 
