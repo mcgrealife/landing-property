@@ -11,10 +11,14 @@ export default function Home() {
 
   gsap.registerPlugin(ScrollTrigger)
 
+  function scheduleDemoClick() {
+    return alert('💰 $50 showing, $500 max. 50% per lease. 💰 ')
+  }
+
 
   const cards = useRef()
   const scheduleTour = useRef()
-  const frameContainer = useRef()
+  const trigger = useRef()
   const floatingText1 = useRef()
 
 
@@ -34,11 +38,13 @@ export default function Home() {
   useEffect(() => {
     tl.current = gsap.timeline({
       scrollTrigger: {
-        trigger: frameContainer.current,
-        end: "+=7000",
+        trigger: trigger.current,
+        start: 'top 30%', // https://greensock.com/docs/v3/Plugins/ScrollTrigger/
+        // end: "+=8000",
         // pin: true,
-        scrub: 1,
+        // scrub: 1,
         // anticipatePin: 1,
+        markers: true
       }, paused: true
     })
       // .to(cards.current, {
@@ -49,7 +55,7 @@ export default function Home() {
 
       // })
       .to(floatingText1.current, {
-        y: -1000,
+        // y: -1,
         onStart: () => {
           gsap.to(cards.current, {
             x: -460,
@@ -80,7 +86,7 @@ export default function Home() {
 
 
 
-      <div ref={frameContainer} className='grid grid-cols-[9.5px_255px_9.5px] grid-rows-[8px_552.2px_8.1px] ml-[24px] sticky h-auto font-[gilroy] items-start overflow-auto top-[38px]'>
+      <div className='grid grid-cols-[9.5px_255px_9.5px] grid-rows-[8px_552.2px_8.1px] ml-[24px] sticky h-auto font-[gilroy] items-start overflow-auto top-[38px]'>
 
 
         <div className='row-start-2 col-start-2 z-4 place-self-center'>
@@ -136,17 +142,21 @@ export default function Home() {
         />
       </div>
 
-      <div className='h-[500px]' />
+      <div ref={trigger} className='h-[500px] bg-red-100 opacity-25' />
 
-      <div ref={floatingText1} className='grid bg-white  rounded shadow-[0_1px_6px_rgba(60,64,67,0.24)] h-fit w-fit self-end mr-[12px]'>
+      <div ref={floatingText1} className='grid bg-white  rounded shadow-[0_1px_6px_rgba(60,64,67,0.24)] h-fit w-fit self-end mr-[12px] z-10'>
         <div className='py-[32px] px-[24px] flex flex-col gap-[16px] rounded-[12px]'>
           <h1 className='font-bold text-[18px]'>Platform <span className='text-resider-blue-primary '>integrity</span></h1>
           <p className='text-[12px] font-medium max-w-[244px] text-resider-text-p'>Resider solely consists of rental properties syndicated through data API’s. With up to date and accurate listings, your clients can browse with confidence.</p>
         </div>
       </div>
+
+      <div className='h-[1000px]' />
       <div ref={scheduleTour} className='bg-white shadow-[0_-2px_4px_rgba(60,64,67,0.1)]  p-[8px] w-full grid sticky bottom-0 z-20'>
-        <button className='bg-resider-blue-primary  rounded text-white p-2 shadow-[0_1px_2px_rgba(60,64,67,0.3)] align-center font-[500] text-[14px] leading-[18px] tracking-[0.2px] px-[32px] py-[15px]'>Schedule Demo</button>
+        <button className='bg-resider-blue-primary  rounded text-white p-2 shadow-[0_1px_2px_rgba(60,64,67,0.3)] align-center font-[500] text-[14px] leading-[18px] tracking-[0.2px] px-[32px] py-[15px]' onClick={scheduleDemoClick}>Schedule Demo</button>
       </div>
+
+
     </div>
 
   )
