@@ -7,6 +7,25 @@ module.exports = {
   ],
   theme: {
     // make gilroy first font in family (not override it in index)
+
+    gridTemplateAreas: {
+      'desktop': [
+        'header header header',
+        'left middle right'
+      ],
+      'mobile': [
+        'header header',
+        'left right'
+      ]
+    },
+    gridTemplateColumns: {
+      'desktop': '1fr 1fr 1fr',
+      'mobile': '1fr 1fr',
+    },
+    gridTemplateRows: {
+      'desktop': '40px auto',
+      'mobile': '40px auto'
+    },
     extend: {
       BoxShadow: {
         'card': '0_0.654028px_3.92417px_rgba(60,64,67,0.24)',
@@ -83,6 +102,10 @@ module.exports = {
 
       }
       )
-    })
+    }),
+    require('@savvywombat/tailwindcss-grid-areas')
   ],
+  variants: {
+    gridTemplateAreas: ['responsive']
+  }
 }
