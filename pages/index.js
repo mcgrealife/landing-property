@@ -1,9 +1,11 @@
 import Head from 'next/head'
 import Card from '../components/Card'
 import Marker from '../components/Marker'
+import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger"
+import logo from '../public/resider-logo.png'
 
 
 
@@ -73,18 +75,15 @@ export default function Home() {
 
   }, [])
 
-
   return (
 
-
-    <div className='flex flex-col will-change-transform scrollbar-hide font-[gilroy]'>
+    <div className='grid grid-cols-3 will-change-transform scrollbar-hide font-[gilroy]'>
       <Head>
         <title>Resider</title>
 
       </Head>
 
-
-      <div className='grid grid-cols-[9.5px_255px_9.5px] grid-rows-[8px_552.2px_8.1px] ml-[24px] sticky h-auto font-[gilroy] items-start overflow-visible top-[38px] will-change-transform frame-shadow'>
+      <div className='grid grid-cols-[9.5px_255px_9.5px] grid-rows-[8px_552.2px_8.1px] ml-[24px] sticky h-auto font-[gilroy] col-start-2 items-start lg:justify-center overflow-visible top-[38px] will-change-transform frame-shadow'>
 
 
         <div className='flex row-start-2 col-start-2 z-4 place-self-center gap-4'>
@@ -104,7 +103,6 @@ export default function Home() {
           />
 
         </div>
-
 
         <img src="/map-4x.png" alt="map" className='row-start-2 col-start-2 col-span-1 pt-[101px] z-2 rounded-xl' />
 
@@ -141,17 +139,29 @@ export default function Home() {
 
       <div ref={trigger} className='h-[450px]  will-change-transform' />
 
-      <div className='grid bg-white  shadow-[0_1px_6px_rgba(60,64,67,0.24)] rounded h-fit w-fit self-end mr-[12px] z-10 will-change-transform'>
+      <div className='grid bg-white  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none rounded h-fit w-fit self-end mr-[12px] z-10 will-change-transform'>
         <div className='py-[32px] px-[24px] flex flex-col gap-[16px] rounded-[12px]'>
-          <h1 className='font-bold text-[18px]'>Platform <span className='text-resider-blue-primary '>integrity</span></h1>
-          <p className='text-[12px] font-medium max-w-[244px] text-resider-text-p'>Resider solely consists of rental properties syndicated through data API’s. With up to date and accurate listings, your clients can browse with confidence.</p>
+          <h1 className='font-bold text-[18px] lg:text-[24px]'>Platform <span className='text-resider-blue-primary '>integrity</span></h1>
+          <p className='text-[12px] lg:text-[16px] font-medium max-w-[244px] text-resider-text-p'>Resider solely consists of rental properties syndicated through data API’s. With up to date and accurate listings, your clients can browse with confidence.</p>
         </div>
       </div>
 
       <div className='h-[1000px] will-change-transform' />
 
-      <div className='bg-white shadow-[0_-2px_4px_rgba(60,64,67,0.1)]  p-[8px] w-full grid sticky bottom-0 z-20 will-change-transform'>
-        <button className='bg-resider-blue-primary  rounded text-white p-2 shadow-[0_1px_2px_rgba(60,64,67,0.3)] align-center font-[500] text-[14px] leading-[18px] tracking-[0.2px] px-[32px] py-[15px] will-change-transform' onClick={scheduleDemoClick}>Schedule Demo</button>
+      <div className='bg-white shadow-[0_2px_4px_rgba(60,64,67,0.1)] p-[8px] w-full row-start-1 col-start-1 col-span-3 grid grid-cols-2 sticky top-0 z-20 will-change-transform overflow-visible'>
+        <div className="col-start-1 relative ml-4">
+          <Image
+            src={logo}
+            layout='fill'
+            objectFit='contain'
+            objectPosition='left'
+          />
+        </div>
+        <div className="flex flex-row justify-end gap-2 col-start-2 row-start-1">
+          <button className='bg-white rounded text-resider-blue-primary p-2 border align-center font-[500] text-[14px] leading-[18px] tracking-[0.2px] px-[32px] py-[15px] will-change-transform' onClick={scheduleDemoClick}>Contact Us</button>
+          <button className='bg-resider-blue-primary rounded text-white p-2 shadow-[0_1px_2px_rgba(60,64,67,0.3)] align-center font-[500] text-[14px] leading-[18px] tracking-[0.2px] px-[32px] py-[15px] will-change-transform' onClick={scheduleDemoClick}>Schedule Demo</button>
+        </div>
+
       </div>
 
 
