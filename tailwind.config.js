@@ -20,11 +20,11 @@ module.exports = {
     },
     gridTemplateColumns: {
       'desktop': '1fr 1fr 1fr',
-      'mobile': '1fr 1fr',
+      'mobile': '1fr, 1fr',
     },
     gridTemplateRows: {
-      'desktop': '40px auto',
-      'mobile': '40px auto'
+      'desktop': '70px auto',
+      'mobile': '70px auto'
     },
     extend: {
       BoxShadow: {
