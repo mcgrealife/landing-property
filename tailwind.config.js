@@ -10,11 +10,11 @@ module.exports = {
 
     gridTemplateAreas: {
       'desktop': [
-        'header header header',
+        // 'header header header',
         'left middle right'
       ],
       'mobile': [
-        'header header',
+        // 'header header',
         'left right'
       ]
     },
@@ -23,8 +23,8 @@ module.exports = {
       'mobile': '1fr, 1fr',
     },
     gridTemplateRows: {
-      'desktop': '76px auto',
-      'mobile': '76px auto'
+      'desktop': 'auto',
+      'mobile': 'auto'
     },
     extend: {
       BoxShadow: {

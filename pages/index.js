@@ -84,7 +84,7 @@ export default function Home() {
       </Head>
 
 
-      <div id='header' className='bg-white  shadow-[0_2px_4px_rgba(60,64,67,0.1)] py-[14px]  w-full grid h-[78px]  sticky top-0 z-20 pr-[20px] pl-[24px]'>
+      <header id='header' className='bg-white  shadow-[0_2px_4px_rgba(60,64,67,0.1)] py-[14px]  w-full grid h-[78px]  sticky top-0 z-20 pr-[20px] pl-[24px]'>
         <div className=" relative">
           <Image
             src={logo}
@@ -101,34 +101,26 @@ export default function Home() {
             className='block lg:hidden w-[24px] min-w-[24px]' />
         </div>
 
+      </header>
+
+
+
+      <div id='section-1' className='flex flex-col place-items-center text-center'>
+
+        <img src="/logo-square.svg" alt="logo-square" className='h-[36px] lg:h-[52px] mt-[12px]' />
+
+        <h1 className='mt-[24.49px] lg:mt-[24px] text-[rgba(60,64,67,1)] font-[700] text-[36px] lg:text-[72px] leading-[48px] lg:leading-[84px] tracking-[0.1px] max-w-[326px] lg:max-w-[639px]'>A <span className='text-[rgba(54,108,165,1)]'>better</span> way to generate leads</h1>
+
+        <p className='mt-[15.15px] lg:mt-[16px] text-[18px] lg:text-[26px] leading-[30px] lg:leading-[38px] max-w-[326px] lg:max-w-[579px]'>Resider is a smart, efficient and helpful way to qualify and schedule your prospective tenants.</p>
+
+        <img src="/hero.svg" alt="hero" className='h-[318px] lg:h-[526px] mt-[24.49px] lg:mt-[24px]' />
+
       </div>
 
-      <div id='section-1 flex flex-col'>
-        <img src="/hero.svg" alt="hero" className='h-[318px] lg:h-[526px]' />
-
-      </div>
+      <div id='spacer' className='h-[300px]' />
 
       <div id='section-2' className='grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop'>
 
-
-        {/* <div id='header' className='bg-white grid-in-header shadow-[0_2px_4px_rgba(60,64,67,0.1)] py-[14px]  w-full grid  sticky top-0 z-20 pr-[20px] pl-[24px]'>
-          <div className=" relative">
-            <Image
-              src={logo}
-              layout='fill'
-              objectFit='contain'
-              objectPosition='left'
-            />
-          </div>
-          <div className="flex flex-row justify-end gap-2 col-start-2 row-start-1">
-            <button className='hidden lg:block bg-white rounded text-resider-blue-primary p-2 border align-center font-[500] text-[14px] leading-[18px] tracking-[0.2px] px-[32px] py-[15px] will-change-transform' onClick={scheduleDemoClick}>Contact Us</button>
-            <button className='hidden lg:block bg-resider-blue-primary rounded text-white p-2 shadow-[0_1px_2px_rgba(60,64,67,0.3)] align-center font-[500] text-[14px] leading-[18px] tracking-[0.2px] px-[32px] py-[15px] will-change-transform' onClick={scheduleDemoClick}>Schedule Demo</button>
-            <img src='/menu_black_24dp.svg'
-              alt='menu-icon'
-              className='block lg:hidden w-[24px] min-w-[24px]' />
-          </div>
-
-        </div> */}
 
         <h1 id='leftText' className="hidden lg:block text-[82px] font-[600] text-[rgba(60,64,67,1)] grid-in-left self-center place-self-center">
           Platform
@@ -207,6 +199,7 @@ export default function Home() {
 
 
       </div>
+
     </div>
 
 
