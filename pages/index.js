@@ -11,15 +11,7 @@ import logo from '../public/resider-logo.png'
 
 export default function Home() {
 
-  const responsiveCardSwipeValue = () => {
-    if (typeof window !== 'undefined') {
-      if (window.innerWidth > 640) {
-        return '-280'
-      } else {
-        return '0'
-      }
-    }
-  }
+
 
 
   gsap.registerPlugin(ScrollTrigger)
@@ -78,22 +70,22 @@ export default function Home() {
 
     ScrollTrigger.matchMedia({
       "(min-width: 800px)": function () {
-        gsap.timeline({
+
+        let tl = gsap.timeline({
           scrollTrigger: {
             trigger: rightText.current,
             start: 'top center',
             end: '+=20%',
-            // toggleActions: 'play pause reverse pause',
             ease: "easeInOut",
-            scrub: 'true',
-            markers: true
+            scrub: 2,
+            markers: true,
           }
         })
-          .to(cards.current, {
-            x: '-10',
-            onComplete: update,
-            onReverseComplete: reverseUpdate
-          })
+        tl.to(cards.current, {
+          x: '-312',
+          onComplete: update,
+          onReverseComplete: reverseUpdate
+        })
       },
       "(max-width: 799px)": function () {
         gsap.timeline({
@@ -101,14 +93,13 @@ export default function Home() {
             trigger: rightText.current,
             start: 'top center',
             end: '+=20%',
-            // toggleActions: 'play pause reverse pause',
             ease: "easeInOut",
-            scrub: 'true',
+            scrub: 2,
             markers: true
           }
         })
           .to(cards.current, {
-            x: '-300',
+            x: '-224',
             onComplete: update,
             onReverseComplete: reverseUpdate
           })
@@ -116,11 +107,7 @@ export default function Home() {
     })
 
 
-    // tl.to(cards.current, {
-    //   x: '-10',
-    //   onComplete: update,
-    //   onReverseComplete: reverseUpdate
-    // })
+
 
 
     // gsap.to(cards.current, {
