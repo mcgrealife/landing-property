@@ -39,8 +39,8 @@ export default function Home() {
     tl.current = gsap.timeline({
       scrollTrigger: {
         trigger: trigger.current,
-        start: 'top 40%', // https://greensock.com/docs/v3/Plugins/ScrollTrigger/
-        end: "+=1",
+        start: 'top 148px', // https://greensock.com/docs/v3/Plugins/ScrollTrigger/
+        end: "+=3000",
         onEnter: () => {
           gsap.to(cards.current, {
             x: -230,
@@ -63,11 +63,12 @@ export default function Home() {
         onfullscreenchange: () => { console.log('onFullScreenChange') },
         onSnapComplete: () => { console.log('onSnacpComplete') },
         onToggle: () => { console.log('onToggle') },
-        // pin: true,
+        pin: true,
         // scrub: 2,
-        // anticipatePin: 1,
+        anticipatePin: 1,
         markers: true
-      }, paused: true
+      },
+      // paused: true
     })
     // .to(floatingText1.current, {
     //   y: '=+1000'
@@ -96,9 +97,9 @@ export default function Home() {
         <div className="flex flex-row justify-end gap-2 col-start-2 row-start-1">
           <button className='hidden lg:block bg-white rounded text-resider-blue-primary p-2 border align-center font-[500] text-[14px] leading-[18px] tracking-[0.2px] px-[32px] py-[15px] will-change-transform' onClick={scheduleDemoClick}>Contact Us</button>
           <button className='hidden lg:block bg-resider-blue-primary rounded text-white p-2 shadow-[0_1px_2px_rgba(60,64,67,0.3)] align-center font-[500] text-[14px] leading-[18px] tracking-[0.2px] px-[32px] py-[15px] will-change-transform' onClick={scheduleDemoClick}>Schedule Demo</button>
-          <img src='/menu_black_24dp.svg'
+          {/* <img src='/menu_black_24dp.svg'
             alt='menu-icon'
-            className='block lg:hidden w-[24px] min-w-[24px]' />
+            className='lg:hidden  w-[24px] min-w-[24px]' /> */}
         </div>
 
       </header>
@@ -119,7 +120,7 @@ export default function Home() {
 
       <div id='spacer' className='h-[300px]' />
 
-      <div id='section-2' className='grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop'>
+      <div id='section-2' ref={trigger} className='grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop'>
 
 
         <h1 id='leftText' className="hidden lg:block text-[82px] font-[600] text-[rgba(60,64,67,1)] grid-in-left self-center place-self-center">
@@ -199,6 +200,8 @@ export default function Home() {
 
 
       </div>
+
+      <div id='spacer' className='h-[3000px]' />
 
     </div>
 
