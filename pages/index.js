@@ -21,6 +21,8 @@ export default function Home() {
   const trigger = useRef()
   const leftText = useRef()
   const rightText = useRef()
+  const topLogo = useRef()
+  const headerShadow = useRef()
 
 
   const [markerStyle, setMarkerStyle] = useState('selected')
@@ -38,6 +40,17 @@ export default function Home() {
   let tl = useRef()
 
   useEffect(() => {
+
+    gsap.to(headerShadow.current, {
+      opacity: 100,
+      scrollTrigger: {
+        trigger: topLogo.current,
+        end: "+=1000",
+        toggleActions: 'play reverse play reverse',
+        scrub: true
+      }
+    })
+
     tl.current = gsap.timeline({
       scrollTrigger: {
         trigger: trigger.current,
@@ -67,8 +80,7 @@ export default function Home() {
         onToggle: () => { console.log('onToggle') },
         pin: true,
         scrub: 1,
-        anticipatePin: 1,
-        markers: true
+        // markers: true
       },
       // paused: true
     })
@@ -107,7 +119,7 @@ export default function Home() {
       </Head>
 
 
-      <header id='header' className='bg-white  shadow-[0_2px_4px_rgba(60,64,67,0.1)] py-[14px]  w-full grid h-[78px]  sticky top-0 z-20 pr-[20px] pl-[24px]'>
+      <header className='bg-white py-[14px]  w-full grid h-[78px] sticky top-0 z-20 pr-[20px] pl-[24px]'>
         <div className=" relative">
           <Image
             src={logo}
@@ -116,17 +128,18 @@ export default function Home() {
             objectPosition='left'
           />
         </div>
-        <div className="flex flex-row justify-end gap-2 col-start-2 row-start-1">
-          <button className='hidden lg:block bg-white rounded text-resider-blue-primary p-2 border align-center font-[500] text-[14px] leading-[18px] tracking-[0.2px] px-[32px] py-[15px] will-change-transform' onClick={scheduleDemoClick}>Contact Us</button>
-          <button className='hidden lg:block bg-resider-blue-primary rounded text-white p-2 shadow-[0_1px_2px_rgba(60,64,67,0.3)] align-center font-[500] text-[14px] leading-[18px] tracking-[0.2px] px-[32px] py-[15px] will-change-transform' onClick={scheduleDemoClick}>Schedule Demo</button>
+
+        <div className="flex flex-row justify-end gap-[12px] col-start-2 row-start-1">
+          <button className='hidden lg:block bg-white rounded text-resider-blue-primary border border-[rgba(218,220,224,1)] align-center font-[600] text-[14px] leading-[20px] px-[20px] py-[14px] will-change-transform' onClick={scheduleDemoClick}>Contact us</button>
+          <button className='hidden lg:block bg-resider-blue-primary rounded text-white align-center font-[600] text-[14px] leading-[20px] px-[20px] py-[14px] will-change-transform' onClick={scheduleDemoClick}>Schedule Demo</button>
           <img src='/menu_black_24dp.svg'
             alt='menu-icon'
             className='lg:hidden  w-[24px] min-w-[24px]' />
         </div>
-
       </header>
 
 
+      <div ref={headerShadow} className='shadow-[0_2px_4px_rgba(60,64,67,0.1)] w-full grid h-[78px] fixed top-0 z-10 opacity-0' />
 
       <div id='section-1' className='flex flex-col place-items-center text-center'>
 
@@ -134,7 +147,7 @@ export default function Home() {
 
         <h1 className='mt-[24.49px] lg:mt-[24px] text-[rgba(60,64,67,1)] font-[700] text-[36px] lg:text-[72px] leading-[48px] lg:leading-[84px] tracking-[0.1px] max-w-[326px] lg:max-w-[639px]'>A <span className='text-[rgba(54,108,165,1)]'>better</span> way to generate leads</h1>
 
-        <p className='mt-[15.15px] lg:mt-[16px] text-[18px] lg:text-[26px] leading-[30px] lg:leading-[38px] max-w-[326px] lg:max-w-[579px]'>Resider is a smart, efficient and helpful way to qualify and schedule your prospective tenants.</p>
+        <p className='text-[rgba(96,99,103,1)] mt-[15.15px] lg:mt-[16px] text-[18px] lg:text-[26px] leading-[30px] lg:leading-[38px] max-w-[326px] lg:max-w-[579px]'>Resider is a smart, efficient and helpful way to qualify and schedule your prospective tenants.</p>
 
         <img src="/hero.svg" alt="hero" className='h-[318px] lg:h-[526px] mt-[24.49px] lg:mt-[24px]' />
 

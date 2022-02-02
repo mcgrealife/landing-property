@@ -4,5 +4,6 @@
   },
   "reactSnippets.settings.semiColons": false,
   "reactSnippets.settings.importReactOnTop": false,
-  "emmet.excludeLanguages": []
+  "emmet.excludeLanguages": [],
+  "editor.hover.delay": 1000
 }
