@@ -11,18 +11,31 @@ import logo from '../public/resider-logo.png'
 
 export default function Home() {
 
+  const responsiveCardSwipeValue = () => {
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth > 640) {
+        return '-280'
+      } else {
+        return '0'
+      }
+    }
+  }
+
+
   gsap.registerPlugin(ScrollTrigger)
 
   function scheduleDemoClick() {
-    return alert('💰 $50 showing, $500 max. 50% per lease. 💰 ')
+    return alert('💰 $50 showing, $1000 max. 50% per lease. 💰 ')
   }
 
   const cards = useRef()
-  const trigger = useRef()
+  const phone = useRef()
   const leftText = useRef()
   const rightText = useRef()
   const topLogo = useRef()
   const headerShadow = useRef()
+
+
 
 
   const [markerStyle, setMarkerStyle] = useState('selected')
@@ -37,7 +50,7 @@ export default function Home() {
     setMarkerStyle2('viewed')
   }
 
-  let tl = useRef()
+  // let tl = useRef()
 
   useEffect(() => {
 
@@ -45,67 +58,96 @@ export default function Home() {
       opacity: 100,
       scrollTrigger: {
         trigger: topLogo.current,
-        end: "+=1000",
+        end: "+=300",
         toggleActions: 'play reverse play reverse',
         scrub: true
       }
     })
 
-    tl.current = gsap.timeline({
+    gsap.timeline({
       scrollTrigger: {
-        trigger: trigger.current,
-        start: 'top 148px', // https://greensock.com/docs/v3/Plugins/ScrollTrigger/
+        trigger: phone.current,
+        start: 'top 148px',
         end: "+=1000",
-        onEnter: () => {
-          gsap.to(cards.current, {
-            x: -230,
-            // ease: 'power4.out',
-            // duration: 1,
-            onStart: update,
-          })
-        },
-        onEnterBack: () => {
-          gsap.to(cards.current, {
-            x: '+=230',
-            // ease: 'power4.out', https://greensock.com/docs/v3/Eases
-            onStart: reverseUpdate,
-          })
-        },
-        onLeave: () => { console.log('onLeave') },
-        onScrubComplete: () => { console.log('onScrubComplete') },
-        onLeaveBack: () => { console.log('onLeaveBack') },
-        onRefresh: () => { console.log('onRefresh') },
-        onfullscreenchange: () => { console.log('onFullScreenChange') },
-        onSnapComplete: () => { console.log('onSnacpComplete') },
-        onToggle: () => { console.log('onToggle') },
+        toggleActions: 'play, pause, reverse, pause',
+        // markers: true,
         pin: true,
         scrub: 1,
-        // markers: true
       },
-      // paused: true
     })
-      .to(leftText.current, {
-        y: () => window.innerHeight / 2,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: leftText.current,
-          start: 'top center',
-          end: "+=50%",
-          invalidateOnRefresh: true,
-          scrub: true,
-        }
-      })
-      .to(rightText.current, {
-        y: () => window.innerHeight / 2,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: rightText.current,
-          start: 'top center',
-          end: "+=50%",
-          invalidateOnRefresh: true,
-          scrub: true
-        }
-      }, '>-99%')
+
+    ScrollTrigger.matchMedia({
+      "(min-width: 800px)": function () {
+        gsap.timeline({
+          scrollTrigger: {
+            trigger: rightText.current,
+            start: 'top center',
+            end: '+=20%',
+            // toggleActions: 'play pause reverse pause',
+            ease: "easeInOut",
+            scrub: 'true',
+            markers: true
+          }
+        })
+          .to(cards.current, {
+            x: '-10',
+            onComplete: update,
+            onReverseComplete: reverseUpdate
+          })
+      },
+      "(max-width: 799px)": function () {
+        gsap.timeline({
+          scrollTrigger: {
+            trigger: rightText.current,
+            start: 'top center',
+            end: '+=20%',
+            // toggleActions: 'play pause reverse pause',
+            ease: "easeInOut",
+            scrub: 'true',
+            markers: true
+          }
+        })
+          .to(cards.current, {
+            x: '-300',
+            onComplete: update,
+            onReverseComplete: reverseUpdate
+          })
+      }
+    })
+
+
+    // tl.to(cards.current, {
+    //   x: '-10',
+    //   onComplete: update,
+    //   onReverseComplete: reverseUpdate
+    // })
+
+
+    // gsap.to(cards.current, {
+    //   scrollTrigger: {
+    //     trigger: rightText.current,
+    //     start: 'top center',
+    //     end: '+=25%', //decrease for faster card swipe
+    //     markers: true,
+    //     scrub: true
+    //   },
+    //   x: -230, // different mobile vs desktop
+    //   onStart: update, // markers need to change halfway through card swipe, or end of swipe
+    //   onReverseComplete: reverseUpdate
+    // })
+
+
+    gsap.to(leftText.current, {
+      y: () => window.innerHeight / 2,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: leftText.current,
+        start: 'top center',
+        end: "+=50%",
+        invalidateOnRefresh: true,
+        scrub: true,
+      }
+    })
 
 
   }, [])
@@ -162,7 +204,7 @@ export default function Home() {
           Platform
         </h1>
 
-        <div id='phone' ref={trigger} className='grid grid-cols-[9.5px_255px_9.5px] lg:grid-cols-[13px_344px_13px] grid-rows-[8px_552.2px_8.1px] lg:grid-rows-[11px_745px_11px] ml-[24px] lg:ml-[0px] font-[gilroy] grid-in-left  lg:grid-in-middle col-end-right h-full lg:justify-center overflow-auto sticky will-change-transform frame-shadow'>
+        <div id='phone' ref={phone} className='grid grid-cols-[9.5px_255px_9.5px] lg:grid-cols-[13px_344.5px_12.5px] grid-rows-[8px_552.2px_8.1px] lg:grid-rows-[11px_745px_11px] ml-[24px] lg:ml-[0px] font-[gilroy] grid-in-left  lg:grid-in-middle col-end-right h-full lg:justify-center overflow-auto will-change-transform frame-shadow'>
 
 
           <div id='markers' className='flex row-start-2 col-start-2 z-4 place-self-center gap-4'>
@@ -186,7 +228,7 @@ export default function Home() {
           <img src="/map-4x.png" alt="map" className='row-start-2 col-start-2 col-span-1 pt-[101px] z-2 rounded-xl h-full object-cover' />
 
           <img src="/status-search-filter.svg" alt="status"
-            className='row-start-2 row-span-4 col-start-2 col-span-2 z-2 shadow-lg w-full rounded-tr-[35px] lg:rounded-tr-[60px]' />
+            className='row-start-2 row-span-4 col-start-2 col-span-1 z-2 shadow-lg w-full ' />
 
           <div className='row-start-2 col-start-2 self-end z-6 pb-[28.5px] overflow-x-scroll scrollbar-hide snap-x  pt-2'>
 
@@ -208,7 +250,7 @@ export default function Home() {
           </div>
 
 
-          <img src="/home.svg" alt="home" className='row-start-2 col-start-2 justify-self-center self-end pb-[5.23px] z-20' />
+          <img src="/home.svg" alt="home" className='row-start-2 col-start-2 justify-self-center self-end pb-[5.23px] z-20 w-[91px] lg:w-[123px]' />
 
           <img
             src='/frame-hollow.svg'
@@ -217,7 +259,7 @@ export default function Home() {
         </div>
 
 
-        <div id='rightText' className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
+        <div ref={rightText} id='rightText' className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
 
           <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Platform</div>
 
