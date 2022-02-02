@@ -67,7 +67,6 @@ export default function Home() {
         start: 'top 148px',
         end: "+=1000",
         toggleActions: 'play, pause, reverse, pause',
-        // markers: true,
         pin: true,
         scrub: 1,
         pinSpacing: "margin",
@@ -99,6 +98,7 @@ export default function Home() {
             end: '+=1',
             ease: "power1.inOut",
             scrub: 2,
+            markers: true,
             onEnter: update,
             onEnterBack: reverseUpdate
           }
@@ -250,18 +250,21 @@ export default function Home() {
         </div>
 
 
-        <div ref={rightText} id='rightText' className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
+
+
+        <div id='rightText' className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
+
+          <div className="hidden lg:block h-[500px] w-10" />
 
           <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Platform</div>
 
-          <h1 className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'>Data <span className='text-resider-blue-primary '>integrity</span></h1>
+          <h1 ref={rightText} className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'>Data <span className='text-resider-blue-primary '>integrity</span></h1>
 
           <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>Resider solely consists of rental properties syndicated through data API’s. With up to date and accurate listings, your clients can browse with confidence.</p>
 
+          <div className="h-[500px] w-10" />
+
         </div>
-
-        {/* <div className='h-[1000px] will-change-transform' /> */}
-
 
 
 
