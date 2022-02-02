@@ -33,13 +33,18 @@ export default function Home() {
   const [markerStyle, setMarkerStyle] = useState('selected')
   const [markerStyle2, setMarkerStyle2] = useState('unviewed')
   const update = () => {
-    setMarkerStyle('viewed')
-    setMarkerStyle2('selected')
+    setTimeout(() => {
+      setMarkerStyle('viewed')
+      setMarkerStyle2('selected')
+    }, 500)
+
   }
 
   const reverseUpdate = () => {
-    setMarkerStyle('selected')
-    setMarkerStyle2('viewed')
+    setTimeout(() => {
+      setMarkerStyle('selected')
+      setMarkerStyle2('viewed')
+    }, 500)
   }
 
   // let tl = useRef()
@@ -65,43 +70,42 @@ export default function Home() {
         // markers: true,
         pin: true,
         scrub: 1,
+        pinSpacing: "margin",
       },
     })
 
     ScrollTrigger.matchMedia({
       "(min-width: 800px)": function () {
 
-        let tl = gsap.timeline({
+        gsap.to(cards.current, {
           scrollTrigger: {
             trigger: rightText.current,
             start: 'top center',
-            end: '+=20%',
-            ease: "easeInOut",
+            end: '+=1',
             scrub: 2,
-            markers: true,
-          }
-        })
-        tl.to(cards.current, {
+            ease: "power1.inOut",
+            onEnter: update,
+            onEnterBack: reverseUpdate,
+          },
           x: '-312',
-          onComplete: update,
-          onReverseComplete: reverseUpdate
+          ease: "power1.inOut",
         })
       },
       "(max-width: 799px)": function () {
         gsap.timeline({
           scrollTrigger: {
             trigger: rightText.current,
-            start: 'top center',
-            end: '+=20%',
-            ease: "easeInOut",
+            start: 'top 40%',
+            end: '+=1',
+            ease: "power1.inOut",
             scrub: 2,
-            markers: true
+            onEnter: update,
+            onEnterBack: reverseUpdate
           }
         })
           .to(cards.current, {
             x: '-224',
-            onComplete: update,
-            onReverseComplete: reverseUpdate
+            ease: "power1.inOut",
           })
       }
     })
