@@ -19,12 +19,12 @@ module.exports = {
       ]
     },
     gridTemplateColumns: {
-      'desktop': '1fr 1fr 1fr',
+      'desktop': '1fr min-content 1fr',
       'mobile': '1fr, 1fr',
     },
     gridTemplateRows: {
-      'desktop': '70px auto',
-      'mobile': '70px auto'
+      'desktop': '76px auto',
+      'mobile': '76px auto'
     },
     extend: {
       BoxShadow: {
