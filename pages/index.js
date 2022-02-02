@@ -19,6 +19,8 @@ export default function Home() {
 
   const cards = useRef()
   const trigger = useRef()
+  const leftText = useRef()
+  const rightText = useRef()
 
 
   const [markerStyle, setMarkerStyle] = useState('selected')
@@ -40,7 +42,7 @@ export default function Home() {
       scrollTrigger: {
         trigger: trigger.current,
         start: 'top 148px', // https://greensock.com/docs/v3/Plugins/ScrollTrigger/
-        end: "+=3000",
+        end: "+=1000",
         onEnter: () => {
           gsap.to(cards.current, {
             x: -230,
@@ -64,15 +66,35 @@ export default function Home() {
         onSnapComplete: () => { console.log('onSnacpComplete') },
         onToggle: () => { console.log('onToggle') },
         pin: true,
-        // scrub: 2,
+        scrub: 1,
         anticipatePin: 1,
         markers: true
       },
       // paused: true
     })
-    // .to(floatingText1.current, {
-    //   y: '=+1000'
-    // }, "<1%")
+      .to(leftText.current, {
+        y: () => window.innerHeight / 2,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: leftText.current,
+          start: 'top center',
+          end: "+=50%",
+          invalidateOnRefresh: true,
+          scrub: true,
+        }
+      })
+      .to(rightText.current, {
+        y: () => window.innerHeight / 2,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: rightText.current,
+          start: 'top center',
+          end: "+=50%",
+          invalidateOnRefresh: true,
+          scrub: true
+        }
+      }, '>-99%')
+
 
   }, [])
 
@@ -97,9 +119,9 @@ export default function Home() {
         <div className="flex flex-row justify-end gap-2 col-start-2 row-start-1">
           <button className='hidden lg:block bg-white rounded text-resider-blue-primary p-2 border align-center font-[500] text-[14px] leading-[18px] tracking-[0.2px] px-[32px] py-[15px] will-change-transform' onClick={scheduleDemoClick}>Contact Us</button>
           <button className='hidden lg:block bg-resider-blue-primary rounded text-white p-2 shadow-[0_1px_2px_rgba(60,64,67,0.3)] align-center font-[500] text-[14px] leading-[18px] tracking-[0.2px] px-[32px] py-[15px] will-change-transform' onClick={scheduleDemoClick}>Schedule Demo</button>
-          {/* <img src='/menu_black_24dp.svg'
+          <img src='/menu_black_24dp.svg'
             alt='menu-icon'
-            className='lg:hidden  w-[24px] min-w-[24px]' /> */}
+            className='lg:hidden  w-[24px] min-w-[24px]' />
         </div>
 
       </header>
@@ -120,14 +142,14 @@ export default function Home() {
 
       <div id='spacer' className='h-[300px]' />
 
-      <div id='section-2' ref={trigger} className='grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop'>
+      <div id='section-2' className='grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop'>
 
 
-        <h1 id='leftText' className="hidden lg:block text-[82px] font-[600] text-[rgba(60,64,67,1)] grid-in-left self-center place-self-center">
+        <h1 id='leftText' ref={leftText} className="hidden lg:block text-[82px] font-[600] text-[rgba(60,64,67,1)] grid-in-left self-center place-self-center">
           Platform
         </h1>
 
-        <div id='phone' className='grid grid-cols-[9.5px_255px_9.5px] lg:grid-cols-[13px_344px_13px] grid-rows-[8px_552.2px_8.1px] lg:grid-rows-[11px_745px_11px] ml-[24px] lg:ml-[0px] font-[gilroy] grid-in-left  lg:grid-in-middle col-end-right h-full lg:justify-center overflow-auto sticky will-change-transform frame-shadow'>
+        <div id='phone' ref={trigger} className='grid grid-cols-[9.5px_255px_9.5px] lg:grid-cols-[13px_344px_13px] grid-rows-[8px_552.2px_8.1px] lg:grid-rows-[11px_745px_11px] ml-[24px] lg:ml-[0px] font-[gilroy] grid-in-left  lg:grid-in-middle col-end-right h-full lg:justify-center overflow-auto sticky will-change-transform frame-shadow'>
 
 
           <div id='markers' className='flex row-start-2 col-start-2 z-4 place-self-center gap-4'>
@@ -151,7 +173,7 @@ export default function Home() {
           <img src="/map-4x.png" alt="map" className='row-start-2 col-start-2 col-span-1 pt-[101px] z-2 rounded-xl h-full object-cover' />
 
           <img src="/status-search-filter.svg" alt="status"
-            className='row-start-2 row-span-4 col-start-2 col-span-2 z-2 shadow-lg w-full' />
+            className='row-start-2 row-span-4 col-start-2 col-span-2 z-2 shadow-lg w-full rounded-tr-[35px] lg:rounded-tr-[60px]' />
 
           <div className='row-start-2 col-start-2 self-end z-6 pb-[28.5px] overflow-x-scroll scrollbar-hide snap-x  pt-2'>
 
@@ -181,7 +203,6 @@ export default function Home() {
           />
         </div>
 
-        {/* <div ref={trigger} className='h-[10px]  will-change-transform' /> */}
 
         <div id='rightText' className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
 
@@ -201,7 +222,7 @@ export default function Home() {
 
       </div>
 
-      <div id='spacer' className='h-[3000px]' />
+      <div id='spacer' className='h-[1000px]' />
 
     </div>
 
