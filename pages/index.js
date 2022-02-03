@@ -8,10 +8,7 @@ import { ScrollTrigger } from "gsap/dist/ScrollTrigger"
 import logo from '../public/resider-logo.png'
 
 
-
 export default function Home() {
-
-
 
 
   gsap.registerPlugin(ScrollTrigger)
@@ -26,8 +23,7 @@ export default function Home() {
   const rightText = useRef()
   const topLogo = useRef()
   const headerShadow = useRef()
-
-
+  const section2 = useRef()
 
 
   const [markerStyle, setMarkerStyle] = useState('selected')
@@ -37,7 +33,6 @@ export default function Home() {
       setMarkerStyle('viewed')
       setMarkerStyle2('selected')
     }, 500)
-
   }
 
   const reverseUpdate = () => {
@@ -46,8 +41,6 @@ export default function Home() {
       setMarkerStyle2('viewed')
     }, 500)
   }
-
-  // let tl = useRef()
 
   useEffect(() => {
 
@@ -61,17 +54,22 @@ export default function Home() {
       }
     })
 
-    gsap.timeline({
+    let tl = gsap.timeline({
       scrollTrigger: {
         trigger: phone.current,
         start: 'top 148px',
-        end: "+=1000",
+        end: "+=3100",
         toggleActions: 'play, pause, reverse, pause',
         pin: true,
         scrub: 1,
-        pinSpacing: "margin",
+        // pinSpacing: "margin",
+
       },
     })
+
+    // gsap.to(phone.current, {
+    //   x: '-=500'
+    // },)
 
     ScrollTrigger.matchMedia({
       "(min-width: 800px)": function () {
@@ -98,7 +96,6 @@ export default function Home() {
             end: '+=1',
             ease: "power1.inOut",
             scrub: 2,
-            markers: true,
             onEnter: update,
             onEnterBack: reverseUpdate
           }
@@ -111,34 +108,39 @@ export default function Home() {
     })
 
 
-
-
-
-    // gsap.to(cards.current, {
-    //   scrollTrigger: {
-    //     trigger: rightText.current,
-    //     start: 'top center',
-    //     end: '+=25%', //decrease for faster card swipe
-    //     markers: true,
-    //     scrub: true
-    //   },
-    //   x: -230, // different mobile vs desktop
-    //   onStart: update, // markers need to change halfway through card swipe, or end of swipe
-    //   onReverseComplete: reverseUpdate
-    // })
-
-
-    gsap.to(leftText.current, {
-      y: () => window.innerHeight / 2,
-      ease: 'none',
+    gsap.timeline({
       scrollTrigger: {
         trigger: leftText.current,
         start: 'top center',
-        end: "+=50%",
+        end: "+=200%",
         invalidateOnRefresh: true,
         scrub: true,
+        ease: 'linear',
+        // pin: true,
+        // markers: true,
       }
     })
+      .to(leftText.current, {
+        y: () => window.innerHeight / 1,
+        ease: 'none'
+      })
+      .to(leftText.current, {
+        opacity: 0,
+        toggleActions: 'play pause reverse pause'
+      })
+
+    // gsap.to(phone.current, {
+    //   scrollTrigger: {
+    //     trigger: section2.current,
+    //     start: 'bottom bottom',
+    //     end: '+=500',
+    //     scrub: true,
+    //     markers: true
+    //   },
+    //   x: '-=500'
+    // })
+
+
 
 
   }, [])
@@ -188,7 +190,7 @@ export default function Home() {
 
       <div id='spacer' className='h-[300px]' />
 
-      <div id='section-2' className='grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop'>
+      <div ref={section2} id='section-2' className='grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop'>
 
 
         <h1 id='leftText' ref={leftText} className="hidden lg:block text-[82px] font-[600] text-[rgba(60,64,67,1)] grid-in-left self-center place-self-center">
@@ -262,16 +264,12 @@ export default function Home() {
 
           <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>Resider solely consists of rental properties syndicated through data API’s. With up to date and accurate listings, your clients can browse with confidence.</p>
 
-          <div className="h-[500px] w-10" />
-
         </div>
 
 
 
 
       </div>
-
-      <div id='spacer' className='h-[1000px]' />
 
     </div>
 
