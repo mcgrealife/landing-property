@@ -23,7 +23,13 @@ export default function Home() {
   const rightText = useRef()
   const topLogo = useRef()
   const headerShadow = useRef()
+  const hero = useRef()
   const section2 = useRef()
+  const mapMask = useRef()
+  const mapMaskMaskScaleOfPhoneDiv = useRef()
+  const phoneContainer = useRef()
+  const phoneMask = useRef()
+
 
 
   const [markerStyle, setMarkerStyle] = useState('selected')
@@ -43,6 +49,35 @@ export default function Home() {
   }
 
   useEffect(() => {
+
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: mapMask.current,
+        start: 'top 30%',
+        end: 'top 10%',
+        markers: true,
+        scrub: true,
+      }
+    })
+      .to(mapMask.current, {
+        height: '1150px',
+        width: '1150px',
+      })
+      .to(phoneMask.current, {
+        height: '751',
+        borderBottomLeftRadius: '0',
+        borderBottomRightRadius: '0'
+
+      }, '<1%')
+      .to(mapMaskMaskScaleOfPhoneDiv.current, {
+        width: '360px',
+        height: '767px',
+      }, '<75%')
+
+
+
+
+
 
     gsap.to(headerShadow.current, {
       opacity: 100,
@@ -184,7 +219,27 @@ export default function Home() {
 
         <p className='text-[rgba(96,99,103,1)] mt-[15.15px] lg:mt-[16px] text-[18px] lg:text-[26px] leading-[30px] lg:leading-[38px] max-w-[326px] lg:max-w-[579px]'>Resider is a smart, efficient and helpful way to qualify and schedule your prospective tenants.</p>
 
-        <img src="/hero.svg" alt="hero" className='h-[318px] lg:h-[526px] mt-[24.49px] lg:mt-[24px]' />
+        {/* <img ref={hero} src="/hero.svg" alt="hero" className='h-[318px] lg:h-[526px] mt-[24.49px] lg:mt-[24px]' /> */}
+
+
+      </div>
+
+      <div id="animation" className='grid justify-items-center'>
+
+        <div id="mapMaskMaskScaleOfPhoneDiv" ref={mapMaskMaskScaleOfPhoneDiv} className='row-start-1 col-start-1 grid justify-center w-[1006px] overflow-hidden'>
+          <div id="mapMask" ref={mapMask} className='w-[526px] h-[526px] justify-center grid justify-self-center rounded-full overflow-hidden' >
+            <img src="map.png" alt="map" className='object-none aspect-square justify-self-center' />
+          </div>
+        </div>
+
+        <div ref={phoneMask} className='row-start-1 col-start-1 h-[526px] w-[526px] grid place-items-center rounded-bl-full rounded-br-full overflow-hidden'>
+          <div id="spacer" className='h-[28px]' />
+          <div ref={phoneContainer} className=' w-[370px]'>
+            <img src="frame-hollow.svg" alt="frame" className='top-[20px] w-full' />
+          </div>
+        </div>
+
+
 
       </div>
 
