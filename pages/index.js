@@ -29,6 +29,7 @@ export default function Home() {
   const mapMaskMaskScaleOfPhoneDiv = useRef()
   const phoneContainer = useRef()
   const phoneMask = useRef()
+  const mapMaskSpacer = useRef()
 
 
 
@@ -60,19 +61,26 @@ export default function Home() {
       }
     })
       .to(mapMask.current, {
-        height: '1150px',
-        width: '1150px',
+        width: '820px',
+        height: '820px',
+        // borderRad
       })
       .to(phoneMask.current, {
-        height: '751',
+        height: '820px',
+        width: '820px',
         borderBottomLeftRadius: '0',
         borderBottomRightRadius: '0'
 
-      }, '<1%')
+      }, 0)
       .to(mapMaskMaskScaleOfPhoneDiv.current, {
-        width: '360px',
-        height: '767px',
+        width: '345px',
+        height: '760px',
+        // borderRadius: '10%'
       }, '<75%')
+    // .to(mapMaskSpacer.current, {
+    //   height: '20px'
+    // }, 0)
+
 
 
 
@@ -226,15 +234,16 @@ export default function Home() {
 
       <div id="animation" className='grid justify-items-center'>
 
-        <div id="mapMaskMaskScaleOfPhoneDiv" ref={mapMaskMaskScaleOfPhoneDiv} className='row-start-1 col-start-1 grid justify-center w-[1006px] overflow-hidden'>
-          <div id="mapMask" ref={mapMask} className='w-[526px] h-[526px] justify-center grid justify-self-center rounded-full overflow-hidden' >
+        <div id="mapMaskMaskScaleOfPhoneDiv" ref={mapMaskMaskScaleOfPhoneDiv} className='row-start-1 col-start-1 grid justify-center self-center w-full overflow-hidden border-2 border-green-500'>
+          <div ref={mapMaskSpacer} className='h-[0px]' />
+          <div id="mapMask" ref={mapMask} className='w-[526px] h-[526px] justify-center grid justify-self-center rounded-full overflow-hidden border-2 border-blue-500' >
             <img src="map.png" alt="map" className='object-none aspect-square justify-self-center' />
           </div>
         </div>
 
-        <div ref={phoneMask} className='row-start-1 col-start-1 h-[526px] w-[526px] grid place-items-center rounded-bl-full rounded-br-full overflow-hidden'>
+        <div ref={phoneMask} className='row-start-1 col-start-1 h-[526px] w-[526px] grid place-items-center justify-center rounded-bl-full rounded-br-full overflow-hidden border-2 border-pink-500'>
           <div id="spacer" className='h-[28px]' />
-          <div ref={phoneContainer} className=' w-[370px]'>
+          <div ref={phoneContainer} className=' w-[370px] border-2 border-orange-500 self-center'>
             <img src="frame-hollow.svg" alt="frame" className='top-[20px] w-full' />
           </div>
         </div>
