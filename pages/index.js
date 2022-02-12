@@ -29,7 +29,6 @@ export default function Home() {
   const mapMaskMaskScaleOfPhoneDiv = useRef()
   const phoneContainer = useRef()
   const phoneMask = useRef()
-  const mapMaskSpacer = useRef()
 
 
 
@@ -63,7 +62,7 @@ export default function Home() {
       .to(mapMask.current, {
         width: '820px',
         height: '820px',
-        // borderRad
+
       })
       .to(phoneMask.current, {
         height: '820px',
@@ -74,14 +73,11 @@ export default function Home() {
       }, 0)
       .to(mapMaskMaskScaleOfPhoneDiv.current, {
         width: '345px',
-        height: '760px',
+        height: '800px',
         // borderRadius: '10%'
-      }, '<75%')
-    // .to(mapMaskSpacer.current, {
-    //   height: '20px'
-    // }, 0)
+      }, '<10%')
 
-
+    // animate mapMaskScaleOfPhoneDiv across grid? to grid=row2? (where grid-row-1 is like 28px spacer). or use the -grid-end technique (negative)
 
 
 
@@ -234,8 +230,8 @@ export default function Home() {
 
       <div id="animation" className='grid justify-items-center'>
 
-        <div id="mapMaskMaskScaleOfPhoneDiv" ref={mapMaskMaskScaleOfPhoneDiv} className='row-start-1 col-start-1 grid justify-center self-center w-full overflow-hidden border-2 border-green-500'>
-          <div ref={mapMaskSpacer} className='h-[0px]' />
+        <div id="mapMaskMaskScaleOfPhoneDiv" ref={mapMaskMaskScaleOfPhoneDiv} className='row-start-1 col-start-1 grid justify-center w-full overflow-hidden border-2 border-green-500'>
+          <div className='h-[0px]' />
           <div id="mapMask" ref={mapMask} className='w-[526px] h-[526px] justify-center grid justify-self-center rounded-full overflow-hidden border-2 border-blue-500' >
             <img src="map.png" alt="map" className='object-none aspect-square justify-self-center' />
           </div>
@@ -243,7 +239,7 @@ export default function Home() {
 
         <div ref={phoneMask} className='row-start-1 col-start-1 h-[526px] w-[526px] grid place-items-center justify-center rounded-bl-full rounded-br-full overflow-hidden border-2 border-pink-500'>
           <div id="spacer" className='h-[28px]' />
-          <div ref={phoneContainer} className=' w-[370px] border-2 border-orange-500 self-center'>
+          <div ref={phoneContainer} className=' w-[370px] border-2 border-orange-500'>
             <img src="frame-hollow.svg" alt="frame" className='top-[20px] w-full' />
           </div>
         </div>
