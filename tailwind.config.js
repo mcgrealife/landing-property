@@ -16,15 +16,32 @@ module.exports = {
       'mobile': [
         // 'header header',
         'left right'
+      ],
+      'phone': [
+        'frameLeft frameTop frameRight',
+        'frameLeft screen frameRight',
+        'frameLeft frameBottom frameRight',
+      ],
+      'screen': [
+        'status',
+        'body'
       ]
     },
     gridTemplateColumns: {
       'desktop': '1fr min-content 1fr',
       'mobile': '1fr, 1fr',
+      'phoneMobile': '9.5px 255px 9.5px',
+      'phoneDesktop': '13px 370px 13px',
+      'screenMobile': 'auto',
+      'screenDesktop': 'auto'
     },
     gridTemplateRows: {
       'desktop': 'auto',
-      'mobile': 'auto'
+      'mobile': 'auto',
+      'phoneMobile': '8px 552px 8px',
+      'phoneDesktop': '11px 745px 11px',
+      'screenMobile': '30px 522.5px',
+      'screenDesktop': '40px 705px'
     },
     extend: {
       BoxShadow: {
