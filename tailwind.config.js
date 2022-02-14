@@ -17,6 +17,10 @@ module.exports = {
         // 'header header',
         'left right'
       ],
+      'phoneWrapper': [
+        'phone'
+      ]
+      ,
       'phone': [
         'frameLeft frameTop frameRight',
         'frameLeft screen frameRight',
@@ -30,6 +34,8 @@ module.exports = {
     gridTemplateColumns: {
       'desktop': '1fr min-content 1fr',
       'mobile': '1fr, 1fr',
+      'phoneWrapperMobile': '274px',
+      'phoneWrapperDesktop': '370px',
       'phoneMobile': '9.5px 255px 9.5px',
       'phoneDesktop': '13px 370px 13px',
       'screenMobile': 'auto',
@@ -38,6 +44,8 @@ module.exports = {
     gridTemplateRows: {
       'desktop': 'auto',
       'mobile': 'auto',
+      'phoneWrapperMobile': '568.39px',
+      'phoneWrapperDesktop': '767px',
       'phoneMobile': '8px 552px 8px',
       'phoneDesktop': '11px 745px 11px',
       'screenMobile': '30px 522.5px',

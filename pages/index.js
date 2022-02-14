@@ -46,16 +46,15 @@ export default function Home() {
   const leftText = useRef()
   const rightTextDataIntegrity = useRef()
   const rightTextMoveIn = useRef()
+  const rightTextCol = useRef()
   const topLogo = useRef()
   const headerShadow = useRef()
-  const hero = useRef()
   const main = useRef()
   const mapMask = useRef()
-  const mapMaskMaskScaleOfPhoneDiv = useRef()
-  const phoneContainer = useRef()
-  const phoneMask = useRef()
+  const wrapperMapMask = useRef()
   const frameMask = useRef()
   const screen = useRef()
+  const carousel = useRef()
 
 
 
@@ -77,6 +76,10 @@ export default function Home() {
 
   useEffect(() => {
 
+    // fromTo(mapMask, {
+    // from desktop: w-[526px] h-[526px]
+    // })
+
     gsap.timeline({
       scrollTrigger: {
         trigger: mapMask.current,
@@ -91,14 +94,14 @@ export default function Home() {
         height: '820px',
 
       })
-      .to(phoneMask.current, {
-        height: '820px',
-        width: '820px',
-        borderBottomLeftRadius: '0',
-        borderBottomRightRadius: '0'
+      // .to(phoneMask.current, {
+      //   height: '820px',
+      //   width: '820px',
+      //   borderBottomLeftRadius: '0',
+      //   borderBottomRightRadius: '0'
 
-      }, 0)
-      .to(mapMaskMaskScaleOfPhoneDiv.current, {
+      // }, 0)
+      .to(wrapperMapMask.current, {
         width: '345px',
         height: '800px',
         // borderRadius: '10%'
@@ -118,18 +121,18 @@ export default function Home() {
       }
     })
 
-    let tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: phoneContainer.current,
-        start: 'top 148px',
-        end: "+=3100",
-        toggleActions: 'play, pause, reverse, pause',
-        pin: true,
-        scrub: 1,
-        // pinSpacing: "margin",
+    // let tl = gsap.timeline({
+    //   scrollTrigger: {
+    //     trigger: phoneContainer.current,
+    //     start: 'top 148px',
+    //     end: "+=3100",
+    //     toggleActions: 'play, pause, reverse, pause',
+    //     pin: true,
+    //     scrub: 1,
+    //     // pinSpacing: "margin",
 
-      },
-    })
+    //   },
+    // })
 
     ScrollTrigger.matchMedia({
       "(min-width: 800px)": function () {
@@ -237,20 +240,20 @@ export default function Home() {
 
         {/* reduce complexity of grid-areas by scaling svgs (then only need to define mobile?)  */}
 
-        <div id="phone" ref={phone} className='grid-in-left lg:grid-in-middle max-w-[525px] grid-rows-[8px_552.2px_8.1px] lg:grid-rows-[11px_745px_11px] ml-[24px] lg:ml-[0px] col-end-right h-full lg:justify-center overflow-auto will-change-transform frame-shadow'>
+        <div id="phone" ref={phone} className='grid grid-in-left lg:grid-in-middle max-w-[525px] grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] col-end-right h-full lg:justify-center overflow-auto will-change-transform frame-shadow'>
 
-          <div id="frameMask" ref={frameMask} className="w-full h-[456px]">
-            <img id='frame' src="frame-hollow.svg" alt="frame" className=' row-start-1 row-span-3 w-full ' />
+          <div id="frameMask" ref={frameMask} className="w-full h-[456px] grid grid-areas-phoneWrapper grid-cols-phoneWrapperMobile lg:grid-cols-phoneWrapperDesktop grid-rows-phoneWrapperMobile lg:grid-rows-phoneWrapperDesktop">
+            <img id='frame' src="frame-hollow.svg" alt="frame" className=' w-full grid-in-phone' />
           </div>
 
-          <div id="screen" ref={screen} className="row-start-1 grid-cols-[9.5px_255px_9.5px] lg:grid-cols-[13px_344.5px_12.5px]">
+          <div id="screen" ref={screen} className="grid grid-in-screen  grid-areas-screen grid-cols-screenMobile lg:grid-cols-screenDesktop grid-rows-screenMobile lg:grid-rows-screenDesktop">
 
-            <img src="/map-4x.png" alt="map" className='row-start-2 col-start-2 col-span-1 pt-[101px] z-2 rounded-xl h-full object-cover' />
+            {/* <img src="/map-4x.png" alt="map" className='grid-in-body pt-[101px] z-2 rounded-xl h-full object-cover' /> */}
 
             <img src="/status-search-filter.svg" alt="status"
-              className='row-start-2 row-span-4 col-start-2 col-span-1 z-2 shadow-lg w-full ' />
+              className='grid-in-status z-2 shadow-lg w-full ' />
 
-            <div className='row-start-2 col-start-2 self-end z-6 pb-[28.5px] overflow-x-scroll scrollbar-hide snap-x  pt-2'>
+            <div id='carousel' ref={carousel} className=' grid-in-body self-end z-6 pb-[28.5px] overflow-x-scroll scrollbar-hide snap-x  pt-2'>
 
               <div ref={cards} className='flex flex-row min-w-max gap-2 px-4 overflow-visible'>
                 <Card />
@@ -269,21 +272,13 @@ export default function Home() {
 
             </div>
 
-            <img src="/home.svg" alt="home" className='row-start-2 col-start-2 justify-self-center self-end pb-[5.23px] z-20 w-[91px] lg:w-[123px]' />
+            <img src="/home.svg" alt="home" className=' grid-in-body justify-self-center self-end pb-[5.23px] z-20 w-[91px] lg:w-[123px]' />
 
           </div>
 
-          <div id="mapMaskMaskScaleOfPhoneDiv" ref={mapMaskMaskScaleOfPhoneDiv} className='col-end-right grid justify-center w-full overflow-hidden border-2 border-green-500'>
-            <div id='spacer1' className='h-[0px]' />
-            <div id="mapMask" ref={mapMask} className='w-[526px] h-[526px] justify-center grid justify-self-center rounded-full overflow-hidden border-2 border-blue-500' >
+          <div id="wrapperMapMask" ref={wrapperMapMask} className='grid-in-screen grid justify-center w-full overflow-hidden border-2 border-green-500'>
+            <div id="mapMask" ref={mapMask} className='w-[525x] h-[843px] justify-center grid justify-self-center rounded-full overflow-hidden border-2 border-blue-500' >
               <img id='map' src="map.png" alt="map" className='object-none aspect-square justify-self-center' />
-            </div>
-          </div>
-
-          <div id='phoneMask' ref={phoneMask} className='  h-[526px] w-[526px] grid place-items-center justify-center rounded-bl-full rounded-br-full overflow-hidden border-2 border-pink-500'>
-            <div id="spacer" className='h-[28px]' />
-            <div id='phonecontainer' ref={phoneContainer} className=' w-[370px] border-2 border-orange-500'>
-
             </div>
           </div>
         </div>
