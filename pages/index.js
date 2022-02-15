@@ -81,30 +81,35 @@ export default function Home() {
     // from desktop: w-[526px] h-[526px]
     // })
 
-    gsap.timeline({
-      scrollTrigger: {
-        trigger: headerSubText.current,
-        start: 'top top',
-        // toggleActions: 'play pause reverse pause',
-        scrub: true,
-        markers: true,
-      }
-    })
-      .fromTo(mapMask.current, {
-        height: '525px',
-        width: '525px',
-        borderRadius: '769.01'
-      }, {
-        height: '844px',
-        width: '525px',
-      })
-      .from(wrapperMapMask.current, {
-        width: '525px',
-        borderRadius: '0'
-      }, 0)
-      .from(frameMask.current, {
-        height: '525px'
-      }, 0)
+
+
+    // gsap.timeline({
+    //   scrollTrigger: {
+    //     trigger: headerSubText.current,
+    //     start: 'top top',
+    //     // toggleActions: 'play pause reverse pause',
+    //     scrub: true,
+    //     markers: true,
+    //   }
+    // })
+    //   .fromTo(mapMask.current, {
+    //     height: '525px',
+    //     width: '525px',
+    //     borderRadius: '769.01'
+    //   }, {
+    //     height: '844px',
+    //     width: '525px',
+    //   })
+    //   .from(wrapperMapMask.current, {
+    //     width: '525px',
+    //     borderRadius: '0'
+    //   }, 0)
+    //   .from(frameMask.current, {
+    //     height: '525px'
+    //   }, 0)
+
+
+
     //   .to(mapMask.current, {
     //     width: '820px',
     //     height: '820px',
@@ -241,47 +246,12 @@ export default function Home() {
 
         {/* reduce complexity of grid-areas by scaling svgs (then only need to define mobile?)  */}
 
-        <div id="phone" ref={phone} className='grid grid-in-left lg:grid-in-middle grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-full col-end-right lg:justify-center frame-shadow border-2 border-purple-500'>
+        <div id="phone" ref={phone} className='grid  grid-in-left lg:grid-in-middle  grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-full col-end-right lg:justify-center frame-shadow border-2 border-purple-500 '>
 
-          <div id="frameMask" ref={frameMask} className=" grid h-[843px] w-[525px] rounded-br-[769.01px] rounded-bl-[769.01px] grid-in-wrapper border-2 border-orange-500 overflow-hidden">
-
-            <img id='frame' src="frame-hollow.svg" alt="frame" className=' w-full grid-in-frame z-20' />
-
-            <div id="screen" ref={screen} className="grid grid-in-screen  grid-areas-screen grid-cols-screenMobile lg:grid-cols-screenDesktop grid-rows-screenMobile lg:grid-rows-screenDesktop ">
-
-              <img src="/status-search-filter.svg" alt="status"
-                className='grid-in-status z-2 shadow-lg w-full ' />
-
-              <div id='carousel' ref={carousel} className=' grid-in-body self-end z-6 pb-[28.5px] overflow-x-scroll scrollbar-hide snap-x  pt-2'>
-
-                <div ref={cards} className='flex flex-row min-w-max gap-2 px-4 overflow-visible'>
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                </div>
-
-              </div>
-
-              <img src="/home.svg" alt="home" className=' grid-in-body justify-self-center self-end pb-[5.23px] z-20 w-[91px] lg:w-[123px]' />
-
-            </div>
+          <div className='grid-in-wrapper bg-red-500 '>
+            <p>test</p>
           </div>
 
-
-          <div id="wrapperMapMask" ref={wrapperMapMask} className='grid-in-screen grid overflow-hidden border-2 border-green-500 rounded-[41px]'>
-            <div id="mapMask" ref={mapMask} className='w-[344px] h-[744px]  grid rounded-[41px] overflow-hidden border-2 border-blue-500' >
-              <img id='map' src="map.png" alt="map" className='object-cover  w-[1000px] h-[1000px]' />
-            </div>
-          </div>
         </div>
 
 
