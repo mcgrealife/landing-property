@@ -83,30 +83,30 @@ export default function Home() {
 
 
 
-    // gsap.timeline({
-    //   scrollTrigger: {
-    //     trigger: headerSubText.current,
-    //     start: 'top top',
-    //     // toggleActions: 'play pause reverse pause',
-    //     scrub: true,
-    //     markers: true,
-    //   }
-    // })
-    //   .fromTo(mapMask.current, {
-    //     height: '525px',
-    //     width: '525px',
-    //     borderRadius: '769.01'
-    //   }, {
-    //     height: '844px',
-    //     width: '525px',
-    //   })
-    //   .from(wrapperMapMask.current, {
-    //     width: '525px',
-    //     borderRadius: '0'
-    //   }, 0)
-    //   .from(frameMask.current, {
-    //     height: '525px'
-    //   }, 0)
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: headerSubText.current,
+        start: 'top top',
+        // toggleActions: 'play pause reverse pause',
+        scrub: true,
+        markers: true,
+      }
+    })
+      .fromTo(mapMask.current, {
+        height: '525px',
+        width: '525px',
+        borderRadius: '769.01'
+      }, {
+        height: '844px',
+        width: '525px',
+      })
+      .from(wrapperMapMask.current, {
+        width: '525px',
+        borderRadius: '0'
+      }, 0)
+      .from(frameMask.current, {
+        height: '525px'
+      }, 0)
 
 
 
@@ -248,11 +248,11 @@ export default function Home() {
 
         <div id="phone" ref={phone} className='grid  grid-in-left lg:grid-in-middle  grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-full col-end-right lg:justify-center frame-shadow border-2 border-purple-500 '>
 
-          <div id="frameMask" ref={frameMask} className=" grid grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop rounded-br-[769.01px] rounded-bl-[769.01px] grid-in-wrapper border-2 border-orange-500 bg-orange-500 overflow-hidden">
+          <div id="frameMask" ref={frameMask} className=" grid grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop rounded-br-[769.01px] rounded-bl-[769.01px] row-start-1 row-end-6 col-start-1 col-end-6 border-2 border-orange-500  overflow-hidden">
 
-            <img id='frame' src="frame-hollow.svg" alt="frame" className=' w-full grid-in-frame z-20' />
+            <img id='frame' src="frame-hollow.svg" alt="frame" className=' w-full row-start-2 row-end-4 col-start-2 col-end-5 z-20' />
 
-            <div id="screen" ref={screen} className="grid grid-in-screen  grid-areas-screen grid-cols-screenMobile lg:grid-cols-screenDesktop grid-rows-screenMobile lg:grid-rows-screenDesktop ">
+            <div id="screen" ref={screen} className="grid row-start-3 row-end-4 col-start-3 col-end-4  grid-areas-screen grid-cols-screenMobile lg:grid-cols-screenDesktop grid-rows-screenMobile lg:grid-rows-screenDesktop ">
 
               <img src="/status-search-filter.svg" alt="status"
                 className='grid-in-status z-2 shadow-lg w-full ' />
@@ -282,7 +282,7 @@ export default function Home() {
           </div>
 
 
-          <div id="wrapperMapMask" ref={wrapperMapMask} className='grid-in-screen  overflow-hidden border-2 border-green-500 rounded-[41px]'>
+          <div id="wrapperMapMask" ref={wrapperMapMask} className='row-start-3 row-end-4 col-start-3 col-end-4  overflow-hidden border-2 border-green-500 rounded-[41px] justify-self-center'>
 
             <div id="mapMask" ref={mapMask} className='w-[344px] h-[744px]  rounded-[41px] overflow-hidden border-2 border-blue-500' >
 
