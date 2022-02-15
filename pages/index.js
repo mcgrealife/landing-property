@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger"
+import { ScrollToPlugin } from "gsap/ScrollToPlugin"
 import logo from '../public/resider-logo.png'
 
 
@@ -12,6 +13,7 @@ export default function Home() {
 
 
   gsap.registerPlugin(ScrollTrigger)
+  gsap.registerPlugin(ScrollToPlugin)
 
   function scheduleDemoClick() {
     return alert('💰 $50 showing, $1000 max. 50% per lease. 💰 ')
@@ -56,6 +58,7 @@ export default function Home() {
   const screen = useRef()
   const carousel = useRef()
   const headerSubText = useRef()
+  const spacer = useRef()
 
 
 
@@ -83,16 +86,20 @@ export default function Home() {
 
 
 
+
+
+
     gsap.timeline({
       scrollTrigger: {
-        trigger: headerSubText.current,
-        start: 'top top',
+        trigger: phone.current,
+        start: 'top 20%',
         // toggleActions: 'play pause reverse pause',
-        scrub: true,
+        pin: true,
         markers: true,
       }
     })
       .fromTo(mapMask.current, {
+        y: '-=0px',
         height: '525px',
         width: '525px',
         borderRadius: '769.01'
@@ -107,6 +114,13 @@ export default function Home() {
       .from(frameMask.current, {
         height: '525px'
       }, 0)
+      .to(wrapperMapMask.current, {
+        width: '345px',
+        height: '787px',
+      }, '<75%')
+      .from(spacer.current, {
+        height: '0'
+      })
 
 
 
@@ -246,9 +260,9 @@ export default function Home() {
 
         {/* reduce complexity of grid-areas by scaling svgs (then only need to define mobile?)  */}
 
-        <div id="phone" ref={phone} className='grid  grid-in-left lg:grid-in-middle  grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-full col-end-right lg:justify-center frame-shadow border-2 border-purple-500 '>
+        <div id="phone" ref={phone} className='grid  grid-in-left lg:grid-in-middle  grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-full col-end-right lg:justify-center frame-shadow border-2 border-purple-500 justify-items-center'>
 
-          <div id="frameMask" ref={frameMask} className=" grid grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop rounded-br-[769.01px] rounded-bl-[769.01px] row-start-1 row-end-6 col-start-1 col-end-6 border-2 border-orange-500  overflow-hidden">
+          <div id="frameMask" ref={frameMask} className=" grid grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop rounded-br-[769.01px] rounded-bl-[769.01px] row-start-1 row-end-6 col-start-1 col-end-6 border-2 border-green-500  overflow-hidden justify-center">
 
             <img id='frame' src="frame-hollow.svg" alt="frame" className=' w-full row-start-2 row-end-4 col-start-2 col-end-5 z-20' />
 
@@ -282,9 +296,10 @@ export default function Home() {
           </div>
 
 
-          <div id="wrapperMapMask" ref={wrapperMapMask} className='row-start-3 row-end-4 col-start-3 col-end-4  overflow-hidden border-2 border-green-500 rounded-[41px] justify-self-center'>
+          <div id="wrapperMapMask" ref={wrapperMapMask} className='grid row-start-1 row-end-4 col-start-3 col-end-4  overflow-hidden border-2 border-pink-500 rounded-[41px] self-start justify-center '>
+            {/* <div id="spacer" ref={spacer} className="h-[28px]" /> */}
 
-            <div id="mapMask" ref={mapMask} className='w-[344px] h-[744px]  rounded-[41px] overflow-hidden border-2 border-blue-500' >
+            <div id="mapMask" ref={mapMask} className='w-[344px] h-[744px]  rounded-[41px] overflow-hidden border-2 border-fuchsia-300' >
 
               <img id='map' src="map.png" alt="map" className='object-cover  w-[1000px] h-[1000px]' />
             </div>
