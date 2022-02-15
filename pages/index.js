@@ -55,6 +55,7 @@ export default function Home() {
   const frameMask = useRef()
   const screen = useRef()
   const carousel = useRef()
+  const headerSubText = useRef()
 
 
 
@@ -82,33 +83,45 @@ export default function Home() {
 
     gsap.timeline({
       scrollTrigger: {
-        trigger: mapMask.current,
-        start: 'top 50%',
-        end: 'top 10%',
-        markers: true,
+        trigger: headerSubText.current,
+        start: 'top top',
+        // toggleActions: 'play pause reverse pause',
         scrub: true,
+        markers: true,
       }
     })
-      .to(mapMask.current, {
-        width: '820px',
-        height: '820px',
-
+      .fromTo(mapMask.current, {
+        height: '525px',
+        width: '525px',
+        borderRadius: '769.01'
+      }, {
+        height: '844px',
+        width: '525px',
       })
-      // .to(phoneMask.current, {
-      //   height: '820px',
-      //   width: '820px',
-      //   borderBottomLeftRadius: '0',
-      //   borderBottomRightRadius: '0'
+      .from(wrapperMapMask.current, {
+        width: '525px',
+        borderRadius: '0'
+      }, 0)
+      .from(frameMask.current, {
+        height: '525px'
+      }, 0)
+    //   .to(mapMask.current, {
+    //     width: '820px',
+    //     height: '820px',
 
-      // }, 0)
-      .to(wrapperMapMask.current, {
-        width: '345px',
-        height: '800px',
-        // borderRadius: '10%'
-      }, '<10%')
+    //   })
+    //   // .to(phoneMask.current, {
+    //   //   height: '820px',
+    //   //   width: '820px',
+    //   //   borderBottomLeftRadius: '0',
+    //   //   borderBottomRightRadius: '0'
 
-    // animate mapMaskScaleOfPhoneDiv across grid? to grid=row2? (where grid-row-1 is like 28px spacer). or use the -grid-end technique (negative)
-
+    //   // }, 0)
+    //   .to(wrapperMapMask.current, {
+    //     width: '345px',
+    //     height: '800px',
+    //     // borderRadius: '10%'
+    //   }, '<10%')
 
 
     gsap.to(headerShadow.current, {
@@ -121,18 +134,6 @@ export default function Home() {
       }
     })
 
-    // let tl = gsap.timeline({
-    //   scrollTrigger: {
-    //     trigger: phoneContainer.current,
-    //     start: 'top 148px',
-    //     end: "+=3100",
-    //     toggleActions: 'play, pause, reverse, pause',
-    //     pin: true,
-    //     scrub: 1,
-    //     // pinSpacing: "margin",
-
-    //   },
-    // })
 
     ScrollTrigger.matchMedia({
       "(min-width: 800px)": function () {
@@ -223,7 +224,7 @@ export default function Home() {
 
         <h1 className='mt-[24.49px] lg:mt-[24px] text-[rgba(60,64,67,1)] font-[700] text-[36px] lg:text-[72px] leading-[48px] lg:leading-[84px] tracking-[0.1px] max-w-[326px] lg:max-w-[639px]'>A <span className='text-[rgba(54,108,165,1)]'>better</span> way to generate leads</h1>
 
-        <p className='text-[rgba(96,99,103,1)] mt-[15.15px] lg:mt-[16px] text-[18px] lg:text-[26px] leading-[30px] lg:leading-[38px] max-w-[326px] lg:max-w-[579px]'>Resider is a smart, efficient and helpful way to qualify and schedule your prospective tenants.</p>
+        <p ref={headerSubText} className='text-[rgba(96,99,103,1)] mt-[15.15px] lg:mt-[16px] text-[18px] lg:text-[26px] leading-[30px] lg:leading-[38px] max-w-[326px] lg:max-w-[579px]'>Resider is a smart, efficient and helpful way to qualify and schedule your prospective tenants.</p>
 
 
       </div>
@@ -240,45 +241,45 @@ export default function Home() {
 
         {/* reduce complexity of grid-areas by scaling svgs (then only need to define mobile?)  */}
 
-        <div id="phone" ref={phone} className='grid grid-in-left lg:grid-in-middle max-w-[525px] grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] col-end-right h-full lg:justify-center overflow-auto will-change-transform frame-shadow'>
+        <div id="phone" ref={phone} className='grid grid-in-left lg:grid-in-middle grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-full col-end-right lg:justify-center frame-shadow border-2 border-purple-500'>
 
-          <div id="frameMask" ref={frameMask} className="w-full h-[456px] grid grid-areas-phoneWrapper grid-cols-phoneWrapperMobile lg:grid-cols-phoneWrapperDesktop grid-rows-phoneWrapperMobile lg:grid-rows-phoneWrapperDesktop">
-            <img id='frame' src="frame-hollow.svg" alt="frame" className=' w-full grid-in-phone' />
-          </div>
+          <div id="frameMask" ref={frameMask} className=" grid h-[843px] w-[525px] rounded-br-[769.01px] rounded-bl-[769.01px] grid-in-wrapper border-2 border-orange-500 overflow-hidden">
 
-          <div id="screen" ref={screen} className="grid grid-in-screen  grid-areas-screen grid-cols-screenMobile lg:grid-cols-screenDesktop grid-rows-screenMobile lg:grid-rows-screenDesktop">
+            <img id='frame' src="frame-hollow.svg" alt="frame" className=' w-full grid-in-frame z-20' />
 
-            {/* <img src="/map-4x.png" alt="map" className='grid-in-body pt-[101px] z-2 rounded-xl h-full object-cover' /> */}
+            <div id="screen" ref={screen} className="grid grid-in-screen  grid-areas-screen grid-cols-screenMobile lg:grid-cols-screenDesktop grid-rows-screenMobile lg:grid-rows-screenDesktop ">
 
-            <img src="/status-search-filter.svg" alt="status"
-              className='grid-in-status z-2 shadow-lg w-full ' />
+              <img src="/status-search-filter.svg" alt="status"
+                className='grid-in-status z-2 shadow-lg w-full ' />
 
-            <div id='carousel' ref={carousel} className=' grid-in-body self-end z-6 pb-[28.5px] overflow-x-scroll scrollbar-hide snap-x  pt-2'>
+              <div id='carousel' ref={carousel} className=' grid-in-body self-end z-6 pb-[28.5px] overflow-x-scroll scrollbar-hide snap-x  pt-2'>
 
-              <div ref={cards} className='flex flex-row min-w-max gap-2 px-4 overflow-visible'>
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
+                <div ref={cards} className='flex flex-row min-w-max gap-2 px-4 overflow-visible'>
+                  <Card />
+                  <Card />
+                  <Card />
+                  <Card />
+                  <Card />
+                  <Card />
+                  <Card />
+                  <Card />
+                  <Card />
+                  <Card />
+                  <Card />
+                  <Card />
+                </div>
+
               </div>
 
+              <img src="/home.svg" alt="home" className=' grid-in-body justify-self-center self-end pb-[5.23px] z-20 w-[91px] lg:w-[123px]' />
+
             </div>
-
-            <img src="/home.svg" alt="home" className=' grid-in-body justify-self-center self-end pb-[5.23px] z-20 w-[91px] lg:w-[123px]' />
-
           </div>
 
-          <div id="wrapperMapMask" ref={wrapperMapMask} className='grid-in-screen grid justify-center w-full overflow-hidden border-2 border-green-500'>
-            <div id="mapMask" ref={mapMask} className='w-[525x] h-[843px] justify-center grid justify-self-center rounded-full overflow-hidden border-2 border-blue-500' >
-              <img id='map' src="map.png" alt="map" className='object-none aspect-square justify-self-center' />
+
+          <div id="wrapperMapMask" ref={wrapperMapMask} className='grid-in-screen grid overflow-hidden border-2 border-green-500 rounded-[41px]'>
+            <div id="mapMask" ref={mapMask} className='w-[344px] h-[744px]  grid rounded-[41px] overflow-hidden border-2 border-blue-500' >
+              <img id='map' src="map.png" alt="map" className='object-cover  w-[1000px] h-[1000px]' />
             </div>
           </div>
         </div>
