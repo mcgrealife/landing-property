@@ -48,7 +48,8 @@ export default function Home() {
   const leftText = useRef()
   const rightTextDataIntegrity = useRef()
   const rightTextMoveIn = useRef()
-  const personalizedPage = useRef()
+  const rightTextPersonalizedPage = useRef()
+  const rightTextFilteredAvailability = useRef()
   const rightTextCol = useRef()
   const topLogo = useRef()
   const headerShadow = useRef()
@@ -62,6 +63,11 @@ export default function Home() {
   const carousel = useRef()
   const headerSubText = useRef()
   const spacer = useRef()
+  const overlay = useRef()
+  const calendar = useRef()
+  const property = useRef() // svg shadow broken
+  const propertyBar = useRef()
+  const availability = userRef()
 
 
 
@@ -140,11 +146,7 @@ export default function Home() {
 
 
 
-
-
-
-
-
+    // I could probably use the same tweens in each matchMedia function, and use computed values for the dynamic parts (if mobile, move calendar up by 300px y; else if desktop, move calendar up by 400px y)
     ScrollTrigger.matchMedia({
 
       // Desktop
@@ -163,6 +165,8 @@ export default function Home() {
             toggleActions: "play reverse reverse reverse"
           }
         })
+
+          // desktop map-transition
           .fromTo(mapMask.current, {
             y: '-=0px',
             height: '525px',
@@ -171,10 +175,11 @@ export default function Home() {
           }, {
             height: '844px',
             width: '525px',
+            // borderRadius: 0
           }, 0)
           .from(wrapperMapMask.current, {
             width: '525px',
-            borderRadius: '0'
+            // borderRadius: 0
           }, 0)
           .from(frameMask.current, {
             width: '525px',
@@ -184,6 +189,7 @@ export default function Home() {
             width: '345px',
             height: '787px',
             ease: "power2",
+            // borderRadius: 0
           }, '<75%')
           // .from(spacer.current, {
           //   height: '0'
@@ -192,10 +198,11 @@ export default function Home() {
             opacity: 0
           }, { opacity: 100, duration: 1 }, '<50%') // duration 50 fades but causes background calculations for 50 seconds
 
+        // desktop - card swipe
         gsap.to(cards.current, {
           scrollTrigger: {
             trigger: rightTextDataIntegrity.current,
-            start: 'top 80%',
+            start: 'top 60%', // when it's 60% of the phone container. good use for a label?
             end: '+=1',
             scrub: 2,
             ease: "power1.inOut",
@@ -205,6 +212,44 @@ export default function Home() {
           x: '-312',
           ease: "power1.inOut",
         })
+
+        // desktop - calendar
+        gsap.timeline({
+          scrollTrigger: {
+            trigger: rightTextMoveIn.current,
+            start: 'top bottom',
+            end: '+=1800px',
+            // ease: "power1.inOut",
+            toggleActions: 'play reverse play reverse'
+          },
+        })
+          .from(overlay.current, {
+            opacity: 0,
+          })
+          .from(calendar.current, {
+            y: '+456',
+            ease: "power1.inOut",
+            duration: 0.5
+          }, 0)
+
+        // desktop - property 
+        gsap.timeline({
+          scrollTrigger: {
+            trigger: rightTextPersonalizedPage.current,
+            start: 'top 80%',
+            // ease: "power1.inOut",
+            toggleActions: 'play reverse play reverse'
+          },
+          duration: "0.1"
+        })
+          // possible gsap.set
+          .from(propertyBar.current, {
+            opacity: 0,
+          })
+          .from(property.current, {
+            opacity: 0,
+          }, 0)
+
       },
 
       // Mobile
@@ -223,6 +268,8 @@ export default function Home() {
             toggleActions: "play reverse reverse reverse"
           }
         })
+
+          // mobile map-transition
           .fromTo(mapMask.current, {
             y: '-=0px',
             height: '303px',
@@ -231,17 +278,14 @@ export default function Home() {
           }, {
             height: '623px',
             width: '303px',
+            borderRadius: '30px'
           }, 0)
-
-
           .from(frame.current, {
             width: '212px'
           }, 0)
           .from(screen.current, {
             width: '197px'
           }, 0)
-
-
           .from(wrapperMapMask.current, {
             width: '303px',
             borderRadius: '0'
@@ -252,10 +296,11 @@ export default function Home() {
           }, {
             width: '',
             height: '645px',
+            borderRadius: '10px'
           }, 0)
           .to(wrapperMapMask.current, {
             width: '254px',
-            height: '589px',
+            height: '591px',
             ease: "power2",
           }, '<75%')
           // .from(spacer.current, {
@@ -266,7 +311,7 @@ export default function Home() {
           }, { opacity: 100, duration: 1 }, '<50%') // duration 50 fades but causes background calculations for 50 seconds
 
 
-
+        // mobile - card swipe
         gsap.timeline({
           scrollTrigger: {
             trigger: rightTextDataIntegrity.current,
@@ -282,6 +327,47 @@ export default function Home() {
             x: '-224',
             ease: "power1.inOut",
           })
+
+
+        // mobile - calender
+        gsap.timeline({
+          scrollTrigger: {
+            trigger: rightTextMoveIn.current,
+            start: 'top 70%',
+            // end: '+=500px',
+            // ease: "power1.inOut",
+            toggleActions: 'play reverse play reverse'
+          },
+        })
+          .from(overlay.current, {
+            opacity: 0,
+          })
+          .from(calendar.current, {
+            y: '+338',
+            ease: "power1.inOut",
+            duration: 0.5
+          }, 0)
+
+        // mobile - property
+        gsap.timeline({
+          scrollTrigger: {
+            trigger: rightTextPersonalizedPage.current,
+            start: 'top 40%',
+            // ease: "power1.inOut",
+            toggleActions: 'play reverse play reverse'
+          },
+          duration: "0.1"
+        })
+          // possible gsap.set
+          .from(propertyBar.current, {
+            opacity: 0,
+          })
+          .from(property.current, {
+            opacity: 0,
+          }, 0)
+
+
+
       }
     })
 
@@ -361,7 +447,17 @@ export default function Home() {
 
             <img id='frame' ref={frame} src="frame-hollow.svg" alt="frame" className=' w-full col-start-3 col-end-6 row-start-2 row-end-4  z-20' />
 
-            <div id="screen" ref={screen} className="grid col-start-4 col-end-5 row-start-3 row-end-4  grid-areas-screen grid-cols-screenMobile lg:grid-cols-screenDesktop grid-rows-screenMobile lg:grid-rows-screenDesktop ">
+            <div id="screen" ref={screen} className="grid col-start-4 col-end-5 row-start-3 row-end-4  grid-areas-screen grid-cols-screenMobile lg:grid-cols-screenDesktop grid-rows-screenMobile lg:grid-rows-screenDesktop overflow-hidden rounded-[20px]  lg:rounded-[42px]">
+
+              <div id="overlay" ref={overlay} className="bg-black opacity-50 row-start-2 col-start-1 row-span-4 z-9" />
+
+              {/* property tab shadow and chip strokes broken in SVG, consider image or fixing .svg  or accepting it*/}
+              <img src="/property-bar.svg" alt="property-bar" id="property-bar" ref={propertyBar} className="z-12 grid-in-body self-end w-full opacity-100" />
+
+              <img src="/property.svg" alt="calendar" id="property" ref={property} className="z-11 grid-in-body self-start w-full opacity-100" />
+
+
+              <img src="/calendar.svg" alt="calendar" id="calendar" ref={calendar} className="z-10 grid-in-body self-end w-full" />
 
               <div id='markers' className='flex grid-in-body z-4 place-self-center gap-4'>
                 <Marker
@@ -406,10 +502,10 @@ export default function Home() {
           </div>
 
 
-          <div id="wrapperMapMask" ref={wrapperMapMask} className='grid col-start-4 col-end-5 row-start-1 row-end-4  overflow-hidden border-2 border-pink-500 rounded-[41px] self-start justify-center '>
+          <div id="wrapperMapMask" ref={wrapperMapMask} className='grid col-start-4 col-end-5 row-start-1 row-end-4  overflow-hidden border-2 border-pink-500 rounded-[20px] lg:rounded-[41px] self-start justify-center '>
             {/* <div id="spacer" ref={spacer} className="h-[28px]" /> */}
 
-            <div id="mapMask" ref={mapMask} className='w-[344px] h-[744px]  rounded-[41px] overflow-hidden border-2 border-fuchsia-300' >
+            <div id="mapMask" ref={mapMask} className='w-[344px] h-[744px] rounded-none lg:rounded-[41px] overflow-hidden border-2 border-fuchsia-300' >
 
               <img id='map' src="map.png" alt="map" className='object-cover  w-[1000px] h-[1000px]' />
             </div>
@@ -417,7 +513,7 @@ export default function Home() {
 
         </div>
 
-        <div id="rightTextCol" ref={rightTextCol} className=' grid-in-right col-end-left flex flex-col gap-96 pt-[500px] z-10 w-fit justify-self-center lg:justify-self-end'>
+        <div id="rightTextCol" ref={rightTextCol} className=' grid-in-right col-end-left flex flex-col gap-[500px] lg:gap-96 pt-[500px] z-10 w-fit justify-self-center lg:justify-self-end'>
           <div id='rightTextDataIntegrity' className='bg-white lg:justify-self-end self-center lg:bg-transparent shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit mr-[16px] lg:mr-[59px] rounded-[8px]  flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
 
             <div className="hidden lg:block h-[500px] w-10" />
@@ -441,13 +537,13 @@ export default function Home() {
 
           </div>
 
-          <div id='personalizedPage' className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
+          <div id='rightTextPersonalizedPage' className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
 
             <div className="hidden lg:block h-[500px] w-10" />
 
             <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Property</div>
 
-            <h1 ref={personalizedPage} className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'><span className='text-resider-blue-primary '>Personalized</span> page</h1>
+            <h1 ref={rightTextPersonalizedPage} className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'><span className='text-resider-blue-primary '>Personalized</span> page</h1>
 
             <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>With a beautiful display of your property,
               we highlight key aspects including
