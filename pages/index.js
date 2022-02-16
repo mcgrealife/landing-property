@@ -143,6 +143,7 @@ export default function Home() {
       scrollTrigger: {
         trigger: phone.current,
         start: 'top 20%',
+        end: "+=100%",
         pin: true,
         markers: true,
         toggleActions: "play reverse reverse reverse"
@@ -255,9 +256,9 @@ export default function Home() {
         scrub: true,
       }
     })
-      .from(leftText.current, {
-        opacity: 0,
-      })
+    // .from(leftText.current, {
+    //   opacity: 0,
+    // })
 
 
 
@@ -269,28 +270,37 @@ export default function Home() {
 
       }
     })
-      .from(leftText.current, {
-        opacity: 0,
-      })
+
 
     let phoneHeight = phone.current.getBoundingClientRect().height
 
-    gsap.to(leftText.current, {
-      opacity: '100',
-      y: () => leftText.current.getBoundingClientRect().x / window.innerHeight,
-      // ease: 'none',
+
+
+
+    gsap.timeline({
       scrollTrigger: {
         trigger: phone.current,
         start: 'top 20%',
-        end: phoneHeight,
-        onUpdate: console.log(window.innerHeight / 2)
+        end: "+=100%",
+        invalidateOnRefresh: true,
+        scrub: true
       },
-      onUpdate: console.log(leftText.current.getBoundingClientRect().x)
     })
+      .to(leftText.current, {
+        y: () => (window.innerHeight),
+        ease: 'none',
+      })
+
 
 
 
   }, [])
+
+
+
+
+
+
 
   return (
 
@@ -341,9 +351,11 @@ export default function Home() {
 
       <div ref={main} id='main' className='grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop'>
 
-        <h1 id='leftText' ref={leftText} className="hidden lg:block text-[82px] font-[600] text-[rgba(60,64,67,1)] grid-in-left self-start place-self-center">
-          Platform
-        </h1>
+        <div id="leftTextWrapper" className='grid grid-in-left self-start h-screen'>
+          <h1 id='leftText' ref={leftText} className="hidden lg:block text-[82px] font-[600] text-[rgba(60,64,67,1)] h-[500px] place-self-center will-change-transform">
+            Platform
+          </h1>
+        </div>
 
         {/* reduce complexity of grid-areas by scaling svgs (then only need to define mobile?)  */}
 
