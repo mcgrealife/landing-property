@@ -57,6 +57,7 @@ export default function Home() {
   const mapMask = useRef()
   const wrapperMapMask = useRef()
   const frameMask = useRef()
+  const frame = useRef()
   const screen = useRef()
   const carousel = useRef()
   const headerSubText = useRef()
@@ -137,46 +138,7 @@ export default function Home() {
 
 
 
-    let tlMainDesktop = gsap.timeline({
-      scrollTrigger: {
-        trigger: phone.current,
-        start: 'top 15%',
-        end: rightTextCol.current.getBoundingClientRect().height, // 100%
-        onEnter: scrollToMain,
-        onLeaveBack: scrollToTop,
-        // probably onEnterBack function reverseIntro with smoother easing
-        pin: true,
-        // markers: true,
-        toggleActions: "play reverse reverse reverse"
-      }
-    })
-      .fromTo(mapMask.current, {
-        y: '-=0px',
-        height: '525px',
-        width: '525px',
-        borderRadius: '769.01'
-      }, {
-        height: '844px',
-        width: '525px',
-      }, 0)
-      .from(wrapperMapMask.current, {
-        width: '525px',
-        borderRadius: '0'
-      }, 0)
-      .from(frameMask.current, {
-        height: '525px'
-      }, 0)
-      .to(wrapperMapMask.current, {
-        width: '345px',
-        height: '787px',
-        ease: "power2",
-      }, '<75%')
-      // .from(spacer.current, {
-      //   height: '0'
-      // })
-      .fromTo(leftText.current, {
-        opacity: 0
-      }, { opacity: 100, duration: 1 }, '<50%') // duration 50 fades but causes background calculations for 50 seconds
+
 
 
 
@@ -184,7 +146,51 @@ export default function Home() {
 
 
     ScrollTrigger.matchMedia({
+
+      // Desktop
       "(min-width: 800px)": function () {
+
+        let tlMainDesktop = gsap.timeline({
+          scrollTrigger: {
+            trigger: phone.current,
+            start: 'top 15%',
+            end: rightTextCol.current.getBoundingClientRect().height, // 100%
+            onEnter: scrollToMain,
+            onLeaveBack: scrollToTop,
+            // probably onEnterBack function reverseIntro with smoother easing
+            pin: true,
+            // markers: true,
+            toggleActions: "play reverse reverse reverse"
+          }
+        })
+          .fromTo(mapMask.current, {
+            y: '-=0px',
+            height: '525px',
+            width: '525px',
+            borderRadius: '769.01'
+          }, {
+            height: '844px',
+            width: '525px',
+          }, 0)
+          .from(wrapperMapMask.current, {
+            width: '525px',
+            borderRadius: '0'
+          }, 0)
+          .from(frameMask.current, {
+            width: '525px',
+            height: '525px'
+          }, 0)
+          .to(wrapperMapMask.current, {
+            width: '345px',
+            height: '787px',
+            ease: "power2",
+          }, '<75%')
+          // .from(spacer.current, {
+          //   height: '0'
+          // })
+          .fromTo(leftText.current, {
+            opacity: 0
+          }, { opacity: 100, duration: 1 }, '<50%') // duration 50 fades but causes background calculations for 50 seconds
 
         gsap.to(cards.current, {
           scrollTrigger: {
@@ -200,7 +206,67 @@ export default function Home() {
           ease: "power1.inOut",
         })
       },
+
+      // Mobile
       "(max-width: 799px)": function () {
+
+        let tlMainMobile = gsap.timeline({
+          scrollTrigger: {
+            trigger: phone.current,
+            start: 'top 15%',
+            end: rightTextCol.current.getBoundingClientRect().height, // 100%
+            onEnter: scrollToMain,
+            onLeaveBack: scrollToTop,
+            // probably onEnterBack function reverseIntro with smoother easing
+            pin: true,
+            // markers: true,
+            toggleActions: "play reverse reverse reverse"
+          }
+        })
+          .fromTo(mapMask.current, {
+            y: '-=0px',
+            height: '303px',
+            width: '303px',
+            borderRadius: '769.01'
+          }, {
+            height: '623px',
+            width: '303px',
+          }, 0)
+
+
+          .from(frame.current, {
+            width: '212px'
+          }, 0)
+          .from(screen.current, {
+            width: '197px'
+          }, 0)
+
+
+          .from(wrapperMapMask.current, {
+            width: '303px',
+            borderRadius: '0'
+          }, 0)
+          .fromTo(frameMask.current, {
+            width: '303px',
+            height: '303px'
+          }, {
+            width: '',
+            height: '645px',
+          }, 0)
+          .to(wrapperMapMask.current, {
+            width: '254px',
+            height: '589px',
+            ease: "power2",
+          }, '<75%')
+          // .from(spacer.current, {
+          //   height: '0'
+          // })
+          .fromTo(leftText.current, {
+            opacity: 0
+          }, { opacity: 100, duration: 1 }, '<50%') // duration 50 fades but causes background calculations for 50 seconds
+
+
+
         gsap.timeline({
           scrollTrigger: {
             trigger: rightTextDataIntegrity.current,
@@ -282,7 +348,7 @@ export default function Home() {
 
         {/* reduce complexity of grid-areas by scaling svgs (then only need to define mobile?)  */}
 
-        <div id="phone" ref={phone} className='grid  grid-in-left col-span-2 grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-fit justify-start lg:justify-center frame-shadow border-none border-purple-500 justify-items-center overflow-visible'>
+        <div id="phone" ref={phone} className='grid  grid-in-left col-span-2 grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-fit  justify-start lg:justify-center frame-shadow border-2 border-purple-500 justify-items-center overflow-visible'>
 
 
           <h1 id='leftText' ref={leftText} className="hidden lg:grid col-start-1 col-end-3 row-start-3 text-[72px] font-[600] text-[rgba(60,64,67,1)]  place-self-center justify-center min-w-[550px] frame-shadow-none">
@@ -291,9 +357,9 @@ export default function Home() {
 
 
 
-          <div id="frameMask" ref={frameMask} className=" grid grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop rounded-br-[769.01px] rounded-bl-[769.01px] row-start-1 row-end-6 col-start-2 col-end-7 border-none border-green-500  overflow-hidden justify-center">
+          <div id="frameMask" ref={frameMask} className=" grid grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop rounded-br-[769.01px] rounded-bl-[769.01px] row-start-1 row-end-6 col-start-2 col-end-7 border-2 border-green-500  overflow-hidden justify-items-center justify-center">
 
-            <img id='frame' src="frame-hollow.svg" alt="frame" className=' w-full col-start-3 col-end-6 row-start-2 row-end-4  z-20' />
+            <img id='frame' ref={frame} src="frame-hollow.svg" alt="frame" className=' w-full col-start-3 col-end-6 row-start-2 row-end-4  z-20' />
 
             <div id="screen" ref={screen} className="grid col-start-4 col-end-5 row-start-3 row-end-4  grid-areas-screen grid-cols-screenMobile lg:grid-cols-screenDesktop grid-rows-screenMobile lg:grid-rows-screenDesktop ">
 
@@ -340,10 +406,10 @@ export default function Home() {
           </div>
 
 
-          <div id="wrapperMapMask" ref={wrapperMapMask} className='grid col-start-4 col-end-5 row-start-1 row-end-4  overflow-hidden border-none border-pink-500 rounded-[41px] self-start justify-center '>
+          <div id="wrapperMapMask" ref={wrapperMapMask} className='grid col-start-4 col-end-5 row-start-1 row-end-4  overflow-hidden border-2 border-pink-500 rounded-[41px] self-start justify-center '>
             {/* <div id="spacer" ref={spacer} className="h-[28px]" /> */}
 
-            <div id="mapMask" ref={mapMask} className='w-[344px] h-[744px]  rounded-[41px] overflow-hidden border-none border-fuchsia-300' >
+            <div id="mapMask" ref={mapMask} className='w-[344px] h-[744px]  rounded-[41px] overflow-hidden border-2 border-fuchsia-300' >
 
               <img id='map' src="map.png" alt="map" className='object-cover  w-[1000px] h-[1000px]' />
             </div>
