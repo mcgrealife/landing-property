@@ -27,14 +27,6 @@ export default function Home() {
     return 'Search'
   }
 
-  function leftTextFadeIn() {
-
-    gsap.to(leftText.current, {
-      opacity: 100,
-      duration: 50
-    })
-
-  }
 
 
 
@@ -56,6 +48,7 @@ export default function Home() {
   const leftText = useRef()
   const rightTextDataIntegrity = useRef()
   const rightTextMoveIn = useRef()
+  const personalizedPage = useRef()
   const rightTextCol = useRef()
   const topLogo = useRef()
   const headerShadow = useRef()
@@ -143,12 +136,14 @@ export default function Home() {
       }
     })
 
+    console.log(rightTextCol.current.getBoundingClientRect().height)
+
 
     let tlMain = gsap.timeline({
       scrollTrigger: {
         trigger: phone.current,
         start: 'top 15%',
-        end: "100%",
+        end: rightTextCol.current.getBoundingClientRect().height, // 100%
         onEnter: scrollToMain,
         onLeaveBack: scrollToTop,
         // probably onEnterBack function reverseIntro with smoother easing
@@ -202,10 +197,7 @@ export default function Home() {
         markers: true
       },
     })
-      .to(leftText.current, {
-        y: () => (window.innerHeight * 2) + 150,
-        ease: 'none',
-      }, 0)
+
 
     ScrollTrigger.matchMedia({
       "(min-width: 800px)": function () {
@@ -292,8 +284,8 @@ export default function Home() {
         </div>
 
         <div className="flex flex-row justify-end gap-[12px] col-start-2 row-start-1">
-          <button className='hidden lg:block bg-white rounded text-resider-blue-primary border border-[rgba(218,220,224,1)] align-center font-[600] text-[14px] leading-[20px] px-[20px] py-[14px] will-change-transform' onClick={scheduleDemoClick}>Contact us</button>
-          <button className='hidden lg:block bg-resider-blue-primary rounded text-white align-center font-[600] text-[14px] leading-[20px] px-[20px] py-[14px] will-change-transform' onClick={scheduleDemoClick}>Schedule Demo</button>
+
+          <button className='hidden lg:block bg-resider-blue-primary rounded text-white align-center font-[600] text-[14px] leading-[20px] px-[20px] py-[14px] will-change-transform' onClick={scheduleDemoClick}>Request A Demo</button>
           <img src='/menu_black_24dp.svg'
             alt='menu-icon'
             className='lg:hidden  w-[24px] min-w-[24px]' />
@@ -319,24 +311,24 @@ export default function Home() {
       <div id='spacer' className='h-[100px]' />
 
 
-      <div ref={main} id='main' className='grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop '>
-
-        <div id="leftTextWrapper" className='grid grid-in-left self-start h-screen'>
-          <h1 id='leftText' ref={leftText} className="hidden lg:block text-[82px] font-[600] text-[rgba(60,64,67,1)] h-[500px] place-self-center  opacity-0">
-            Search
-          </h1>
-        </div>
+      <div ref={main} id='main' className='grid grid-areas-main grid-cols-main grid-rows-main'>
 
         {/* reduce complexity of grid-areas by scaling svgs (then only need to define mobile?)  */}
 
-        <div id="phone" ref={phone} className='grid  grid-in-left lg:grid-in-middle  grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-full col-end-right lg:justify-center frame-shadow border-none border-purple-500 justify-items-center will-change-transform'>
+        <div id="phone" ref={phone} className='grid  col-start-1 col-end-2 grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-fit lg:justify-center frame-shadow border-none border-purple-500 justify-items-center will-change-transform'>
 
 
-          <div id="frameMask" ref={frameMask} className=" grid grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop rounded-br-[769.01px] rounded-bl-[769.01px] row-start-1 row-end-6 col-start-1 col-end-6 border-none border-green-500  overflow-hidden justify-center">
+          <h1 id='leftText' ref={leftText} className="hidden lg:grid col-start-1 col-end-3 row-start-3 text-[72px] font-[600] text-[rgba(60,64,67,1)]  place-self-center justify-center min-w-[535px] frame-shadow-none">
+            Search
+          </h1>
 
-            <img id='frame' src="frame-hollow.svg" alt="frame" className=' w-full row-start-2 row-end-4 col-start-2 col-end-5 z-20' />
 
-            <div id="screen" ref={screen} className="grid row-start-3 row-end-4 col-start-3 col-end-4  grid-areas-screen grid-cols-screenMobile lg:grid-cols-screenDesktop grid-rows-screenMobile lg:grid-rows-screenDesktop ">
+
+          <div id="frameMask" ref={frameMask} className=" grid grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop rounded-br-[769.01px] rounded-bl-[769.01px] row-start-1 row-end-6 col-start-2 col-end-7 border-none border-green-500  overflow-hidden justify-center">
+
+            <img id='frame' src="frame-hollow.svg" alt="frame" className=' w-full col-start-3 col-end-6 row-start-2 row-end-4  z-20' />
+
+            <div id="screen" ref={screen} className="grid col-start-4 col-end-5 row-start-3 row-end-4  grid-areas-screen grid-cols-screenMobile lg:grid-cols-screenDesktop grid-rows-screenMobile lg:grid-rows-screenDesktop ">
 
               <img src="/status-search-filter.svg" alt="status"
                 className='grid-in-status z-2 shadow-lg w-full ' />
@@ -366,7 +358,7 @@ export default function Home() {
           </div>
 
 
-          <div id="wrapperMapMask" ref={wrapperMapMask} className='grid row-start-1 row-end-4 col-start-3 col-end-4  overflow-hidden border-none border-pink-500 rounded-[41px] self-start justify-center '>
+          <div id="wrapperMapMask" ref={wrapperMapMask} className='grid col-start-4 col-end-5 row-start-1 row-end-4  overflow-hidden border-none border-pink-500 rounded-[41px] self-start justify-center '>
             {/* <div id="spacer" ref={spacer} className="h-[28px]" /> */}
 
             <div id="mapMask" ref={mapMask} className='w-[344px] h-[744px]  rounded-[41px] overflow-hidden border-none border-fuchsia-300' >
@@ -377,71 +369,10 @@ export default function Home() {
 
         </div>
 
-
-
-
-        {/* <div id='phone' ref={phone} className='grid grid-cols-[9.5px_255px_9.5px] lg:grid-cols-[13px_344.5px_12.5px] grid-rows-[8px_552.2px_8.1px] lg:grid-rows-[11px_745px_11px] ml-[24px] lg:ml-[0px] font-[gilroy] grid-in-left  lg:grid-in-middle col-end-right h-full lg:justify-center overflow-auto will-change-transform frame-shadow'>
-
-
-          <div id='markers' className='flex row-start-2 col-start-2 z-4 place-self-center gap-4'>
-            <Marker
-              text='5 units'
-              state={markerStyle}
-            />
-
-            <Marker
-              text='$3000'
-              state={markerStyle2}
-            />
-
-            <Marker
-              text='$2700'
-              state='unviewed'
-            />
-
-          </div>
-
-          <img src="/map-4x.png" alt="map" className='row-start-2 col-start-2 col-span-1 pt-[101px] z-2 rounded-xl h-full object-cover' />
-
-          <img src="/status-search-filter.svg" alt="status"
-            className='row-start-2 row-span-4 col-start-2 col-span-1 z-2 shadow-lg w-full ' />
-
-          <div className='row-start-2 col-start-2 self-end z-6 pb-[28.5px] overflow-x-scroll scrollbar-hide snap-x  pt-2'>
-
-            <div ref={cards} className='flex flex-row min-w-max gap-2 px-4 overflow-visible'>
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-              <Card />
-            </div>
-
-          </div>
-
-
-          <img src="/home.svg" alt="home" className='row-start-2 col-start-2 justify-self-center self-end pb-[5.23px] z-20 w-[91px] lg:w-[123px]' />
-
-          <img
-            src='/frame-hollow.svg'
-            className='row-start-1 row-span-3 col-start-1 col-span-3 z-5 w-full'
-          />
-        </div> */}
-
-
-
-
-        <div id="rightTextCol" ref={rightTextCol} className='grid-in-right flex flex-col gap-96 pt-[500px]'>
+        <div id="rightTextCol" ref={rightTextCol} className='col-end-3 flex flex-col gap-96 pt-[500px]'>
           <div id='rightTextDataIntegrity' className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
 
             <div className="hidden lg:block h-[500px] w-10" />
-
             <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Platform</div>
 
             <h1 ref={rightTextDataIntegrity} className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'>Data <span className='text-resider-blue-primary '>integrity</span></h1>
@@ -449,8 +380,6 @@ export default function Home() {
             <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>Resider solely consists of rental properties syndicated through data API’s. With up to date and accurate listings, your clients can browse with confidence.</p>
 
           </div>
-
-
 
           <div id='rightTextMoveIn' className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
 
@@ -463,12 +392,49 @@ export default function Home() {
             <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>Qualified leads are our emphasis. Allowing users to narrow down exact availability by their move in date is the first step.</p>
 
           </div>
+
+          <div id='personalizedPage' className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
+
+            <div className="hidden lg:block h-[500px] w-10" />
+
+            <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Property</div>
+
+            <h1 ref={personalizedPage} className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'><span className='text-resider-blue-primary '>Personalized</span> page</h1>
+
+            <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>With a beautiful display of your property,
+              we highlight key aspects including
+              parking, pet and utility info.</p>
+
+          </div>
+
+
+
+          <div id="spacer3" className='h-[1000px]' />
         </div>
 
+
+        {/* 
+          <div id='markers' className='flex row-start-2 col-start-2 z-4 place-self-center gap-4'>
+            <Marker
+              text='5 units'
+              state={markerStyle}
+            />
+            <Marker
+              text='$3000'
+              state={markerStyle2}
+            />
+            <Marker
+              text='$2700'
+              state='unviewed'
+            />
+          </div>
+        </div> */}
 
 
 
       </div>
+
+      <div id="spacerBottom" className='h-screen' />
 
     </div>
 

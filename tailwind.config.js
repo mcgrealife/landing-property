@@ -9,21 +9,17 @@ module.exports = {
     // make gilroy first font in family (not override it in index)
 
     gridTemplateAreas: {
-      'desktop': [
+      'main': [
         // 'header header header',
-        'left middle right'
-      ],
-      'mobile': [
-        // 'header header',
         'left right'
       ],
 
       'phone': [
-        'wrapper wrapper wrapper wrapper wrapper',
-        'wrapper frame frame frame wrapper',
-        'wrapper frame screen frame wrapper',
-        'wrapper frame frame frame wrapper',
-        'wrapper wrapper wrapper wrapper wrapper',
+        'leftText wrapper wrapper wrapper wrapper wrapper',
+        'leftText wrapper frame frame frame wrapper',
+        'leftText wrapper frame screen frame wrapper',
+        'leftText wrapper frame frame frame wrapper',
+        'leftText wrapper wrapper wrapper wrapper wrapper',
       ],
       'screen': [
         'status',
@@ -31,16 +27,14 @@ module.exports = {
       ]
     },
     gridTemplateColumns: {
-      'desktop': '1fr min-content 1fr',
-      'mobile': '1fr, 1fr',
-      'phoneMobile': '45.5px 9.5px 255px 9.5px 45.5px',
-      'phoneDesktop': '78px 13px 344px 13px 78px',
+      'main': '1fr, 1fr',
+      'phoneMobile': '1fr 45.5px 9.5px 255px 9.5px 45.5px',
+      'phoneDesktop': '1fr 78px 13px 344px 13px 78px',
       'screenMobile': 'auto',
       'screenDesktop': 'auto'
     },
     gridTemplateRows: {
-      'desktop': 'auto',
-      'mobile': 'auto',
+      'main': 'auto',
       'phoneMobile': '28px 8px 552px 8px 49px',
       'phoneDesktop': '28px 11px 745px 11px 49px',
       'screenMobile': '30px 522.5px',
@@ -51,7 +45,7 @@ module.exports = {
         'card': '0_0.654028px_3.92417px_rgba(60,64,67,0.24)',
       },
       dropShadow: {
-        'frame': 'drop-shadow(0_15.1865px_12.1492px_rgba(0,0,0,0.0655718);drop-shadow(0_8.51341px_6.81073px_rgba(0,0,0,0.055));drop-shadow(0_4.52141px_3.61713px_rgba(0,0,0,0.0444282));drop-shadow(0_1.88146px_1.50517px_rgba(0,0,0,0.030926))'
+        'frame': 'drop-shadow(0_15.1865px_12.1492px_rgba(0,0,0,0.0655718);drop-shadow(0_8.51341px_6.81073px_rgba(0,0,0,0.055));drop-shadow(0_4.52141px_3.61713px_rgba(0,0,0,0.0444282));drop-shadow(0_1.88146px_1.50517px_rgba(0,0,0,0.030926))',
       },
 
       zIndex: {
@@ -82,7 +76,9 @@ module.exports = {
     plugin(function ({ addUtilities }) {
       addUtilities({
         '.frame-shadow':
-          { 'filter': 'drop-shadow(0px 22.3363px 17.869px rgba(0, 0, 0, 0.0655718)) drop-shadow(0px 12.5216px 10.0172px rgba(0, 0, 0, 0.055)) drop-shadow(0px 6.6501px 5.32008px rgba(0, 0, 0, 0.0444282)) drop-shadow(0px 2.76726px 2.21381px rgba(0, 0, 0, 0.030926));' }
+          { 'filter': 'drop-shadow(0px 22.3363px 17.869px rgba(0, 0, 0, 0.0655718)) drop-shadow(0px 12.5216px 10.0172px rgba(0, 0, 0, 0.055)) drop-shadow(0px 6.6501px 5.32008px rgba(0, 0, 0, 0.0444282)) drop-shadow(0px 2.76726px 2.21381px rgba(0, 0, 0, 0.030926));' },
+        '.frame-shadow-none':
+          { 'filter': 'drop-shadow(0 0 0 white);' }
       }
       )
     }),
