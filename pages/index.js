@@ -5,15 +5,14 @@ import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger"
-import { ScrollToPlugin } from "gsap/ScrollToPlugin"
+import { ScrollToPlugin } from "gsap/dist/ScrollToPlugin"
 import logo from '../public/resider-logo.png'
 
 
 export default function Home() {
 
 
-  gsap.registerPlugin(ScrollTrigger)
-  gsap.registerPlugin(ScrollToPlugin)
+  gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
 
   function scheduleDemoClick() {
     return alert('💰 $50 showing, $1000 max. 50% per lease. 💰 ')
@@ -51,6 +50,7 @@ export default function Home() {
   const rightTextCol = useRef()
   const topLogo = useRef()
   const headerShadow = useRef()
+  const section1 = useRef()
   const main = useRef()
   const mapMask = useRef()
   const wrapperMapMask = useRef()
@@ -87,15 +87,67 @@ export default function Home() {
 
 
 
+    function scrollToMain() {
+      gsap.timeline()
+        .to(window, { duration: 1, scrollTo: { y: main.current, offsetY: 100, autoKill: true }, ease: "power3" })
+    }
+
+    function scrollToTop() {
+      gsap.timeline()
+        .to(window, { duration: 1, scrollTo: { y: 0, autoKill: true }, ease: "power3" })
+    }
+
+    function reverseIntro() {
+      // do I need to kill the previous timeline so it's not pinned? (if so put other timeline in variable, then variable.kill() a the of of this function )
+      gsap.timeline()
+        .fromTo(mapMask.current, {
+          y: '-=0px',
+          height: '525px',
+          width: '525px',
+          borderRadius: '769.01'
+        }, {
+          height: '844px',
+          width: '525px',
+        }, 0)
+        .from(wrapperMapMask.current, {
+          width: '525px',
+          borderRadius: '0'
+        }, 0)
+        .from(frameMask.current, {
+          height: '525px'
+        }, 0)
+        .to(wrapperMapMask.current, {
+          width: '345px',
+          height: '787px',
+          ease: "power2",
+        }, '<75%')
+        .from(spacer.current, {
+          height: '0'
+        })
+
+    }
 
 
     gsap.timeline({
       scrollTrigger: {
         trigger: phone.current,
+        start: 'top 30%',
+        onEnter: scrollToMain,
+        onLeaveBack: scrollToTop,
+      }
+    })
+
+
+
+    let tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: phone.current,
         start: 'top 20%',
-        // toggleActions: 'play pause reverse pause',
         pin: true,
         markers: true,
+        toggleActions: "play reverse reverse reverse"
+        // probably onEnterBack function reverseIntro with smoother easing
+
       }
     })
       .fromTo(mapMask.current, {
@@ -106,7 +158,7 @@ export default function Home() {
       }, {
         height: '844px',
         width: '525px',
-      })
+      }, 0)
       .from(wrapperMapMask.current, {
         width: '525px',
         borderRadius: '0'
@@ -117,10 +169,14 @@ export default function Home() {
       .to(wrapperMapMask.current, {
         width: '345px',
         height: '787px',
+        ease: "power2",
       }, '<75%')
       .from(spacer.current, {
         height: '0'
       })
+    // .to(leftText.current, {
+    //   y: () => window.innerHeight / 2
+    // }, 0)
 
 
 
@@ -194,14 +250,44 @@ export default function Home() {
     gsap.timeline({
       scrollTrigger: {
         trigger: rightTextDataIntegrity.current,
-        start: 'top bottom',
-        end: "+=50px",
+        start: 'top 60%',
+        // end: "+=50px",
         scrub: true,
       }
     })
       .from(leftText.current, {
-        opacity: 0
+        opacity: 0,
       })
+
+
+
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: rightTextDataIntegrity.current,
+        start: 'top 60%',
+        end: '1px',
+
+      }
+    })
+      .from(leftText.current, {
+        opacity: 0,
+      })
+
+    let phoneHeight = phone.current.getBoundingClientRect().height
+
+    gsap.to(leftText.current, {
+      opacity: '100',
+      y: () => leftText.current.getBoundingClientRect().x / window.innerHeight,
+      // ease: 'none',
+      scrollTrigger: {
+        trigger: phone.current,
+        start: 'top 20%',
+        end: phoneHeight,
+        onUpdate: console.log(window.innerHeight / 2)
+      },
+      onUpdate: console.log(leftText.current.getBoundingClientRect().x)
+    })
+
 
 
   }, [])
@@ -237,7 +323,7 @@ export default function Home() {
 
       <div ref={headerShadow} className='shadow-[0_2px_4px_rgba(60,64,67,0.1)] w-full grid h-[78px] fixed top-0 z-10 opacity-0' />
 
-      <div id='section-1' className='flex flex-col place-items-center text-center'>
+      <div id='section-1' ref={section1} className='flex flex-col place-items-center text-center'>
 
         <img src="/logo-square.svg" alt="logo-square" className='h-[36px] lg:h-[52px] mt-[12px]' />
 
@@ -252,17 +338,19 @@ export default function Home() {
 
       <div id='spacer' className='h-[100px]' />
 
+
       <div ref={main} id='main' className='grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop'>
 
-        <h1 id='leftText' ref={leftText} className="hidden lg:block text-[82px] font-[600] text-[rgba(60,64,67,1)] grid-in-left self-center place-self-center">
+        <h1 id='leftText' ref={leftText} className="hidden lg:block text-[82px] font-[600] text-[rgba(60,64,67,1)] grid-in-left self-start place-self-center">
           Platform
         </h1>
 
         {/* reduce complexity of grid-areas by scaling svgs (then only need to define mobile?)  */}
 
-        <div id="phone" ref={phone} className='grid  grid-in-left lg:grid-in-middle  grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-full col-end-right lg:justify-center frame-shadow border-2 border-purple-500 justify-items-center'>
+        <div id="phone" ref={phone} className='grid  grid-in-left lg:grid-in-middle  grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-full col-end-right lg:justify-center frame-shadow border-none border-purple-500 justify-items-center'>
 
-          <div id="frameMask" ref={frameMask} className=" grid grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop rounded-br-[769.01px] rounded-bl-[769.01px] row-start-1 row-end-6 col-start-1 col-end-6 border-2 border-green-500  overflow-hidden justify-center">
+
+          <div id="frameMask" ref={frameMask} className=" grid grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop rounded-br-[769.01px] rounded-bl-[769.01px] row-start-1 row-end-6 col-start-1 col-end-6 border-none border-green-500  overflow-hidden justify-center">
 
             <img id='frame' src="frame-hollow.svg" alt="frame" className=' w-full row-start-2 row-end-4 col-start-2 col-end-5 z-20' />
 
@@ -296,10 +384,10 @@ export default function Home() {
           </div>
 
 
-          <div id="wrapperMapMask" ref={wrapperMapMask} className='grid row-start-1 row-end-4 col-start-3 col-end-4  overflow-hidden border-2 border-pink-500 rounded-[41px] self-start justify-center '>
+          <div id="wrapperMapMask" ref={wrapperMapMask} className='grid row-start-1 row-end-4 col-start-3 col-end-4  overflow-hidden border-none border-pink-500 rounded-[41px] self-start justify-center '>
             {/* <div id="spacer" ref={spacer} className="h-[28px]" /> */}
 
-            <div id="mapMask" ref={mapMask} className='w-[344px] h-[744px]  rounded-[41px] overflow-hidden border-2 border-fuchsia-300' >
+            <div id="mapMask" ref={mapMask} className='w-[344px] h-[744px]  rounded-[41px] overflow-hidden border-none border-fuchsia-300' >
 
               <img id='map' src="map.png" alt="map" className='object-cover  w-[1000px] h-[1000px]' />
             </div>
