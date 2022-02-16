@@ -15,9 +15,9 @@ export default function Home() {
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
 
   function scheduleDemoClick() {
-    return alert('💰 $50 showing, $1000 max. 50% per lease. 💰 ')
+    // return alert('💰 $100 showing, $1000 max. 50% per lease. 💰 ')
+    console.log(ScrollTrigger.getAll())
   }
-
 
   function updateLeftTextFilter() {
     return 'Filter'
@@ -25,6 +25,15 @@ export default function Home() {
 
   function updateLeftTextSearch() {
     return 'Search'
+  }
+
+  function leftTextFadeIn() {
+
+    gsap.to(leftText.current, {
+      opacity: 100,
+      duration: 50
+    })
+
   }
 
 
@@ -91,6 +100,7 @@ export default function Home() {
         .to(window, { duration: 1, scrollTo: { y: 0, autoKill: true }, ease: "power3" })
     }
 
+    // use scrollDir conditional    
     function reverseIntro() {
       // do I need to kill the previous timeline so it's not pinned? (if so put other timeline in variable, then variable.kill() a the of of this function )
       gsap.timeline()
@@ -119,30 +129,32 @@ export default function Home() {
           height: '0'
         })
 
+
     }
 
 
-    gsap.timeline({
+    gsap.to(headerShadow.current, {
+      opacity: 100,
       scrollTrigger: {
-        trigger: phone.current,
-        start: 'top 30%',
-        onEnter: scrollToMain,
-        onLeaveBack: scrollToTop,
+        trigger: topLogo.current,
+        end: "+=300",
+        toggleActions: 'play reverse play reverse',
+        scrub: true
       }
     })
 
 
-
-    let tl = gsap.timeline({
+    let tlMain = gsap.timeline({
       scrollTrigger: {
         trigger: phone.current,
-        start: 'top 20%',
-        end: "+=100%",
-        pin: true,
-        markers: true,
-        toggleActions: "play reverse reverse reverse"
+        start: 'top 15%',
+        end: "100%",
+        onEnter: scrollToMain,
+        onLeaveBack: scrollToTop,
         // probably onEnterBack function reverseIntro with smoother easing
-
+        pin: true,
+        // markers: true,
+        toggleActions: "play reverse reverse reverse"
       }
     })
       .fromTo(mapMask.current, {
@@ -166,21 +178,34 @@ export default function Home() {
         height: '787px',
         ease: "power2",
       }, '<75%')
-      .from(spacer.current, {
-        height: '0'
-      })
+      // .from(spacer.current, {
+      //   height: '0'
+      // })
+      .fromTo(leftText.current, {
+        opacity: 0
+      }, { opacity: 100, duration: 50 }, '<50%')
 
 
-    gsap.to(headerShadow.current, {
-      opacity: 100,
+    let phoneHeight = phone.current.getBoundingClientRect().height
+
+    console.log(phoneHeight)
+
+
+    // IF this remains glitchy, change the markup to make it inside of phone container (so change grids too)
+    gsap.timeline({
       scrollTrigger: {
-        trigger: topLogo.current,
-        end: "+=300",
-        toggleActions: 'play reverse play reverse',
-        scrub: true
-      }
+        trigger: phone.current,
+        start: 'top 15%',
+        end: "+=2360.885498046875", // try to end based on the phone.current bottom  "+=100%"
+        invalidateOnRefresh: true,
+        scrub: true,
+        markers: true
+      },
     })
-
+      .to(leftText.current, {
+        y: () => (window.innerHeight * 2) + 150,
+        ease: 'none',
+      }, 0)
 
     ScrollTrigger.matchMedia({
       "(min-width: 800px)": function () {
@@ -188,7 +213,7 @@ export default function Home() {
         gsap.to(cards.current, {
           scrollTrigger: {
             trigger: rightTextDataIntegrity.current,
-            start: 'top center',
+            start: 'top 80%',
             end: '+=1',
             scrub: 2,
             ease: "power1.inOut",
@@ -229,8 +254,6 @@ export default function Home() {
     })
 
 
-
-
     gsap.timeline({
       scrollTrigger: {
         trigger: rightTextDataIntegrity.current,
@@ -241,28 +264,10 @@ export default function Home() {
     })
 
 
-    let phoneHeight = phone.current.getBoundingClientRect().height
-
-    gsap.timeline({
-      scrollTrigger: {
-        trigger: phone.current,
-        start: 'top 20%',
-        end: "+=100%", // try to end based on the phone.current bottom
-        invalidateOnRefresh: true,
-        scrub: true
-      },
-    })
-      .to(leftText.current, {
-        y: () => (window.innerHeight),
-        ease: 'none',
-      })
 
 
 
   }, [])
-
-
-
 
 
 
@@ -314,17 +319,17 @@ export default function Home() {
       <div id='spacer' className='h-[100px]' />
 
 
-      <div ref={main} id='main' className='grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop'>
+      <div ref={main} id='main' className='grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop '>
 
         <div id="leftTextWrapper" className='grid grid-in-left self-start h-screen'>
-          <h1 id='leftText' ref={leftText} className="hidden lg:block text-[82px] font-[600] text-[rgba(60,64,67,1)] h-[500px] place-self-center will-change-transform">
-            Platform
+          <h1 id='leftText' ref={leftText} className="hidden lg:block text-[82px] font-[600] text-[rgba(60,64,67,1)] h-[500px] place-self-center  opacity-0">
+            Search
           </h1>
         </div>
 
         {/* reduce complexity of grid-areas by scaling svgs (then only need to define mobile?)  */}
 
-        <div id="phone" ref={phone} className='grid  grid-in-left lg:grid-in-middle  grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-full col-end-right lg:justify-center frame-shadow border-none border-purple-500 justify-items-center'>
+        <div id="phone" ref={phone} className='grid  grid-in-left lg:grid-in-middle  grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-full col-end-right lg:justify-center frame-shadow border-none border-purple-500 justify-items-center will-change-transform'>
 
 
           <div id="frameMask" ref={frameMask} className=" grid grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop rounded-br-[769.01px] rounded-bl-[769.01px] row-start-1 row-end-6 col-start-1 col-end-6 border-none border-green-500  overflow-hidden justify-center">
@@ -432,7 +437,7 @@ export default function Home() {
 
 
 
-        <div id="rightTextCol" ref={rightTextCol} className='grid-in-right flex flex-col gap-96'>
+        <div id="rightTextCol" ref={rightTextCol} className='grid-in-right flex flex-col gap-96 pt-[500px]'>
           <div id='rightTextDataIntegrity' className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
 
             <div className="hidden lg:block h-[500px] w-10" />
