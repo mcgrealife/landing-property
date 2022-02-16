@@ -178,7 +178,7 @@ export default function Home() {
       // })
       .fromTo(leftText.current, {
         opacity: 0
-      }, { opacity: 100, duration: 50 }, '<50%')
+      }, { opacity: 100, duration: 1 }, '<50%') // duration 50 fades but causes background calculations for 50 seconds
 
 
     let phoneHeight = phone.current.getBoundingClientRect().height
@@ -315,10 +315,10 @@ export default function Home() {
 
         {/* reduce complexity of grid-areas by scaling svgs (then only need to define mobile?)  */}
 
-        <div id="phone" ref={phone} className='grid  col-start-1 col-end-2 grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-fit lg:justify-center frame-shadow border-none border-purple-500 justify-items-center will-change-transform'>
+        <div id="phone" ref={phone} className='grid  grid-in-left col-end-right grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-fit lg:justify-center frame-shadow border-none border-purple-500 justify-items-center will-change-transform'>
 
 
-          <h1 id='leftText' ref={leftText} className="hidden lg:grid col-start-1 col-end-3 row-start-3 text-[72px] font-[600] text-[rgba(60,64,67,1)]  place-self-center justify-center min-w-[535px] frame-shadow-none">
+          <h1 id='leftText' ref={leftText} className="hidden lg:grid col-start-1 col-end-3 row-start-3 text-[72px] font-[600] text-[rgba(60,64,67,1)]  place-self-center justify-center min-w-[550px] frame-shadow-none">
             Search
           </h1>
 
@@ -369,8 +369,8 @@ export default function Home() {
 
         </div>
 
-        <div id="rightTextCol" ref={rightTextCol} className='col-end-3 flex flex-col gap-96 pt-[500px]'>
-          <div id='rightTextDataIntegrity' className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
+        <div id="rightTextCol" ref={rightTextCol} className='grid-in-right col-end-left  flex flex-col gap-96 pt-[500px]'>
+          <div id='rightTextDataIntegrity' className='lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
 
             <div className="hidden lg:block h-[500px] w-10" />
             <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Platform</div>
