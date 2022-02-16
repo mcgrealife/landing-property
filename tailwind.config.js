@@ -58,6 +58,7 @@ module.exports = {
         '7': '7',
         '8': '8',
         '9': '9',
+        '20': '20'
       },
       colors: {
         'resider': {

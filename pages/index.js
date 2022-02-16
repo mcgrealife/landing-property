@@ -64,21 +64,20 @@ export default function Home() {
 
 
 
-  // const [markerStyle, setMarkerStyle] = useState('selected')
-  // const [markerStyle2, setMarkerStyle2] = useState('unviewed')
-  // const update = () => {
-  //   setTimeout(() => {
-  //     setMarkerStyle('viewed')
-  //     setMarkerStyle2('selected')
-  //   }, 500)
-  // }
-
-  // const reverseUpdate = () => {
-  //   setTimeout(() => {
-  //     setMarkerStyle('selected')
-  //     setMarkerStyle2('viewed')
-  //   }, 500)
-  // }
+  const [markerStyle, setMarkerStyle] = useState('selected')
+  const [markerStyle2, setMarkerStyle2] = useState('unviewed')
+  const update = () => {
+    setTimeout(() => {
+      setMarkerStyle('viewed')
+      setMarkerStyle2('selected')
+    }, 500)
+  }
+  const reverseUpdate = () => {
+    setTimeout(() => {
+      setMarkerStyle('selected')
+      setMarkerStyle2('viewed')
+    }, 500)
+  }
 
   useEffect(() => {
 
@@ -136,10 +135,9 @@ export default function Home() {
       }
     })
 
-    console.log(rightTextCol.current.getBoundingClientRect().height)
 
 
-    let tlMain = gsap.timeline({
+    let tlMainDesktop = gsap.timeline({
       scrollTrigger: {
         trigger: phone.current,
         start: 'top 15%',
@@ -181,22 +179,8 @@ export default function Home() {
       }, { opacity: 100, duration: 1 }, '<50%') // duration 50 fades but causes background calculations for 50 seconds
 
 
-    let phoneHeight = phone.current.getBoundingClientRect().height
-
-    console.log(phoneHeight)
 
 
-    // IF this remains glitchy, change the markup to make it inside of phone container (so change grids too)
-    gsap.timeline({
-      scrollTrigger: {
-        trigger: phone.current,
-        start: 'top 15%',
-        end: "+=2360.885498046875", // try to end based on the phone.current bottom  "+=100%"
-        invalidateOnRefresh: true,
-        scrub: true,
-        markers: true
-      },
-    })
 
 
     ScrollTrigger.matchMedia({
@@ -209,8 +193,8 @@ export default function Home() {
             end: '+=1',
             scrub: 2,
             ease: "power1.inOut",
-            // onEnter: update,
-            // onEnterBack: reverseUpdate,
+            onEnter: update,
+            onEnterBack: reverseUpdate,
           },
           x: '-312',
           ease: "power1.inOut",
@@ -224,8 +208,8 @@ export default function Home() {
             end: '+=1',
             ease: "power1.inOut",
             scrub: 2,
-            // onEnter: update,
-            // onEnterBack: reverseUpdate
+            onEnter: update,
+            onEnterBack: reverseUpdate
           }
         })
           .to(cards.current, {
@@ -236,24 +220,7 @@ export default function Home() {
     })
 
 
-    gsap.timeline({
-      scrollTrigger: {
-        trigger: rightTextDataIntegrity.current,
-        start: 'top 60%',
-        // end: "+=50px",
-        scrub: true,
-      }
-    })
 
-
-    gsap.timeline({
-      scrollTrigger: {
-        trigger: rightTextDataIntegrity.current,
-        start: 'top 60%',
-        end: '1px',
-
-      }
-    })
 
 
 
@@ -315,7 +282,7 @@ export default function Home() {
 
         {/* reduce complexity of grid-areas by scaling svgs (then only need to define mobile?)  */}
 
-        <div id="phone" ref={phone} className='grid  grid-in-left col-end-right grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-fit lg:justify-center frame-shadow border-none border-purple-500 justify-items-center will-change-transform'>
+        <div id="phone" ref={phone} className='grid  grid-in-left col-span-2 grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-fit justify-start lg:justify-center frame-shadow border-none border-purple-500 justify-items-center overflow-visible'>
 
 
           <h1 id='leftText' ref={leftText} className="hidden lg:grid col-start-1 col-end-3 row-start-3 text-[72px] font-[600] text-[rgba(60,64,67,1)]  place-self-center justify-center min-w-[550px] frame-shadow-none">
@@ -329,6 +296,21 @@ export default function Home() {
             <img id='frame' src="frame-hollow.svg" alt="frame" className=' w-full col-start-3 col-end-6 row-start-2 row-end-4  z-20' />
 
             <div id="screen" ref={screen} className="grid col-start-4 col-end-5 row-start-3 row-end-4  grid-areas-screen grid-cols-screenMobile lg:grid-cols-screenDesktop grid-rows-screenMobile lg:grid-rows-screenDesktop ">
+
+              <div id='markers' className='flex grid-in-body z-4 place-self-center gap-4'>
+                <Marker
+                  text='5 units'
+                  state={markerStyle}
+                />
+                <Marker
+                  text='$3000'
+                  state={markerStyle2}
+                />
+                <Marker
+                  text='$2700'
+                  state='unviewed'
+                />
+              </div>
 
               <img src="/status-search-filter.svg" alt="status"
                 className='grid-in-status z-2 shadow-lg w-full ' />
@@ -369,8 +351,8 @@ export default function Home() {
 
         </div>
 
-        <div id="rightTextCol" ref={rightTextCol} className='grid-in-right col-end-left  flex flex-col gap-96 pt-[500px]'>
-          <div id='rightTextDataIntegrity' className='lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
+        <div id="rightTextCol" ref={rightTextCol} className=' grid-in-right col-end-left flex flex-col gap-96 pt-[500px] z-10 w-fit justify-self-center lg:justify-self-end'>
+          <div id='rightTextDataIntegrity' className='bg-white lg:justify-self-end self-center lg:bg-transparent shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit mr-[16px] lg:mr-[59px] rounded-[8px]  flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
 
             <div className="hidden lg:block h-[500px] w-10" />
             <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Platform</div>
@@ -413,22 +395,9 @@ export default function Home() {
         </div>
 
 
-        {/* 
-          <div id='markers' className='flex row-start-2 col-start-2 z-4 place-self-center gap-4'>
-            <Marker
-              text='5 units'
-              state={markerStyle}
-            />
-            <Marker
-              text='$3000'
-              state={markerStyle2}
-            />
-            <Marker
-              text='$2700'
-              state='unviewed'
-            />
-          </div>
-        </div> */}
+
+
+
 
 
 
