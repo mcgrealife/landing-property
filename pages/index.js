@@ -67,7 +67,7 @@ export default function Home() {
   const calendar = useRef()
   const property = useRef() // svg shadow broken
   const propertyBar = useRef()
-  const availability = userRef()
+  const availability = useRef()
 
 
 
@@ -162,7 +162,7 @@ export default function Home() {
             // probably onEnterBack function reverseIntro with smoother easing
             pin: true,
             // markers: true,
-            toggleActions: "play reverse reverse reverse"
+            toggleActions: "play reverse play reverse"
           }
         })
 
@@ -218,7 +218,7 @@ export default function Home() {
           scrollTrigger: {
             trigger: rightTextMoveIn.current,
             start: 'top bottom',
-            end: '+=1800px',
+            end: '+=2000px',
             // ease: "power1.inOut",
             toggleActions: 'play reverse play reverse'
           },
@@ -229,7 +229,7 @@ export default function Home() {
           .from(calendar.current, {
             y: '+456',
             ease: "power1.inOut",
-            duration: 0.5
+            duration: 0.1
           }, 0)
 
         // desktop - property 
@@ -237,10 +237,11 @@ export default function Home() {
           scrollTrigger: {
             trigger: rightTextPersonalizedPage.current,
             start: 'top 80%',
+            end: '2000px',
             // ease: "power1.inOut",
             toggleActions: 'play reverse play reverse'
           },
-          duration: "0.1"
+          // duration: "0.1"
         })
           // possible gsap.set
           .from(propertyBar.current, {
@@ -249,6 +250,22 @@ export default function Home() {
           .from(property.current, {
             opacity: 0,
           }, 0)
+
+
+        // desktop - filteredAvailability 
+        gsap.timeline({
+          scrollTrigger: {
+            trigger: rightTextFilteredAvailability.current,
+            start: 'top 80%',
+            end: '2000px',
+            // ease: "power1.inOut",
+            toggleActions: 'play reverse play reverse'
+          },
+        })
+          // possible gsap.set
+          .to(availability.current, {
+            opacity: 100,
+          })
 
       },
 
@@ -265,7 +282,7 @@ export default function Home() {
             // probably onEnterBack function reverseIntro with smoother easing
             pin: true,
             // markers: true,
-            toggleActions: "play reverse reverse reverse"
+            toggleActions: "play reverse play reverse"
           }
         })
 
@@ -334,7 +351,7 @@ export default function Home() {
           scrollTrigger: {
             trigger: rightTextMoveIn.current,
             start: 'top 70%',
-            // end: '+=500px',
+            end: '+=2000px',
             // ease: "power1.inOut",
             toggleActions: 'play reverse play reverse'
           },
@@ -352,7 +369,7 @@ export default function Home() {
         gsap.timeline({
           scrollTrigger: {
             trigger: rightTextPersonalizedPage.current,
-            start: 'top 40%',
+            start: 'top 80%',
             // ease: "power1.inOut",
             toggleActions: 'play reverse play reverse'
           },
@@ -366,6 +383,21 @@ export default function Home() {
             opacity: 0,
           }, 0)
 
+
+        // mobile - filteredAvailability 
+        gsap.timeline({
+          scrollTrigger: {
+            trigger: rightTextFilteredAvailability.current,
+            start: 'top 80%',
+            end: '2000px',
+            // ease: "power1.inOut",
+            toggleActions: 'play reverse play reverse'
+          },
+        })
+          // possible gsap.set
+          .to(availability.current, {
+            opacity: 100,
+          })
 
 
       }
@@ -434,7 +466,7 @@ export default function Home() {
 
         {/* reduce complexity of grid-areas by scaling svgs (then only need to define mobile?)  */}
 
-        <div id="phone" ref={phone} className='grid  grid-in-left col-span-2 grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-fit  justify-start lg:justify-center frame-shadow border-2 border-purple-500 justify-items-center overflow-visible'>
+        <div id="phone" ref={phone} className='grid  grid-in-left col-span-2 grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-fit  justify-start lg:justify-center frame-shadow border-none border-purple-500 justify-items-center overflow-visible'>
 
 
           <h1 id='leftText' ref={leftText} className="hidden lg:grid col-start-1 col-end-3 row-start-3 text-[72px] font-[600] text-[rgba(60,64,67,1)]  place-self-center justify-center min-w-[550px] frame-shadow-none">
@@ -443,13 +475,16 @@ export default function Home() {
 
 
 
-          <div id="frameMask" ref={frameMask} className=" grid grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop rounded-br-[769.01px] rounded-bl-[769.01px] row-start-1 row-end-6 col-start-2 col-end-7 border-2 border-green-500  overflow-hidden justify-items-center justify-center">
+          <div id="frameMask" ref={frameMask} className=" grid grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop rounded-br-[769.01px] rounded-bl-[769.01px] row-start-1 row-end-6 col-start-2 col-end-7 border-none border-green-500  overflow-hidden justify-items-center justify-center">
 
             <img id='frame' ref={frame} src="frame-hollow.svg" alt="frame" className=' w-full col-start-3 col-end-6 row-start-2 row-end-4  z-20' />
 
             <div id="screen" ref={screen} className="grid col-start-4 col-end-5 row-start-3 row-end-4  grid-areas-screen grid-cols-screenMobile lg:grid-cols-screenDesktop grid-rows-screenMobile lg:grid-rows-screenDesktop overflow-hidden rounded-[20px]  lg:rounded-[42px]">
 
               <div id="overlay" ref={overlay} className="bg-black opacity-50 row-start-2 col-start-1 row-span-4 z-9" />
+
+
+              <img src="/availability.svg" alt="availability" id="availability" ref={availability} className="z-12 grid-in-body self-start w-full opacity-0" />
 
               {/* property tab shadow and chip strokes broken in SVG, consider image or fixing .svg  or accepting it*/}
               <img src="/property-bar.svg" alt="property-bar" id="property-bar" ref={propertyBar} className="z-12 grid-in-body self-end w-full opacity-100" />
@@ -502,10 +537,10 @@ export default function Home() {
           </div>
 
 
-          <div id="wrapperMapMask" ref={wrapperMapMask} className='grid col-start-4 col-end-5 row-start-1 row-end-4  overflow-hidden border-2 border-pink-500 rounded-[20px] lg:rounded-[41px] self-start justify-center '>
+          <div id="wrapperMapMask" ref={wrapperMapMask} className='grid col-start-4 col-end-5 row-start-1 row-end-4  overflow-hidden border-none border-pink-500 rounded-[20px] lg:rounded-[41px] self-start justify-center '>
             {/* <div id="spacer" ref={spacer} className="h-[28px]" /> */}
 
-            <div id="mapMask" ref={mapMask} className='w-[344px] h-[744px] rounded-none lg:rounded-[41px] overflow-hidden border-2 border-fuchsia-300' >
+            <div id="mapMask" ref={mapMask} className='w-[344px] h-[744px] rounded-none lg:rounded-[41px] overflow-hidden border-none border-fuchsia-300' >
 
               <img id='map' src="map.png" alt="map" className='object-cover  w-[1000px] h-[1000px]' />
             </div>
@@ -517,7 +552,7 @@ export default function Home() {
           <div id='rightTextDataIntegrity' className='bg-white lg:justify-self-end self-center lg:bg-transparent shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit mr-[16px] lg:mr-[59px] rounded-[8px]  flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
 
             <div className="hidden lg:block h-[500px] w-10" />
-            <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Platform</div>
+            <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Search</div>
 
             <h1 ref={rightTextDataIntegrity} className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'>Data <span className='text-resider-blue-primary '>integrity</span></h1>
 
@@ -529,7 +564,7 @@ export default function Home() {
 
             <div className="hidden lg:block h-[500px] w-10" />
 
-            <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Platform</div>
+            <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Filter</div>
 
             <h1 ref={rightTextMoveIn} className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'><span className='text-resider-blue-primary '>Move in</span> date</h1>
 
@@ -552,8 +587,21 @@ export default function Home() {
           </div>
 
 
+          <div id='rightTextFilteredAvailability' className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
 
-          <div id="spacer3" className='h-[1000px]' />
+            <div className="hidden lg:block h-[500px] w-10" />
+
+            <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Property</div>
+
+            <h1 ref={rightTextFilteredAvailability} className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'><span className='text-resider-blue-primary '>Filtered</span> availability</h1>
+
+            <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>Grouped by floor plan, available units are based on the user’s filters to ensure eligible results, and qualified clients.</p>
+
+          </div>
+
+
+
+          <div id="spacer3" className='h-[500px] lg:h-[1000px]' />
         </div>
 
 
