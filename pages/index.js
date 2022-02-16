@@ -80,12 +80,6 @@ export default function Home() {
 
   useEffect(() => {
 
-    // fromTo(mapMask, {
-    // from desktop: w-[526px] h-[526px]
-    // })
-
-
-
 
     function scrollToMain() {
       gsap.timeline()
@@ -175,29 +169,6 @@ export default function Home() {
       .from(spacer.current, {
         height: '0'
       })
-    // .to(leftText.current, {
-    //   y: () => window.innerHeight / 2
-    // }, 0)
-
-
-
-    //   .to(mapMask.current, {
-    //     width: '820px',
-    //     height: '820px',
-
-    //   })
-    //   // .to(phoneMask.current, {
-    //   //   height: '820px',
-    //   //   width: '820px',
-    //   //   borderBottomLeftRadius: '0',
-    //   //   borderBottomRightRadius: '0'
-
-    //   // }, 0)
-    //   .to(wrapperMapMask.current, {
-    //     width: '345px',
-    //     height: '800px',
-    //     // borderRadius: '10%'
-    //   }, '<10%')
 
 
     gsap.to(headerShadow.current, {
@@ -256,9 +227,7 @@ export default function Home() {
         scrub: true,
       }
     })
-    // .from(leftText.current, {
-    //   opacity: 0,
-    // })
+
 
 
 
@@ -274,14 +243,11 @@ export default function Home() {
 
     let phoneHeight = phone.current.getBoundingClientRect().height
 
-
-
-
     gsap.timeline({
       scrollTrigger: {
         trigger: phone.current,
         start: 'top 20%',
-        end: "+=100%",
+        end: "+=100%", // try to end based on the phone.current bottom
         invalidateOnRefresh: true,
         scrub: true
       },
@@ -290,7 +256,6 @@ export default function Home() {
         y: () => (window.innerHeight),
         ease: 'none',
       })
-
 
 
 
