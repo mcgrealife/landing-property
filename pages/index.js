@@ -194,7 +194,10 @@ export default function Home() {
           }, 0)
           .from(frameMask.current, {
             width: '525px',
-            height: '525px'
+            height: '525px',
+          }, 0)
+          .to(frameMask.current, {
+            borderRadius: 0
           }, 0)
           .to(wrapperMapMask.current, {
             width: '345px',
@@ -580,7 +583,7 @@ export default function Home() {
 
           {/* frame-shadow */}
 
-          <div id="frameMask" ref={frameMask} className=" grid grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop rounded-br-[769.01px] rounded-bl-[769.01px] row-start-1 row-end-6 col-start-1 col-end-6 border-2 border-green-500  overflow-hidden justify-items-center justify-center">
+          <div id="frameMask" ref={frameMask} className=" grid grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop rounded-br-[769.01px] rounded-bl-[769.01px]  row-start-1 row-end-6 col-start-1 col-end-6 border-2 border-green-500  overflow-hidden justify-items-center justify-center">
 
             <img id='frame' ref={frame} src="frame-hollow.svg" alt="frame" className=' w-full col-start-2 col-end-5 row-start-2 row-end-4  z-20' />
 
