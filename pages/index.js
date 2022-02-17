@@ -139,6 +139,21 @@ export default function Home() {
       // Desktop
       "(min-width: 800px)": function () {
 
+
+        // temporary until I can link it to desktop map intro onLeave callback
+        gsap.to(leftTextWrapper.current, {
+          y: () => window.innerHeight * -0.3,
+          scrollTrigger: {
+            trigger: rightTextFilteredAvailability.current,
+            start: "top 30%",
+            end: "+=30%",
+            ease: "none",
+            scrub: true,
+            markers: true
+          }
+        })
+
+
         // desktop - map intro
         gsap.timeline({
           scrollTrigger: {
@@ -151,6 +166,7 @@ export default function Home() {
             pin: true,
             // markers: true,
             toggleActions: "play pause play reverse",
+            // onLeave: leftTextExit // this fires when the phone is unpinned
           }
         })
           .fromTo(mapMask.current, {
