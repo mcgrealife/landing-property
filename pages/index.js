@@ -369,6 +369,9 @@ export default function Home() {
           .from(screen.current, {
             height: '440px',
           })
+          .from(markers.current, {
+            y: "-=100"
+          }, 0)
           .fromTo(mapMask.current, {
             y: '-=0px',
             height: '303px',
