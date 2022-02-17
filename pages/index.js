@@ -470,29 +470,33 @@ export default function Home() {
       <div id='spacer' className='h-[100px]' />
 
 
-      <div ref={main} id='main' className='grid grid-areas-main grid-cols-main grid-rows-main'>
+      <div ref={main} id='main' className='grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop'>
 
         {/* reduce complexity of grid-areas by scaling svgs (then only need to define mobile?)  */}
-        <div id="test" className='z-20 grid-in-left fixed'>
-          <p>text</p>
+        {/* <div id="test" className='z-20 col-start-1 col-end-2 h-screen fixed top-1/2 left-1/4'>
+          <p className=''>text</p>
+        </div> */}
+
+        <div className="hidden lg:block grid-in-left z-19 justify-self-center">
+          <div id='leftTextWrapper' ref={leftTextWrapper} className='text-[72px] font-[600] text-[rgba(60,64,67,1)] opacity-0 sticky left-[50%] top-[50%]'>{leftText}</div>
         </div>
 
-        <div id="phone" ref={phone} className='grid  grid-in-left col-span-2 grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-fit  justify-start lg:justify-center frame-shadow border-none border-purple-500 justify-items-center overflow-visible'>
+        <div id="phone" ref={phone} className='grid  grid-in-left lg:grid-in-middle col-span-2 grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-fit  justify-start lg:justify-center frame-shadow border-none border-purple-500 justify-items-center overflow-visible'>
 
 
-          <h1 id='leftTextWrapper' ref={leftTextWrapper} className="hidden lg:grid col-start-1 col-end-3 row-start-3 text-[72px] font-[600] text-[rgba(60,64,67,1)]  place-self-center justify-center min-w-[550px] frame-shadow-none opacity-100">
+          {/* <h1 id='leftTextWrapper' ref={leftTextWrapper} className="hidden lg:grid col-start-1 col-end-3 row-start-3 text-[72px] font-[600] text-[rgba(60,64,67,1)]  place-self-center justify-center min-w-[550px] frame-shadow-none opacity-100">
             {leftText}
-          </h1>
+          </h1> */}
 
 
 
-          <div id="frameMask" ref={frameMask} className=" grid grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop rounded-br-[769.01px] rounded-bl-[769.01px] row-start-1 row-end-6 col-start-2 col-end-7 border-none border-green-500  overflow-hidden justify-items-center justify-center">
+          <div id="frameMask" ref={frameMask} className=" grid grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop rounded-br-[769.01px] rounded-bl-[769.01px] row-start-1 row-end-6 col-start-1 col-end-6 border-none border-green-500  overflow-hidden justify-items-center justify-center">
 
-            <img id='frame' ref={frame} src="frame-hollow.svg" alt="frame" className=' w-full col-start-3 col-end-6 row-start-2 row-end-4  z-20' />
+            <img id='frame' ref={frame} src="frame-hollow.svg" alt="frame" className=' w-full col-start-2 col-end-5 row-start-2 row-end-4  z-20' />
 
-            <div id="screen" ref={screen} className="grid col-start-4 col-end-5 row-start-3 row-end-4  grid-areas-screen grid-cols-screenMobile lg:grid-cols-screenDesktop grid-rows-screenMobile lg:grid-rows-screenDesktop overflow-hidden rounded-[20px]  lg:rounded-[42px]">
+            <div id="screen" ref={screen} className="grid col-start-3 col-end-4 row-start-3 row-end-4  grid-areas-screen grid-cols-screenMobile lg:grid-cols-screenDesktop grid-rows-screenMobile lg:grid-rows-screenDesktop overflow-hidden rounded-[20px]  lg:rounded-[42px]">
 
-              <div id="overlay" ref={overlay} className="bg-black opacity-50 row-start-2 col-start-1 row-span-4 z-9" />
+              <div id="overlay" ref={overlay} className="bg-black opacity-50 row-start-2 col-start-2 row-span-4 z-9" />
 
 
               <img src="/availability.svg" alt="availability" id="availability" ref={availability} className="z-12 grid-in-body self-start w-full opacity-0" />
@@ -548,7 +552,7 @@ export default function Home() {
           </div>
 
 
-          <div id="wrapperMapMask" ref={wrapperMapMask} className='grid col-start-4 col-end-5 row-start-1 row-end-4  overflow-hidden border-none border-pink-500 rounded-[20px] lg:rounded-[41px] self-start justify-center '>
+          <div id="wrapperMapMask" ref={wrapperMapMask} className='grid col-start-3 col-end-4 row-start-1 row-end-4  overflow-hidden border-none border-pink-500 rounded-[20px] lg:rounded-[41px] self-start justify-center '>
             {/* <div id="spacer" ref={spacer} className="h-[28px]" /> */}
 
             <div id="mapMask" ref={mapMask} className='w-[344px] h-[744px] rounded-none lg:rounded-[41px] overflow-hidden border-none border-fuchsia-300' >
@@ -559,7 +563,7 @@ export default function Home() {
 
         </div>
 
-        <div id="rightTextCol" ref={rightTextCol} className=' grid-in-right col-end-left flex flex-col gap-[500px] lg:gap-[1000px] pt-[1000px] z-10 w-fit justify-self-end lg:justify-self-center'>
+        <div id="rightTextCol" ref={rightTextCol} className='grid-in-right col-end-left lg:col-end-right flex flex-col gap-[500px] lg:gap-[1000px] pt-[1000px] z-10 w-fit justify-self-end lg:justify-self-center'>
 
           <div id='rightTextDataIntegrity' ref={rightTextDataIntegrity} className='bg-white lg:justify-self-end self-center lg:bg-transparent shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit mr-[16px] lg:mr-[59px] rounded-[8px]  flex flex-col gap-[8px] lg:gap-[16px] pl-[24px]  pr-[36px] lg:pr-[24px] pt-[36px] lg:pt-[32px] pb-[28px] lg:pb-[32px]'>
 

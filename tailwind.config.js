@@ -9,17 +9,21 @@ module.exports = {
     // make gilroy first font in family (not override it in index)
 
     gridTemplateAreas: {
-      'main': [
+      'mobile': [
         // 'header header header',
         'left right'
       ],
+      'desktop': [
+        // 'header header header',
+        'left middle right'
+      ],
 
       'phone': [
-        'leftText wrapper wrapper wrapper wrapper wrapper',
-        'leftText wrapper frame frame frame wrapper',
-        'leftText wrapper frame screen frame wrapper',
-        'leftText wrapper frame frame frame wrapper',
-        'leftText wrapper wrapper wrapper wrapper wrapper',
+        'wrapper wrapper wrapper wrapper wrapper',
+        'wrapper frame frame frame wrapper',
+        'wrapper frame screen frame wrapper',
+        'wrapper frame frame frame wrapper',
+        'wrapper wrapper wrapper wrapper wrapper',
       ],
       'screen': [
         'status',
@@ -27,14 +31,16 @@ module.exports = {
       ]
     },
     gridTemplateColumns: {
-      'main': '1fr, 1fr',
-      'phoneMobile': '1fr 45.5px 9.5px 255px 9.5px 45.5px',
-      'phoneDesktop': '1fr 78px 13px 344px 13px 78px',
+      'mobile': '1fr, 1fr',
+      'desktop': '1fr, 370px, 1fr',
+      'phoneMobile': '45.5px 9.5px 255px 9.5px 45.5px',
+      'phoneDesktop': '78px 13px 344px 13px 78px',
       'screenMobile': 'auto',
       'screenDesktop': 'auto'
     },
     gridTemplateRows: {
-      'main': 'auto',
+      'mobile': 'auto',
+      'desktop': 'auto',
       'phoneMobile': '28px 8px 552px 8px 49px',
       'phoneDesktop': '28px 11px 745px 11px 49px',
       'screenMobile': '30px 522.5px',
@@ -64,6 +70,7 @@ module.exports = {
         '13': '13',
         '14': '14',
         '15': '15',
+        '19:': '19',
         '20': '20'
       },
       colors: {
