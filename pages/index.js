@@ -22,6 +22,7 @@ export default function Home() {
 
 
 
+
   const rightText = [
     {
       title: "Data integrity",
@@ -60,6 +61,14 @@ export default function Home() {
   const propertyBar = useRef()
   const availability = useRef()
   const leftTextWrapper = useRef()
+  const markers = useRef()
+
+
+  const imgUrl = (device, number) => {
+    return `/markers-${number}-${device}.svg`
+  }
+
+  const [markerImage, setMarkerImage] = useState(imgUrl("desktop", 1))
 
   const [leftText, setLeftText] = useState("Search")
 
@@ -142,14 +151,14 @@ export default function Home() {
 
         // temporary until I can link it to desktop map intro onLeave callback
         gsap.to(leftTextWrapper.current, {
-          y: () => window.innerHeight * -0.3,
+          y: () => "-" + window.innerHeight / 3, // rightTextFilteredAvailability.current.getBoundingClientRect().y
           scrollTrigger: {
             trigger: rightTextFilteredAvailability.current,
             start: "top 30%",
-            end: "+=30%",
-            ease: "none",
+            end: "+=40%",
+            ease: "linear",
             scrub: true,
-            markers: true
+            invalidateOnRefresh: true
           }
         })
 
@@ -196,11 +205,35 @@ export default function Home() {
           // .from(spacer.current, {
           //   height: '0'
           // })
+          .to(phone.current, {
+            filter: 'drop-shadow(0px 22.3363px 17.869px rgba(0, 0, 0, 0.0655718)) drop-shadow(0px 12.5216px 10.0172px rgba(0, 0, 0, 0.055)) drop-shadow(0px 6.6501px 5.32008px rgba(0, 0, 0, 0.0444282)) drop-shadow(0px 2.76726px 2.21381px rgba(0, 0, 0, 0.030926))'
+          })
           .set(leftTextWrapper.current, {
             opacity: 100
-          }, '<50%') // duration 50 fades but causes background calculations for 50 seconds
+          }, 0) // duration 50 fades but causes background calculations for 50 seconds
 
         // desktop - card swipe
+
+        // gsap.timeline({
+        //   scrollTrigger: {
+        //     trigger: rightTextDataIntegrity.current,
+        //     start: 'top 60%', // when it's 60% of the phone container. good use for a label?
+        //     end: '+=1',
+        //     scrub: 2,
+        //     ease: "power1.inOut",
+        //     onEnter: () => setMarkerImage(imgUrl("desktop", 2)),
+        //     onEnterBack: () => setMarkerImage(imgUrl("desktop", 1)),
+        //   }
+        // })
+        //   .to(cards.current, {
+        //     x: '-312',
+        //     ease: "power1.inOut",
+        //   })
+        //   .to(cards.current, {
+        //     x: "-=312",
+        //     ease: "power1.inOut",
+        //   }, ">100%")
+
         gsap.to(cards.current, {
           scrollTrigger: {
             trigger: rightTextDataIntegrity.current,
@@ -208,10 +241,25 @@ export default function Home() {
             end: '+=1',
             scrub: 2,
             ease: "power1.inOut",
-            onEnter: update,
-            onEnterBack: reverseUpdate,
+            onEnter: () => setMarkerImage(imgUrl("desktop", 2)),
+            onEnterBack: () => setMarkerImage(imgUrl("desktop", 1)),
           },
           x: '-312',
+          ease: "power1.inOut",
+        })
+
+        gsap.to(cards.current, {
+          scrollTrigger: {
+            trigger: rightTextDataIntegrity.current,
+            start: 'top 40%', // when it's 60% of the phone container. good use for a label?
+            end: '+=1',
+            scrub: 2,
+            ease: "power1.inOut",
+            onEnter: () => setMarkerImage(imgUrl("desktop", 3)),
+            onEnterBack: () => setMarkerImage(imgUrl("desktop", 2)),
+            markers: true
+          },
+          x: '-=312',
           ease: "power1.inOut",
         })
 
@@ -239,7 +287,7 @@ export default function Home() {
         })
           .from(overlay.current, {
             opacity: 0,
-          }, 1) //"+=3"
+          }, 1)
           .from(calendar.current, {
             y: '+456',
             ease: "power1.inOut",
@@ -318,6 +366,9 @@ export default function Home() {
         })
 
           // mobile map-transition
+          .from(screen.current, {
+            height: '440px',
+          })
           .fromTo(mapMask.current, {
             y: '-=0px',
             height: '303px',
@@ -335,6 +386,7 @@ export default function Home() {
             width: '197px'
           }, 0)
           .from(wrapperMapMask.current, {
+
             width: '303px',
             borderRadius: '0'
           }, 0)
@@ -354,27 +406,46 @@ export default function Home() {
           // .from(spacer.current, {
           //   height: '0'
           // })
+          .to(phone.current, {
+            filter: 'drop-shadow(0px 22.3363px 17.869px rgba(0, 0, 0, 0.0655718)) drop-shadow(0px 12.5216px 10.0172px rgba(0, 0, 0, 0.055)) drop-shadow(0px 6.6501px 5.32008px rgba(0, 0, 0, 0.0444282)) drop-shadow(0px 2.76726px 2.21381px rgba(0, 0, 0, 0.030926))'
+          })
           .set(leftText.current, {
             opacity: 100
           }, '<50%') // duration 50 fades but causes background calculations for 50 seconds
+
 
 
         // mobile - card swipe
         gsap.timeline({
           scrollTrigger: {
             trigger: rightTextDataIntegrity.current,
-            start: 'top 40%',
+            start: 'top 90%',
             end: '+=1',
             ease: "power1.inOut",
             scrub: 2,
-            onEnter: update,
-            onEnterBack: reverseUpdate
+            onEnter: () => setMarkerImage(imgUrl("mobile", 2)),
+            onEnterBack: () => setMarkerImage(imgUrl("mobile", 1)),
           }
         })
           .to(cards.current, {
             x: '-224',
             ease: "power1.inOut",
           })
+
+
+        gsap.to(cards.current, {
+          scrollTrigger: {
+            trigger: rightTextDataIntegrity.current,
+            start: 'top 50%', // when it's 60% of the phone container. good use for a label?
+            end: '+=1',
+            scrub: 2,
+            ease: "power1.inOut",
+            onEnter: () => setMarkerImage(imgUrl("mobile", 3)),
+            onEnterBack: () => setMarkerImage(imgUrl("mobile", 2)),
+          },
+          x: '-=224',
+          ease: "power1.inOut",
+        })
 
 
         // mobile - calender
@@ -497,15 +568,16 @@ export default function Home() {
           <div id='leftTextWrapper' ref={leftTextWrapper} className='text-[72px] font-[600] text-[rgba(60,64,67,1)] opacity-0 sticky left-[50%] top-[50%]'>{leftText}</div>
         </div>
 
-        <div id="phone" ref={phone} className='grid  grid-in-left lg:grid-in-middle col-span-2 grid-areas-phone col-end-right grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-fit  justify-start lg:justify-center frame-shadow border-none border-purple-500 justify-items-center overflow-visible'>
+        <div id="phone" ref={phone} className='grid  grid-in-left lg:grid-in-middle col-span-2 grid-areas-phone col-end-right grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-fit  justify-start lg:justify-center  border-2 border-purple-500 justify-items-center overflow-visible'>
 
-          <div id="frameMask" ref={frameMask} className=" grid grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop rounded-br-[769.01px] rounded-bl-[769.01px] row-start-1 row-end-6 col-start-1 col-end-6 border-none border-green-500  overflow-hidden justify-items-center justify-center">
+          {/* frame-shadow */}
+
+          <div id="frameMask" ref={frameMask} className=" grid grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop rounded-br-[769.01px] rounded-bl-[769.01px] row-start-1 row-end-6 col-start-1 col-end-6 border-2 border-green-500  overflow-hidden justify-items-center justify-center">
 
             <img id='frame' ref={frame} src="frame-hollow.svg" alt="frame" className=' w-full col-start-2 col-end-5 row-start-2 row-end-4  z-20' />
 
-            <div id="screen" ref={screen} className="grid col-start-3 col-end-4 row-start-3 row-end-4  grid-areas-screen grid-cols-screenMobile lg:grid-cols-screenDesktop grid-rows-screenMobile lg:grid-rows-screenDesktop overflow-hidden rounded-[20px]  lg:rounded-[42px]">
+            <div id="screen" ref={screen} className="grid col-start-3 col-end-4 row-start-3 row-end-4  grid-areas-screen grid-cols-screenMobile lg:grid-cols-screenDesktop grid-rows-screenMobile lg:grid-rows-screenDesktop overflow-hidden rounded-[20px]  lg:rounded-[42px] border-2 border-orange-500">
 
-              <div id="overlay" ref={overlay} className="bg-black opacity-50 row-start-2 col-start-2 row-span-4 z-9" />
 
 
               <img src="/availability.svg" alt="availability" id="availability" ref={availability} className="z-12 grid-in-body self-start w-full opacity-0" />
@@ -515,10 +587,16 @@ export default function Home() {
 
               <img src="/property.svg" alt="calendar" id="property" ref={property} className="z-11 grid-in-body self-start w-full opacity-1000" />
 
+              <div id="overlay" ref={overlay} className="bg-black opacity-50 grid-in-body z-9" />
 
               <img src="/calendar.svg" alt="calendar" id="calendar" ref={calendar} className="z-10 grid-in-body self-end w-full" />
 
-              <div id='markers' className='flex grid-in-body z-4 place-self-center gap-4'>
+              <div id="markers" ref={markers} className='grid-in-body self-end z-1'>
+                <img src={markerImage} alt="markers-1-desktop" />
+
+              </div>
+
+              {/* <div id='markers' className='flex grid-in-body z-4 place-self-center gap-4'>
                 <Marker
                   text='5 units'
                   state={markerStyle}
@@ -531,12 +609,12 @@ export default function Home() {
                   text='$2700'
                   state='unviewed'
                 />
-              </div>
+              </div> */}
 
               <img src="/status-search-filter.svg" alt="status"
                 className='grid-in-status z-2 shadow-lg w-full ' />
 
-              <div id='carousel' ref={carousel} className=' grid-in-body self-end z-6 pb-[28.5px] overflow-x-scroll scrollbar-hide snap-x  pt-2'>
+              <div id='carousel' ref={carousel} className=' grid grid-in-body justify-items-end self-end z-6 pb-[17px] lg:pb-[28.5px] overflow-x-scroll scrollbar-hide snap-x  pt-2'>
 
                 <div ref={cards} className='flex flex-row min-w-max gap-2 px-4 overflow-visible'>
                   <Card />
@@ -561,12 +639,12 @@ export default function Home() {
           </div>
 
 
-          <div id="wrapperMapMask" ref={wrapperMapMask} className='grid col-start-3 col-end-4 row-start-1 row-end-4  overflow-hidden border-none border-pink-500 rounded-[20px] lg:rounded-[41px] self-start justify-center '>
+          <div id="wrapperMapMask" ref={wrapperMapMask} className='grid col-start-3 col-end-4 row-start-1 row-end-4  overflow-hidden border-2 border-pink-500 rounded-[20px] lg:rounded-[41px] self-start justify-center '>
             {/* <div id="spacer" ref={spacer} className="h-[28px]" /> */}
 
-            <div id="mapMask" ref={mapMask} className='w-[344px] h-[744px] rounded-none lg:rounded-[41px] overflow-hidden border-none border-fuchsia-300' >
+            <div id="mapMask" ref={mapMask} className='w-[344px] h-[744px] rounded-none lg:rounded-[41px] overflow-hidden border-2 border-fuchsia-300' >
 
-              <img id='map' src="map.png" alt="map" className='object-cover  w-[1000px] h-[1000px]' />
+              <img id='map' src="map-5.png" alt="map" className='object-cover  w-[800px] h-[800px]' />
             </div>
           </div>
 
