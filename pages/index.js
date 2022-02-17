@@ -403,13 +403,6 @@ export default function Home() {
       }
     })
 
-
-
-
-
-
-
-
   }, [])
 
 
@@ -601,19 +594,20 @@ export default function Home() {
 
 
 
-          <div id="spacer3" className='h-[500px] lg:h-[1000px]' />
+          {/* <div id="spacer3" className='h-[500px] lg:h-[1000px]' /> */}
         </div>
-
-
-
-
-
-
-
 
       </div>
 
-      <div id="spacerBottom" className='h-screen' />
+      {/* <div id="spacerBottom" className='h-screen' /> */}
+
+      <div id="demo" className='flex flex-col h-[1000px] self-center text-center justify-center pt-[20] lg:pt-[36] pl-[24px] pr-[32px]'>
+        <h1 className=' font-bold text-[28px] lg:text-[48px]leading-[24px] text-[rgba(60,64,67,1)]'>Request a Demo</h1>
+        <p className='text-[16px] text-[rgba(0,0,0,0.6)] leading-[24px] text-center'>Sign up to learn more about Resider.</p>
+      </div>
+      {/* <div className='grid grid-cols-[repeat(6, minmax(319px,527px))] grid-rows-[repeat(6,56px)] border-1'>
+        <div className=''>test</div>
+      </div> */}
 
     </div>
 
