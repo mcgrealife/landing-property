@@ -17,7 +17,7 @@ export default function Home() {
 
   function scheduleDemoClick() {
     // return alert('💰 $100 showing, $1000 max. 50% per lease. 💰 ')
-    console.log(ScrollTrigger.getAll())
+    gsap.to(window, { duration: 1, scrollTo: { y: demo.current, offsetY: 100, autoKill: true }, ease: "power3", invalidateOnRefresh: true })
   }
 
 
@@ -62,6 +62,7 @@ export default function Home() {
   const availability = useRef()
   const leftTextWrapper = useRef()
   const markers = useRef()
+  const demo = useRef()
 
 
   const imgUrl = (device, number) => {
@@ -91,13 +92,11 @@ export default function Home() {
 
 
     function scrollToMain() {
-      gsap.timeline()
-        .to(window, { duration: 1, scrollTo: { y: main.current, offsetY: 100, autoKill: true }, ease: "power3" })
+      gsap.to(window, { duration: 1, scrollTo: { y: main.current, offsetY: 100, autoKill: false }, ease: "power3", invalidateOnRefresh: true })
     }
 
     function scrollToTop() {
-      gsap.timeline()
-        .to(window, { duration: 1, scrollTo: { y: 0, autoKill: true }, ease: "power3" })
+      gsap.to(window, { duration: 1, scrollTo: { y: 0, autoKill: false }, ease: "power3" })
     }
 
     // use scrollDir conditional    
@@ -162,6 +161,18 @@ export default function Home() {
           }
         })
 
+        gsap.to(headerSubText.current, {
+          scrollTrigger: {
+            trigger: headerSubText.current,
+            start: "top 15%",
+            onEnter: () => gsap.to(window, { duration: 1, scrollTo: { y: main.current, offsetY: 100, autoKill: false }, ease: "power3" }),
+            onLeaveBack: scrollToTop,
+            markers: true,
+            // invalidateOnRefresh: true,
+          },
+          opacity: 100
+        })
+
 
         // desktop - map intro
         gsap.timeline({
@@ -169,8 +180,7 @@ export default function Home() {
             trigger: phone.current,
             start: 'top 10%',
             end: rightTextCol.current.getBoundingClientRect().height, // 100%
-            onEnter: scrollToMain,
-            onLeaveBack: scrollToTop,
+
             // probably onEnterBack function reverseIntro with smoother easing
             pin: true,
             // markers: true,
@@ -208,12 +218,13 @@ export default function Home() {
           // .from(spacer.current, {
           //   height: '0'
           // })
+          .set(leftTextWrapper.current, {
+            opacity: 100
+          }, "<10%") // duration 50 fades but causes background calculations for 50 seconds
           .to(phone.current, {
             filter: 'drop-shadow(0px 22.3363px 17.869px rgba(0, 0, 0, 0.0655718)) drop-shadow(0px 12.5216px 10.0172px rgba(0, 0, 0, 0.055)) drop-shadow(0px 6.6501px 5.32008px rgba(0, 0, 0, 0.0444282)) drop-shadow(0px 2.76726px 2.21381px rgba(0, 0, 0, 0.030926))',
           })
-          .set(leftTextWrapper.current, {
-            opacity: 100
-          }, 0) // duration 50 fades but causes background calculations for 50 seconds
+
 
         // desktop - card swipe
 
@@ -260,7 +271,7 @@ export default function Home() {
             ease: "power1.inOut",
             onEnter: () => setMarkerImage(imgUrl("desktop", 3)),
             onEnterBack: () => setMarkerImage(imgUrl("desktop", 2)),
-            markers: true
+            // markers: true
           },
           x: '-=312',
           ease: "power1.inOut",
@@ -271,7 +282,7 @@ export default function Home() {
           scrollTrigger: {
             trigger: rightTextDataIntegrity.current,
             start: 'bottom top',
-            markers: true,
+            // markers: true,
             onEnter: () => setLeftText("Filter"),
             onEnterBack: () => setLeftText("Search")
           },
@@ -302,7 +313,7 @@ export default function Home() {
           scrollTrigger: {
             trigger: rightTextMoveIn.current,
             start: 'bottom top',
-            markers: true,
+            // markers: true,
             onEnter: () => setLeftText("Property"),
             onEnterBack: () => setLeftText("Filter")
           },
@@ -354,13 +365,24 @@ export default function Home() {
       // Mobile
       "(max-width: 799px)": function () {
 
+        gsap.to(headerSubText.current, {
+          scrollTrigger: {
+            trigger: headerSubText.current,
+            start: "top 15%",
+            markers: true,
+            onEnter: scrollToMain,
+            onLeaveBack: scrollToTop
+          }
+
+        })
+
         let tlMainMobile = gsap.timeline({
           scrollTrigger: {
             trigger: phone.current,
             start: 'top 15%',
             end: rightTextCol.current.getBoundingClientRect().height, // 100%
-            onEnter: scrollToMain,
-            onLeaveBack: scrollToTop,
+            // onEnter: scrollToMain,
+            // onLeaveBack: scrollToTop,
             // probably onEnterBack function reverseIntro with smoother easing
             pin: true,
             // markers: true,
@@ -579,15 +601,15 @@ export default function Home() {
           <div id='leftTextWrapper' ref={leftTextWrapper} className='text-[72px] font-[600] text-[rgba(60,64,67,1)] opacity-0 sticky left-[50%] top-[50%]'>{leftText}</div>
         </div>
 
-        <div id="phone" ref={phone} className='grid  grid-in-left lg:grid-in-middle col-span-2 grid-areas-phone col-end-right grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-fit w-[303px] lg:w-fit  justify-start   lg:justify-center  border-2 border-purple-500 justify-items-center overflow-visible'>
+        <div id="phone" ref={phone} className='grid  grid-in-left lg:grid-in-middle col-span-2 grid-areas-phone col-end-right grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-fit w-[303px] lg:w-fit  justify-start   lg:justify-center  border-none border-purple-500 justify-items-center overflow-visible'>
 
           {/* frame-shadow */}
 
-          <div id="frameMask" ref={frameMask} className=" grid grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop rounded-br-[769.01px] rounded-bl-[769.01px]  row-start-1 row-end-6 col-start-1 col-end-6 border-2 border-green-500  overflow-hidden justify-items-center justify-center">
+          <div id="frameMask" ref={frameMask} className=" grid grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop rounded-br-[769.01px] rounded-bl-[769.01px]  row-start-1 row-end-6 col-start-1 col-end-6 border-none border-green-500  overflow-hidden justify-items-center justify-center">
 
             <img id='frame' ref={frame} src="frame-hollow.svg" alt="frame" className=' w-full col-start-2 col-end-5 row-start-2 row-end-4  z-20' />
 
-            <div id="screen" ref={screen} className="grid col-start-3 col-end-4 row-start-3 row-end-4  grid-areas-screen grid-cols-screenMobile lg:grid-cols-screenDesktop grid-rows-screenMobile lg:grid-rows-screenDesktop overflow-hidden rounded-[20px]  lg:rounded-[42px] border-2 border-orange-500">
+            <div id="screen" ref={screen} className="grid col-start-3 col-end-4 row-start-3 row-end-4  grid-areas-screen grid-cols-screenMobile lg:grid-cols-screenDesktop grid-rows-screenMobile lg:grid-rows-screenDesktop overflow-hidden rounded-[20px]  lg:rounded-[42px] border-none border-orange-500">
 
 
 
@@ -650,10 +672,10 @@ export default function Home() {
           </div>
 
 
-          <div id="wrapperMapMask" ref={wrapperMapMask} className='grid col-start-3 col-end-4 row-start-1 row-end-4  overflow-hidden border-2 border-pink-500 rounded-[20px] lg:rounded-[41px] self-start justify-center '>
+          <div id="wrapperMapMask" ref={wrapperMapMask} className='grid col-start-3 col-end-4 row-start-1 row-end-4  overflow-hidden border-none border-pink-500 rounded-[20px] lg:rounded-[41px] self-start justify-center '>
             {/* <div id="spacer" ref={spacer} className="h-[28px]" /> */}
 
-            <div id="mapMask" ref={mapMask} className='w-[344px] h-[744px] rounded-none lg:rounded-[41px] overflow-hidden border-2 border-fuchsia-300' >
+            <div id="mapMask" ref={mapMask} className='w-[344px] h-[744px] rounded-none lg:rounded-[41px] overflow-hidden border-none border-fuchsia-300' >
 
               <img id='map' src="map-5.png" alt="map" className='object-cover  w-[800px] h-[800px]' />
             </div>
@@ -722,7 +744,7 @@ export default function Home() {
 
       {/* <div id="spacerBottom" className='h-screen' /> */}
 
-      <div id="demo" className='flex flex-col h-[1000px] self-center text-center justify-center pt-[20] lg:pt-[36] pl-[24px] pr-[32px]'>
+      <div id="demo" ref={demo} className='flex flex-col h-[1000px] self-center text-center justify-center pt-[20] lg:pt-[36] pl-[24px] pr-[32px]'>
         <h1 className=' font-bold text-[28px] lg:text-[48px]leading-[24px] text-[rgba(60,64,67,1)]'>Request a Demo</h1>
         <p className='text-[16px] text-[rgba(0,0,0,0.6)] leading-[24px] text-center'>Sign up to learn more about Resider.</p>
       </div>
