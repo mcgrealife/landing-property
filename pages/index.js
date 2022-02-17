@@ -213,7 +213,6 @@ export default function Home() {
           x: '-312',
           ease: "power1.inOut",
         })
-        console.log(rightTextMoveIn.current.getBoundingClientRect().height)
 
         let dx = (el1, el2) => {
           const topOf1 =
@@ -226,17 +225,17 @@ export default function Home() {
             el2.current.getBoundingClientRect().height
 
 
-          return (topOf2 + heightOf2) - topOf1
+          return (topOf2 - heightOf2) - topOf1
         }
 
-        console.log(dx(rightTextDataIntegrity, rightTextMoveIn))
+        console.log(leftText.current.getBoundingClientRect())
 
         // desktop - leftText Search > Filter
         gsap.timeline({
           scrollTrigger: {
             trigger: rightTextDataIntegrity.current,
             start: 'bottom top',
-            end: () => rightTextDataIntegrity.current.x,
+            end: () => "+=" + dx(rightTextDataIntegrity, rightTextMoveIn),
             toggleActions: 'play reverse play reverse',
             markers: true
           }
@@ -267,6 +266,23 @@ export default function Home() {
             duration: 0.5
           }, 1)
 
+        // desktop - leftText Filter > Property
+        gsap.timeline({
+          scrollTrigger: {
+            trigger: rightTextMoveIn.current,
+            start: 'bottom top',
+            end: () => "+=" + dx(rightTextMoveIn, rightTextPersonalizedPage),
+            toggleActions: 'play reverse play reverse',
+            markers: true
+          }
+        })
+          .set(leftTextFilter.current, {
+            opacity: 0
+          })
+          .set(leftTextProperty.current, {
+            opacity: 100
+          })
+
         // desktop - property 
         gsap.timeline({
           scrollTrigger: {
@@ -284,13 +300,8 @@ export default function Home() {
           .set(leftTextProperty.current, {
             opacity: 100
           }, 0)
-          // possible gsap.set
-          .set(propertyBar.current, {
-            opacity: 100,
-          }, 0.5)
-          .set(property.current, {
-            opacity: 100,
-          }, 0.5)
+        // possible gsap.set
+
 
 
         // desktop - filteredAvailability 
@@ -591,37 +602,38 @@ export default function Home() {
 
         </div>
 
-        <div id="rightTextCol" ref={rightTextCol} className=' grid-in-right col-end-left flex flex-col gap-[500px] lg:gap-96 pt-[1000px] z-10 w-fit justify-self-end lg:justify-self-center'>
-          <div id='rightTextDataIntegrity' className='bg-white lg:justify-self-end self-center lg:bg-transparent shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit mr-[16px] lg:mr-[59px] rounded-[8px]  flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
+        <div id="rightTextCol" ref={rightTextCol} className=' grid-in-right col-end-left flex flex-col gap-[500px] lg:gap-[1000px] pt-[1000px] z-10 w-fit justify-self-end lg:justify-self-center'>
 
-            <div className="hidden lg:block h-[500px] w-10" />
+          <div id='rightTextDataIntegrity' ref={rightTextDataIntegrity} className='bg-white lg:justify-self-end self-center lg:bg-transparent shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit mr-[16px] lg:mr-[59px] rounded-[8px]  flex flex-col gap-[8px] lg:gap-[16px] pl-[24px]  pr-[36px] lg:pr-[24px] pt-[36px] lg:pt-[32px] pb-[28px] lg:pb-[32px]'>
+
+            {/* <div className="hidden lg:block h-[500px] w-10" /> */}
             <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Search</div>
 
-            <h1 ref={rightTextDataIntegrity} className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'>Data <span className='text-resider-blue-primary '>integrity</span></h1>
+            <h1 className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'>Data <span className='text-resider-blue-primary '>integrity</span></h1>
 
             <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>Resider solely consists of rental properties syndicated through data API’s. With up to date and accurate listings, your clients can browse with confidence.</p>
 
           </div>
 
-          <div id='rightTextMoveIn' className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
+          <div id='rightTextMoveIn' ref={rightTextMoveIn} className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
 
-            <div className="hidden lg:block h-[500px] w-10" />
+            {/* <div className="hidden lg:block h-[500px] w-10" /> */}
 
             <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Filter</div>
 
-            <h1 ref={rightTextMoveIn} className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'><span className='text-resider-blue-primary '>Move in</span> date</h1>
+            <h1 className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'><span className='text-resider-blue-primary '>Move in</span> date</h1>
 
             <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>Qualified leads are our emphasis. Allowing users to narrow down exact availability by their move in date is the first step.</p>
 
           </div>
 
-          <div id='rightTextPersonalizedPage' className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
+          <div id='rightTextPersonalizedPage' ref={rightTextPersonalizedPage} className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
 
-            <div className="hidden lg:block h-[500px] w-10" />
+            {/* <div className="hidden lg:block h-[500px] w-10" /> */}
 
             <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Property</div>
 
-            <h1 ref={rightTextPersonalizedPage} className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'><span className='text-resider-blue-primary '>Personalized</span> page</h1>
+            <h1 className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'><span className='text-resider-blue-primary '>Personalized</span> page</h1>
 
             <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>With a beautiful display of your property,
               we highlight key aspects including
@@ -630,13 +642,13 @@ export default function Home() {
           </div>
 
 
-          <div id='rightTextFilteredAvailability' className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
+          <div id='rightTextFilteredAvailability' ref={rightTextFilteredAvailability} className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
 
-            <div className="hidden lg:block h-[500px] w-10" />
+            {/* <div className="hidden lg:block h-[500px] w-10" /> */}
 
             <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Property</div>
 
-            <h1 ref={rightTextFilteredAvailability} className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'><span className='text-resider-blue-primary '>Filtered</span> availability</h1>
+            <h1 className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'><span className='text-resider-blue-primary '>Filtered</span> availability</h1>
 
             <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>Grouped by floor plan, available units are based on the user’s filters to ensure eligible results, and qualified clients.</p>
 
