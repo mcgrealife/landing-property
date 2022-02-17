@@ -497,14 +497,7 @@ export default function Home() {
           <div id='leftTextWrapper' ref={leftTextWrapper} className='text-[72px] font-[600] text-[rgba(60,64,67,1)] opacity-0 sticky left-[50%] top-[50%]'>{leftText}</div>
         </div>
 
-        <div id="phone" ref={phone} className='grid  grid-in-left lg:grid-in-middle col-span-2 grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-fit  justify-start lg:justify-center frame-shadow border-none border-purple-500 justify-items-center overflow-visible'>
-
-
-          {/* <h1 id='leftTextWrapper' ref={leftTextWrapper} className="hidden lg:grid col-start-1 col-end-3 row-start-3 text-[72px] font-[600] text-[rgba(60,64,67,1)]  place-self-center justify-center min-w-[550px] frame-shadow-none opacity-100">
-            {leftText}
-          </h1> */}
-
-
+        <div id="phone" ref={phone} className='grid  grid-in-left lg:grid-in-middle col-span-2 grid-areas-phone col-end-right grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-fit  justify-start lg:justify-center frame-shadow border-none border-purple-500 justify-items-center overflow-visible'>
 
           <div id="frameMask" ref={frameMask} className=" grid grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop rounded-br-[769.01px] rounded-bl-[769.01px] row-start-1 row-end-6 col-start-1 col-end-6 border-none border-green-500  overflow-hidden justify-items-center justify-center">
 
@@ -579,7 +572,7 @@ export default function Home() {
 
         </div>
 
-        <div id="rightTextCol" ref={rightTextCol} className='grid-in-right col-end-left lg:col-end-right flex flex-col gap-[500px] lg:gap-[1000px] pt-[1000px] z-10 w-fit justify-self-end lg:justify-self-center'>
+        <div id="rightTextCol" ref={rightTextCol} className='grid-in-right col-end-left lg:col-end-right flex flex-col gap-[500px] lg:gap-[1000px] pt-[1000px] z-10 w-fit justify-self-center lg:justify-self-end'>
 
           <div id='rightTextDataIntegrity' ref={rightTextDataIntegrity} className='bg-white lg:justify-self-end self-center lg:bg-transparent shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit mr-[16px] lg:mr-[59px] rounded-[8px]  flex flex-col gap-[8px] lg:gap-[16px] pl-[24px]  pr-[36px] lg:pr-[24px] pt-[36px] lg:pt-[32px] pb-[28px] lg:pb-[32px]'>
 
