@@ -92,11 +92,11 @@ export default function Home() {
 
 
     function scrollToMain() {
-      gsap.to(window, { duration: 1, scrollTo: { y: main.current, offsetY: 100, autoKill: false }, ease: "power3", invalidateOnRefresh: true })
+      gsap.to(window, { duration: 1, scrollTo: { y: main.current, offsetY: 100, autoKill: true }, ease: "power3", invalidateOnRefresh: true })
     }
 
     function scrollToTop() {
-      gsap.to(window, { duration: 1, scrollTo: { y: 0, autoKill: false }, ease: "power3" })
+      gsap.to(window, { duration: 1, scrollTo: { y: 0, autoKill: true }, ease: "power3" })
     }
 
     // use scrollDir conditional    
@@ -165,9 +165,9 @@ export default function Home() {
           scrollTrigger: {
             trigger: headerSubText.current,
             start: "top 15%",
-            onEnter: () => gsap.to(window, { duration: 1, scrollTo: { y: main.current, offsetY: 100, autoKill: false }, ease: "power3" }),
+            onEnter: () => gsap.to(window, { duration: 1, scrollTo: { y: main.current, offsetY: 110, autoKill: true }, ease: "power3" }),
             onLeaveBack: scrollToTop,
-            markers: true,
+            // markers: true,
             // invalidateOnRefresh: true,
           },
           opacity: 100
@@ -369,7 +369,7 @@ export default function Home() {
           scrollTrigger: {
             trigger: headerSubText.current,
             start: "top 15%",
-            markers: true,
+            // markers: true,
             onEnter: scrollToMain,
             onLeaveBack: scrollToTop
           }
