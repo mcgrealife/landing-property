@@ -150,7 +150,7 @@ export default function Home() {
             // probably onEnterBack function reverseIntro with smoother easing
             pin: true,
             // markers: true,
-            toggleActions: "play reverse play reverse",
+            toggleActions: "play pause play reverse",
           }
         })
           .fromTo(mapMask.current, {
@@ -205,8 +205,8 @@ export default function Home() {
             trigger: rightTextDataIntegrity.current,
             start: 'bottom top',
             markers: true,
-            onEnter: () => setLeftText("Search"),
-            onEnterBack: () => setLeftText("Filter")
+            onEnter: () => setLeftText("Filter"),
+            onEnterBack: () => setLeftText("Search")
           },
 
         })
@@ -297,7 +297,7 @@ export default function Home() {
             // probably onEnterBack function reverseIntro with smoother easing
             pin: true,
             // markers: true,
-            toggleActions: "play reverse play reverse"
+            toggleActions: "play pause play reverse"
           }
         })
 
@@ -473,6 +473,9 @@ export default function Home() {
       <div ref={main} id='main' className='grid grid-areas-main grid-cols-main grid-rows-main'>
 
         {/* reduce complexity of grid-areas by scaling svgs (then only need to define mobile?)  */}
+        <div id="test" className='z-20 grid-in-left fixed'>
+          <p>text</p>
+        </div>
 
         <div id="phone" ref={phone} className='grid  grid-in-left col-span-2 grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-fit  justify-start lg:justify-center frame-shadow border-none border-purple-500 justify-items-center overflow-visible'>
 
