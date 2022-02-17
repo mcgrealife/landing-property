@@ -20,13 +20,6 @@ export default function Home() {
     console.log(ScrollTrigger.getAll())
   }
 
-  function updateLeftTextFilter() {
-    return 'Filter'
-  }
-
-  function updateLeftTextSearch() {
-    return 'Search'
-  }
 
 
   const rightText = [
@@ -44,10 +37,6 @@ export default function Home() {
 
   const cards = useRef()
   const phone = useRef()
-  const leftText = useRef()
-  const leftTextFilter = useRef()
-  const leftTextProperty = useRef()
-  const leftTextBooking = useRef()
   const rightTextDataIntegrity = useRef()
   const rightTextMoveIn = useRef()
   const rightTextPersonalizedPage = useRef()
@@ -70,8 +59,9 @@ export default function Home() {
   const property = useRef() // svg shadow broken
   const propertyBar = useRef()
   const availability = useRef()
+  const leftTextWrapper = useRef()
 
-
+  const [leftText, setLeftText] = useState("Search")
 
   const [markerStyle, setMarkerStyle] = useState('selected')
   const [markerStyle2, setMarkerStyle2] = useState('unviewed')
@@ -129,8 +119,6 @@ export default function Home() {
         .from(spacer.current, {
           height: '0'
         })
-
-
     }
 
 
@@ -143,9 +131,6 @@ export default function Home() {
         scrub: true
       }
     })
-
-
-
 
 
     // I could probably use the same tweens in each matchMedia function, and use computed values for the dynamic parts (if mobile, move calendar up by 300px y; else if desktop, move calendar up by 400px y)
@@ -195,7 +180,7 @@ export default function Home() {
           // .from(spacer.current, {
           //   height: '0'
           // })
-          .set(leftText.current, {
+          .set(leftTextWrapper.current, {
             opacity: 100
           }, '<50%') // duration 50 fades but causes background calculations for 50 seconds
 
@@ -214,38 +199,17 @@ export default function Home() {
           ease: "power1.inOut",
         })
 
-        let dx = (el1, el2) => {
-          const topOf1 =
-            el1.current.getBoundingClientRect().y
-
-          const topOf2 =
-            el2.current.getBoundingClientRect().y
-
-          const heightOf2 =
-            el2.current.getBoundingClientRect().height
-
-
-          return (topOf2 - heightOf2) - topOf1
-        }
-
-        console.log(leftText.current.getBoundingClientRect())
-
         // desktop - leftText Search > Filter
-        gsap.timeline({
+        gsap.to(leftTextWrapper.current, {
           scrollTrigger: {
             trigger: rightTextDataIntegrity.current,
             start: 'bottom top',
-            end: () => "+=" + dx(rightTextDataIntegrity, rightTextMoveIn),
-            toggleActions: 'play reverse play reverse',
-            markers: true
-          }
+            markers: true,
+            onEnter: () => setLeftText("Search"),
+            onEnterBack: () => setLeftText("Filter")
+          },
+
         })
-          .set(leftText.current, {
-            opacity: 0
-          })
-          .set(leftTextFilter.current, {
-            opacity: 100
-          })
 
         // desktop - calendar
         gsap.timeline({
@@ -267,40 +231,34 @@ export default function Home() {
           }, 1)
 
         // desktop - leftText Filter > Property
-        gsap.timeline({
+        gsap.to(leftTextWrapper.current, {
           scrollTrigger: {
             trigger: rightTextMoveIn.current,
             start: 'bottom top',
-            end: () => "+=" + dx(rightTextMoveIn, rightTextPersonalizedPage),
-            toggleActions: 'play reverse play reverse',
-            markers: true
-          }
+            markers: true,
+            onEnter: () => setLeftText("Property"),
+            onEnterBack: () => setLeftText("Filter")
+          },
+
         })
-          .set(leftTextFilter.current, {
-            opacity: 0
-          })
-          .set(leftTextProperty.current, {
-            opacity: 100
-          })
 
         // desktop - property 
         gsap.timeline({
           scrollTrigger: {
             trigger: rightTextPersonalizedPage.current,
-            start: 'top bottom+=50',
+            start: 'top bottom',
             end: '2000px',
             // ease: "power1.inOut",
             toggleActions: 'play reverse play reverse'
           },
-          // duration: "0.1"
+          duration: "0.1"
         })
-          .set(leftTextFilter.current, {
-            opacity: 0
+          .from(propertyBar.current, {
+            opacity: 0,
           })
-          .set(leftTextProperty.current, {
-            opacity: 100
+          .from(property.current, {
+            opacity: 0,
           }, 0)
-        // possible gsap.set
 
 
 
@@ -319,7 +277,12 @@ export default function Home() {
             opacity: 100,
           })
 
+
+
+
       },
+
+
 
       // Mobile
       "(max-width: 799px)": function () {
@@ -375,9 +338,9 @@ export default function Home() {
           // .from(spacer.current, {
           //   height: '0'
           // })
-          .fromTo(leftText.current, {
-            opacity: 0
-          }, { opacity: 100, duration: 1 }, '<50%') // duration 50 fades but causes background calculations for 50 seconds
+          .set(leftText.current, {
+            opacity: 100
+          }, '<50%') // duration 50 fades but causes background calculations for 50 seconds
 
 
         // mobile - card swipe
@@ -514,17 +477,8 @@ export default function Home() {
         <div id="phone" ref={phone} className='grid  grid-in-left col-span-2 grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-fit  justify-start lg:justify-center frame-shadow border-none border-purple-500 justify-items-center overflow-visible'>
 
 
-          <h1 id='leftText' ref={leftText} className="hidden lg:grid col-start-1 col-end-3 row-start-3 text-[72px] font-[600] text-[rgba(60,64,67,1)]  place-self-center justify-center min-w-[550px] frame-shadow-none opacity-0">
-            Search
-          </h1>
-          <h1 id='leftTextFilter' ref={leftTextFilter} className="hidden lg:grid col-start-1 col-end-3 row-start-3 text-[72px] font-[600] text-[rgba(60,64,67,1)]  place-self-center justify-center min-w-[550px] frame-shadow-none opacity-0">
-            Filter
-          </h1>
-          <h1 id='leftTextProperty' ref={leftTextProperty} className="hidden lg:grid col-start-1 col-end-3 row-start-3 text-[72px] font-[600] text-[rgba(60,64,67,1)]  place-self-center justify-center min-w-[550px] frame-shadow-none opacity-0">
-            Property
-          </h1>
-          <h1 id='leftTextBooking' ref={leftTextBooking} className="hidden lg:grid col-start-1 col-end-3 row-start-3 text-[72px] font-[600] text-[rgba(60,64,67,1)]  place-self-center justify-center min-w-[550px] frame-shadow-none opacity-0">
-            Booking
+          <h1 id='leftTextWrapper' ref={leftTextWrapper} className="hidden lg:grid col-start-1 col-end-3 row-start-3 text-[72px] font-[600] text-[rgba(60,64,67,1)]  place-self-center justify-center min-w-[550px] frame-shadow-none opacity-100">
+            {leftText}
           </h1>
 
 
@@ -541,9 +495,9 @@ export default function Home() {
               <img src="/availability.svg" alt="availability" id="availability" ref={availability} className="z-12 grid-in-body self-start w-full opacity-0" />
 
               {/* property tab shadow and chip strokes broken in SVG, consider image or fixing .svg  or accepting it*/}
-              <img src="/property-bar.svg" alt="property-bar" id="property-bar" ref={propertyBar} className="z-12 grid-in-body self-end w-full opacity-0" />
+              <img src="/property-bar.svg" alt="property-bar" id="property-bar" ref={propertyBar} className="z-12 grid-in-body self-end w-full opacity-100" />
 
-              <img src="/property.svg" alt="calendar" id="property" ref={property} className="z-11 grid-in-body self-start w-full opacity-0" />
+              <img src="/property.svg" alt="calendar" id="property" ref={property} className="z-11 grid-in-body self-start w-full opacity-1000" />
 
 
               <img src="/calendar.svg" alt="calendar" id="calendar" ref={calendar} className="z-10 grid-in-body self-end w-full" />
