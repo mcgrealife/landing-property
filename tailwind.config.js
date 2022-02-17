@@ -33,8 +33,8 @@ module.exports = {
     gridTemplateColumns: {
       'mobile': '1fr, 1fr',
       'desktop': '1fr, 370px, 1fr',
-      'phoneMobile': '45.5px 9.5px 255px 9.5px 45.5px',
-      'phoneDesktop': '78px 13px 344px 13px 78px',
+      'phoneMobile': 'minmax(0,45.5px) 9.5px 255px 9.5px minmax(0,45.5px)',
+      'phoneDesktop': 'minmax(0,78px) 13px 344px 13px minmax(0,78px)',
       'screenMobile': 'auto',
       'screenDesktop': 'auto'
     },

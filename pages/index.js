@@ -206,7 +206,7 @@ export default function Home() {
           //   height: '0'
           // })
           .to(phone.current, {
-            filter: 'drop-shadow(0px 22.3363px 17.869px rgba(0, 0, 0, 0.0655718)) drop-shadow(0px 12.5216px 10.0172px rgba(0, 0, 0, 0.055)) drop-shadow(0px 6.6501px 5.32008px rgba(0, 0, 0, 0.0444282)) drop-shadow(0px 2.76726px 2.21381px rgba(0, 0, 0, 0.030926))'
+            filter: 'drop-shadow(0px 22.3363px 17.869px rgba(0, 0, 0, 0.0655718)) drop-shadow(0px 12.5216px 10.0172px rgba(0, 0, 0, 0.055)) drop-shadow(0px 6.6501px 5.32008px rgba(0, 0, 0, 0.0444282)) drop-shadow(0px 2.76726px 2.21381px rgba(0, 0, 0, 0.030926))',
           })
           .set(leftTextWrapper.current, {
             opacity: 100
@@ -366,6 +366,10 @@ export default function Home() {
         })
 
           // mobile map-transition
+          .from(phone.current, {
+            width: '500px',
+            x: "+=10%"
+          })
           .from(screen.current, {
             height: '440px',
           })
@@ -397,10 +401,13 @@ export default function Home() {
             width: '303px',
             height: '303px'
           }, {
-            width: '',
+            width: '275px',
             height: '645px',
             borderRadius: '10px'
           }, 0)
+          // .from(phone.current, {
+          //   width: '303px'
+          // }, 0)
           .to(wrapperMapMask.current, {
             width: '254px',
             height: '591px',
@@ -410,7 +417,7 @@ export default function Home() {
           //   height: '0'
           // })
           .to(phone.current, {
-            filter: 'drop-shadow(0px 22.3363px 17.869px rgba(0, 0, 0, 0.0655718)) drop-shadow(0px 12.5216px 10.0172px rgba(0, 0, 0, 0.055)) drop-shadow(0px 6.6501px 5.32008px rgba(0, 0, 0, 0.0444282)) drop-shadow(0px 2.76726px 2.21381px rgba(0, 0, 0, 0.030926))'
+            filter: 'drop-shadow(0px 22.3363px 17.869px rgba(0, 0, 0, 0.0655718)) drop-shadow(0px 12.5216px 10.0172px rgba(0, 0, 0, 0.055)) drop-shadow(0px 6.6501px 5.32008px rgba(0, 0, 0, 0.0444282)) drop-shadow(0px 2.76726px 2.21381px rgba(0, 0, 0, 0.030926))',
           })
           .set(leftText.current, {
             opacity: 100
@@ -569,7 +576,7 @@ export default function Home() {
           <div id='leftTextWrapper' ref={leftTextWrapper} className='text-[72px] font-[600] text-[rgba(60,64,67,1)] opacity-0 sticky left-[50%] top-[50%]'>{leftText}</div>
         </div>
 
-        <div id="phone" ref={phone} className='grid  grid-in-left lg:grid-in-middle col-span-2 grid-areas-phone col-end-right grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-fit  justify-start lg:justify-center  border-2 border-purple-500 justify-items-center overflow-visible'>
+        <div id="phone" ref={phone} className='grid  grid-in-left lg:grid-in-middle col-span-2 grid-areas-phone col-end-right grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-fit w-[303px] lg:w-fit  justify-start   lg:justify-center  border-2 border-purple-500 justify-items-center overflow-visible'>
 
           {/* frame-shadow */}
 
