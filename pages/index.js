@@ -475,10 +475,11 @@ export default function Home() {
           scrollTrigger: {
             trigger: rightTextPersonalizedPage.current,
             start: 'top 80%',
+            end: "+=2000",
             // ease: "power1.inOut",
             toggleActions: 'play reverse play reverse'
           },
-          duration: "0.1"
+          // duration: "0.1"
         })
           // possible gsap.set
           .from(propertyBar.current, {
@@ -522,7 +523,7 @@ export default function Home() {
       </Head>
 
 
-      <header className='bg-white py-[14px]  w-full grid h-[78px] sticky top-0 z-20 pr-[20px] pl-[24px]'>
+      <header className='bg-white py-[12px] w-full grid h-[78px] sticky top-0 z-20 pr-[16px] pl-[24px]'>
         <div className=" relative">
           <Image
             src={logo}
@@ -532,12 +533,9 @@ export default function Home() {
           />
         </div>
 
-        <div className="flex flex-row justify-end gap-[12px] col-start-2 row-start-1">
+        <div className="flex flex-row justify-end gap-[4px] col-start-2 row-start-1">
 
-          <button className='hidden lg:block bg-resider-blue-primary rounded text-white align-center font-[600] text-[14px] leading-[20px] px-[20px] py-[14px] will-change-transform' onClick={scheduleDemoClick}>Request A Demo</button>
-          <img src='/menu_black_24dp.svg'
-            alt='menu-icon'
-            className='lg:hidden  w-[24px] min-w-[24px]' />
+          <button className='block bg-resider-blue-primary rounded text-white align-center font-[600] text-[14px] leading-[20px] px-[16px] py-[14px]' onClick={scheduleDemoClick}>Request A Demo</button>
         </div>
       </header>
 
