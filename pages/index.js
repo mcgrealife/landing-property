@@ -173,6 +173,7 @@ export default function Home() {
           opacity: 100
         })
 
+        // to add scrub. extract intro map animation into it's own non-scrub timeline. then make a new mainTL that scrubs.
 
         // desktop - map intro
         gsap.timeline({
@@ -183,6 +184,7 @@ export default function Home() {
 
             // probably onEnterBack function reverseIntro with smoother easing
             pin: true,
+            scrub: 2,
             // markers: true,
             toggleActions: "play pause play reverse",
             // onLeave: leftTextExit // this fires when the phone is unpinned
@@ -433,14 +435,18 @@ export default function Home() {
           // .from(phone.current, {
           //   width: '303px'
           // }, 0)
+          // .to(screen.current, {
+          //   height: '552px'
+          // }, 0)
           .to(wrapperMapMask.current, {
             width: '254px',
-            height: '591px',
+            height: '590px',
             ease: "power2",
           }, '<75%')
           // .from(spacer.current, {
           //   height: '0'
           // })
+
           .to(phone.current, {
             filter: 'drop-shadow(0px 22.3363px 17.869px rgba(0, 0, 0, 0.0655718)) drop-shadow(0px 12.5216px 10.0172px rgba(0, 0, 0, 0.055)) drop-shadow(0px 6.6501px 5.32008px rgba(0, 0, 0, 0.0444282)) drop-shadow(0px 2.76726px 2.21381px rgba(0, 0, 0, 0.030926))',
           })
@@ -609,7 +615,7 @@ export default function Home() {
 
             <img id='frame' ref={frame} src="frame-hollow.svg" alt="frame" className=' w-full col-start-2 col-end-5 row-start-2 row-end-4  z-20' />
 
-            <div id="screen" ref={screen} className="grid col-start-3 col-end-4 row-start-3 row-end-4  grid-areas-screen grid-cols-screenMobile lg:grid-cols-screenDesktop grid-rows-screenMobile lg:grid-rows-screenDesktop overflow-hidden rounded-[20px]  lg:rounded-[42px] border-none border-orange-500">
+            <div id="screen" ref={screen} className="grid col-start-3 col-end-4 row-start-3 row-end-4  grid-areas-screen grid-cols-screenMobile lg:grid-cols-screenDesktop grid-rows-screenMobile lg:grid-rows-screenDesktop overflow-hidden rounded-[20px]  lg:rounded-[42px] border-none border-orange-500 z-20">
 
 
 
