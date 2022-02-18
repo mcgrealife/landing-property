@@ -2,12 +2,15 @@ import Head from 'next/head'
 import Card from '../components/Card'
 import Marker from '../components/Marker'
 import Image from 'next/image'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger"
 import { ScrollToPlugin } from "gsap/dist/ScrollToPlugin"
 // import { TextPlugin } from "gsap/dist/TextPlugin"
 import logo from '../public/resider-logo.png'
+import map from '../public/map-circle-4x.png'
+import phoneHeroImg from '../public/phone-hero-img.png'
+import phoneHeroImgSquare from '../public/phone-hero-img-square.png'
 
 
 export default function Home() {
@@ -16,11 +19,20 @@ export default function Home() {
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
 
   function scheduleDemoClick() {
-    // return alert('💰 $100 showing, $1000 max. 50% per lease. 💰 ')
+
+    // maybe conditional workround for pin
+
     gsap.to(window, { duration: 1, scrollTo: { y: demo.current, offsetY: 100, autoKill: true }, ease: "power3", invalidateOnRefresh: true })
+
   }
 
+  // the scrollTrigger is the rightText col. 
 
+
+  // ScrollTrigger.create({
+  //   trigger: rightTextDataIntegrity.current,
+  //   animation: tlMainMobile,
+  // })
 
 
   const rightText = [
@@ -35,7 +47,8 @@ export default function Home() {
 
   ]
 
-
+  const phoneHero = useRef()
+  const mapHero = useRef()
   const cards = useRef()
   const phone = useRef()
   const rightTextDataIntegrity = useRef()
@@ -140,6 +153,20 @@ export default function Home() {
       }
     })
 
+
+
+    gsap.timeline({
+
+    })
+      .from(mapHero.current, {
+        scale: 0,
+        opacity: 0,
+        // ease: "out",
+      })
+      .from(phoneHero.current, {
+        y: () => "+=" + phoneHero.current.getBoundingClientRect().height,
+        // ease: "out",
+      })
 
     // I could probably use the same tweens in each matchMedia function, and use computed values for the dynamic parts (if mobile, move calendar up by 300px y; else if desktop, move calendar up by 400px y)
     ScrollTrigger.matchMedia({
@@ -588,6 +615,35 @@ export default function Home() {
 
         <p ref={headerSubText} className='text-[rgba(96,99,103,1)] mt-[15.15px] lg:mt-[16px] text-[18px] lg:text-[26px] leading-[30px] lg:leading-[38px] max-w-[326px] lg:max-w-[579px]'>Resider is a smart, efficient and helpful way to qualify and schedule your prospective tenants.</p>
 
+        <div id="phone-hero" className='grid justify-items-center justify-center rounded-br-full rounded-bl-full overflow-hidden'>
+          {/* <img src="/phone-hero.svg" alt="phone-hero" 
+        className='align-end row-start-1 col-start-1 z-2 w-full' /> */}
+
+          <div ref={phoneHero} className='relative w-[303px] h-[303px] lg:w-[526px] lg:h-[526px] col-start-1 row-start-1 z-2'>
+            <Image
+              src={phoneHeroImgSquare}
+              alt="phoneHeroImgSquare"
+              layout="fill"
+              objectFit='fill'
+              priority
+            />
+          </div>
+
+          <div ref={mapHero} className='relative w-[303px] h-[303px] lg:w-[526px] lg:h-[526px] col-start-1 row-start-1 '>
+            <Image
+              src={map}
+              alt='map'
+              layout="fill"
+              objectFit='fill'
+              priority
+            />
+          </div>
+
+
+
+
+        </div>
+
 
       </div>
 
@@ -596,12 +652,28 @@ export default function Home() {
       <div id='spacer' className='h-[100px]' />
 
 
+      <div id="gridContainer" className='grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop'>
+        <div id="phoneAndLeftText" className='grid-in-left col-end-right flex flex-row justify-around'>
+
+          <div id="leftTextNew" className='place-self-start'>
+            <h1>Left Text</h1>
+          </div>
+          <div id="phone" className='justify-self-center min-w-[274px] lg:min-w[370px]'>
+            <div className='bg-red-500 h-96 w-96' />
+          </div>
+
+        </div>
+
+        <div id="rightTextNew" className='grid-in-right flex flex-col  gap-96 min-w-[280px] lg:min-w-[404px] mr-[16px] lg:mr-[59px] justify-self-end'>
+          <h1>right text</h1>
+          <h1>rightText</h1>
+        </div>
+
+      </div>
+
+
       <div ref={main} id='main' className='grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop'>
 
-        {/* reduce complexity of grid-areas by scaling svgs (then only need to define mobile?)  */}
-        {/* <div id="test" className='z-20 col-start-1 col-end-2 h-screen fixed top-1/2 left-1/4'>
-          <p className=''>text</p>
-        </div> */}
 
         <div className="hidden lg:block grid-in-left z-19 justify-self-center">
           <div id='leftTextWrapper' ref={leftTextWrapper} className='text-[72px] font-[600] text-[rgba(60,64,67,1)] opacity-0 sticky left-[50%] top-[50%]'>{leftText}</div>
@@ -758,7 +830,7 @@ export default function Home() {
         <div className=''>test</div>
       </div> */}
 
-    </div>
+    </div >
 
 
 
