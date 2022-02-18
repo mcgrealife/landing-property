@@ -26,8 +26,6 @@ export default function Home() {
 
   }
 
-  // the scrollTrigger is the rightText col. 
-
 
   // ScrollTrigger.create({
   //   trigger: rightTextDataIntegrity.current,
@@ -35,8 +33,11 @@ export default function Home() {
   // })
 
 
+  // return jsx with <span> for titles. or split the titles
   const rightText = [
     {
+      blueTitle: "..",
+      darkTitle: "..",
       title: "Data integrity",
       body: "Resider solely consists of rental properties syndicated through data API’s. With up to date and accurate listings, your clients can browse with confidence.",
     },
@@ -58,7 +59,7 @@ export default function Home() {
   const rightTextCol = useRef()
   const topLogo = useRef()
   const headerShadow = useRef()
-  const section1 = useRef()
+  const heroSection = useRef()
   const main = useRef()
   const mapMask = useRef()
   const wrapperMapMask = useRef()
@@ -112,37 +113,8 @@ export default function Home() {
       gsap.to(window, { duration: 1, scrollTo: { y: 0, autoKill: true }, ease: "power3" })
     }
 
-    // use scrollDir conditional    
-    function reverseIntro() {
-      // do I need to kill the previous timeline so it's not pinned? (if so put other timeline in variable, then variable.kill() a the of of this function )
-      gsap.timeline()
-        .fromTo(mapMask.current, {
-          y: '-=0px',
-          height: '525px',
-          width: '525px',
-          borderRadius: '769.01'
-        }, {
-          height: '844px',
-          width: '525px',
-        }, 0)
-        .from(wrapperMapMask.current, {
-          width: '525px',
-          borderRadius: '0'
-        }, 0)
-        .from(frameMask.current, {
-          height: '525px'
-        }, 0)
-        .to(wrapperMapMask.current, {
-          width: '345px',
-          height: '787px',
-          ease: "power2",
-        }, '<75%')
-        .from(spacer.current, {
-          height: '0'
-        })
-    }
 
-
+    // dynamic for mobile, probably move to MatchMedia. or use computed values
     gsap.to(headerShadow.current, {
       opacity: 100,
       scrollTrigger: {
@@ -154,9 +126,8 @@ export default function Home() {
     })
 
 
-
+    // onLoad Animation
     gsap.timeline({
-
     })
       .from(mapHero.current, {
         scale: 0,
@@ -168,115 +139,58 @@ export default function Home() {
         // ease: "out",
       })
 
-    // I could probably use the same tweens in each matchMedia function, and use computed values for the dynamic parts (if mobile, move calendar up by 300px y; else if desktop, move calendar up by 400px y)
+
+
+    // // scrollToSubHeaderTransitionToMain
+    // gsap.to(headerSubText.current, {
+    //   scrollTrigger: {
+    //     trigger: headerSubText.current,
+    //     start: "top 15%",
+    //     onEnter: () => gsap.to(window, { duration: 1, scrollTo: { y: main.current, offsetY: 110, autoKill: true }, ease: "power3" }),
+    //     onLeaveBack: scrollToTop,
+    //     // markers: true,
+    //     // invalidateOnRefresh: true,
+    //   },
+    //   opacity: 100
+    // })
+
+
+    // hero outro fade
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: headerSubText.current,
+        start: "top top",
+        endTrigger: mapHero.current,
+        end: "bottom top+=5%",
+        scrub: true,
+      }
+    })
+      .to(heroSection.current, {
+        opacity: 0
+      })
+
     ScrollTrigger.matchMedia({
 
       // Desktop
       "(min-width: 800px)": function () {
 
-
-        // temporary until I can link it to desktop map intro onLeave callback
-        gsap.to(leftTextWrapper.current, {
-          y: () => "-" + window.innerHeight / 3, // rightTextFilteredAvailability.current.getBoundingClientRect().y
-          scrollTrigger: {
-            trigger: rightTextFilteredAvailability.current,
-            start: "top 30%",
-            end: "+=40%",
-            ease: "linear",
-            scrub: true,
-            invalidateOnRefresh: true
-          }
-        })
-
-        gsap.to(headerSubText.current, {
-          scrollTrigger: {
-            trigger: headerSubText.current,
-            start: "top 15%",
-            onEnter: () => gsap.to(window, { duration: 1, scrollTo: { y: main.current, offsetY: 110, autoKill: true }, ease: "power3" }),
-            onLeaveBack: scrollToTop,
-            // markers: true,
-            // invalidateOnRefresh: true,
-          },
-          opacity: 100
-        })
-
-        // to add scrub. extract intro map animation into it's own non-scrub timeline. then make a new mainTL that scrubs.
-
         // desktop - map intro
         gsap.timeline({
           scrollTrigger: {
-            trigger: phone.current,
-            start: 'top 10%',
+            trigger: main.current,
+            start: 'center center',
             end: rightTextCol.current.getBoundingClientRect().height, // 100%
-
-            // probably onEnterBack function reverseIntro with smoother easing
             pin: true,
             scrub: 2,
-            // markers: true,
             toggleActions: "play pause play reverse",
-            // onLeave: leftTextExit // this fires when the phone is unpinned
           }
         })
-          .fromTo(mapMask.current, {
-            y: '-=0px',
-            height: '525px',
-            width: '525px',
-            borderRadius: '769.01'
-          }, {
-            height: '844px',
-            width: '525px',
-            // borderRadius: 0
-          }, 0)
-          .from(wrapperMapMask.current, {
-            width: '525px',
-            // borderRadius: 0
-          }, 0)
-          .from(frameMask.current, {
-            width: '525px',
-            height: '525px',
-          }, 0)
-          .to(frameMask.current, {
-            borderRadius: 0
-          }, 0)
-          .to(wrapperMapMask.current, {
-            width: '345px',
-            height: '787px',
-            ease: "power2",
-            // borderRadius: 0
-          }, '<75%')
-          // .from(spacer.current, {
-          //   height: '0'
-          // })
           .set(leftTextWrapper.current, {
             opacity: 100
-          }, "<10%") // duration 50 fades but causes background calculations for 50 seconds
-          .to(phone.current, {
-            filter: 'drop-shadow(0px 22.3363px 17.869px rgba(0, 0, 0, 0.0655718)) drop-shadow(0px 12.5216px 10.0172px rgba(0, 0, 0, 0.055)) drop-shadow(0px 6.6501px 5.32008px rgba(0, 0, 0, 0.0444282)) drop-shadow(0px 2.76726px 2.21381px rgba(0, 0, 0, 0.030926))',
-          })
+          }, "<10%")
 
 
         // desktop - card swipe
-
-        // gsap.timeline({
-        //   scrollTrigger: {
-        //     trigger: rightTextDataIntegrity.current,
-        //     start: 'top 60%', // when it's 60% of the phone container. good use for a label?
-        //     end: '+=1',
-        //     scrub: 2,
-        //     ease: "power1.inOut",
-        //     onEnter: () => setMarkerImage(imgUrl("desktop", 2)),
-        //     onEnterBack: () => setMarkerImage(imgUrl("desktop", 1)),
-        //   }
-        // })
-        //   .to(cards.current, {
-        //     x: '-312',
-        //     ease: "power1.inOut",
-        //   })
-        //   .to(cards.current, {
-        //     x: "-=312",
-        //     ease: "power1.inOut",
-        //   }, ">100%")
-
         gsap.to(cards.current, {
           scrollTrigger: {
             trigger: rightTextDataIntegrity.current,
@@ -399,8 +313,8 @@ export default function Home() {
             trigger: headerSubText.current,
             start: "top 15%",
             // markers: true,
-            onEnter: scrollToMain,
-            onLeaveBack: scrollToTop
+            // onEnter: scrollToMain,
+            // onLeaveBack: scrollToTop
           }
 
         })
@@ -607,7 +521,7 @@ export default function Home() {
 
       <div ref={headerShadow} className='shadow-[0_2px_4px_rgba(60,64,67,0.1)] w-full grid h-[78px] fixed top-0 z-10 opacity-0' />
 
-      <div id='section-1' ref={section1} className='flex flex-col place-items-center text-center'>
+      <div id='hero-section' ref={heroSection} className='flex flex-col place-items-center text-center'>
 
         <img src="/logo-square.svg" alt="logo-square" className='h-[36px] lg:h-[52px] mt-[12px]' />
 
@@ -647,121 +561,26 @@ export default function Home() {
 
       </div>
 
-
-
       <div id='spacer' className='h-[100px]' />
 
+      <div id="gridContainer" className='grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop z-20'>
 
-      <div id="gridContainer" className='grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop'>
-        <div id="phoneAndLeftText" className='grid-in-left col-end-right flex flex-row justify-around'>
+        <div id="phoneAndLeftText" ref={main} className='grid-in-left col-end-right grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop self-start'>
 
-          <div id="leftTextNew" className='place-self-start'>
-            <h1>Left Text</h1>
-          </div>
-          <div id="phone" className='justify-self-center min-w-[274px] lg:min-w[370px]'>
-            <div className='bg-red-500 h-96 w-96' />
-          </div>
-
-        </div>
-
-        <div id="rightTextNew" className='grid-in-right flex flex-col  gap-96 min-w-[280px] lg:min-w-[404px] mr-[16px] lg:mr-[59px] justify-self-end'>
-          <h1>right text</h1>
-          <h1>rightText</h1>
-        </div>
-
-      </div>
-
-
-      <div ref={main} id='main' className='grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop'>
-
-
-        <div className="hidden lg:block grid-in-left z-19 justify-self-center">
-          <div id='leftTextWrapper' ref={leftTextWrapper} className='text-[72px] font-[600] text-[rgba(60,64,67,1)] opacity-0 sticky left-[50%] top-[50%]'>{leftText}</div>
-        </div>
-
-        <div id="phone" ref={phone} className='grid  grid-in-left lg:grid-in-middle col-span-2 grid-areas-phone col-end-right grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-fit w-[303px] lg:w-fit  justify-start   lg:justify-center  border-none border-purple-500 justify-items-center overflow-visible'>
-
-          {/* frame-shadow */}
-
-          <div id="frameMask" ref={frameMask} className=" grid grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop rounded-br-[769.01px] rounded-bl-[769.01px]  row-start-1 row-end-6 col-start-1 col-end-6 border-none border-green-500  overflow-hidden justify-items-center justify-center">
-
-            <img id='frame' ref={frame} src="frame-hollow.svg" alt="frame" className=' w-full col-start-2 col-end-5 row-start-2 row-end-4  z-20' />
-
-            <div id="screen" ref={screen} className="grid col-start-3 col-end-4 row-start-3 row-end-4  grid-areas-screen grid-cols-screenMobile lg:grid-cols-screenDesktop grid-rows-screenMobile lg:grid-rows-screenDesktop overflow-hidden rounded-[20px]  lg:rounded-[42px] border-none border-orange-500 z-20">
-
-
-
-              <img src="/availability.svg" alt="availability" id="availability" ref={availability} className="z-12 grid-in-body self-start w-full opacity-0" />
-
-              {/* property tab shadow and chip strokes broken in SVG, consider image or fixing .svg  or accepting it*/}
-              <img src="/property-bar.svg" alt="property-bar" id="property-bar" ref={propertyBar} className="z-12 grid-in-body self-end w-full opacity-100" />
-
-              <img src="/property.svg" alt="calendar" id="property" ref={property} className="z-11 grid-in-body self-start w-full opacity-1000" />
-
-              <div id="overlay" ref={overlay} className="bg-black opacity-50 grid-in-body z-9" />
-
-              <img src="/calendar.svg" alt="calendar" id="calendar" ref={calendar} className="z-10 grid-in-body self-end w-full" />
-
-              <div id="markers" ref={markers} className='grid-in-body self-end z-1'>
-                <img src={markerImage} alt="markers-1-desktop" />
-
-              </div>
-
-              {/* <div id='markers' className='flex grid-in-body z-4 place-self-center gap-4'>
-                <Marker
-                  text='5 units'
-                  state={markerStyle}
-                />
-                <Marker
-                  text='$3000'
-                  state={markerStyle2}
-                />
-                <Marker
-                  text='$2700'
-                  state='unviewed'
-                />
-              </div> */}
-
-              <img src="/status-search-filter.svg" alt="status"
-                className='grid-in-status z-2 shadow-lg w-full ' />
-
-              <div id='carousel' ref={carousel} className=' grid grid-in-body justify-items-end self-end z-6 pb-[17px] lg:pb-[28.5px] overflow-x-scroll scrollbar-hide snap-x  pt-2'>
-
-                <div ref={cards} className='flex flex-row min-w-max gap-2 px-4 overflow-visible'>
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                </div>
-
-              </div>
-
-              <img src="/home.svg" alt="home" className=' grid-in-body justify-self-center self-end pb-[5.23px] z-20 w-[91px] lg:w-[123px]' />
-
-            </div>
+          <div id="leftTextNew" ref={leftTextWrapper} className='grid-in-left place-self-center text-[72px] font-[600] text-[rgba(60,64,67,1)] opacity-100'>
+            {leftText}
           </div>
 
 
-          <div id="wrapperMapMask" ref={wrapperMapMask} className='grid col-start-3 col-end-4 row-start-1 row-end-4  overflow-hidden border-none border-pink-500 rounded-[20px] lg:rounded-[41px] self-start justify-center '>
-            {/* <div id="spacer" ref={spacer} className="h-[28px]" /> */}
-
-            <div id="mapMask" ref={mapMask} className='w-[344px] h-[744px] rounded-none lg:rounded-[41px] overflow-hidden border-none border-fuchsia-300' >
-
-              <img id='map' src="map-5.png" alt="map" className='object-cover  w-[800px] h-[800px]' />
-            </div>
+          <div id="phone" ref={phone} className='grid-in-left lg:grid-in-middle place-self-center min-w-[274px] lg:min-w[370px]'>
+            <div className='bg-red-500 h-96 w-96 ml-[24px] lg:ml-0 frame-shadow' />
           </div>
 
         </div>
 
-        <div id="rightTextCol" ref={rightTextCol} className='grid-in-right col-end-left lg:col-end-right flex flex-col gap-[500px] lg:gap-[1000px] pt-[1000px] z-10 w-fit justify-self-center lg:justify-self-end'>
+        <div id="rightTextCol" ref={rightTextCol} className='grid-in-right col-end-left lg:col-end-right flex flex-col gap-[500px] lg:gap-[1000px] pt-[1000px] z-10 w-fit min-w-[280px] lg:min-w-[404px] mr-[16px] lg:mr-[59px] place-items-start justify-self-end'>
+
+
 
           <div id='rightTextDataIntegrity' ref={rightTextDataIntegrity} className='bg-white lg:justify-self-end self-center lg:bg-transparent shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit mr-[16px] lg:mr-[59px] rounded-[8px]  flex flex-col gap-[8px] lg:gap-[16px] pl-[24px]  pr-[36px] lg:pr-[24px] pt-[36px] lg:pt-[32px] pb-[28px] lg:pb-[32px]'>
 
@@ -811,16 +630,105 @@ export default function Home() {
 
             <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>Grouped by floor plan, available units are based on the user’s filters to ensure eligible results, and qualified clients.</p>
 
+
+
+
+
+            {/* <div id="spacer3" className='h-[500px] lg:h-[1000px]' /> */}
           </div>
+        </div>
+
+
+      </div>
 
 
 
-          {/* <div id="spacer3" className='h-[500px] lg:h-[1000px]' /> */}
+      <div className='grid  grid-in-left lg:grid-in-middle col-span-2 grid-areas-phone col-end-right grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop  ml-[24px] lg:ml-[0px] h-fit w-[303px] lg:w-fit  justify-start   lg:justify-center  border-none border-purple-500 justify-items-center overflow-visible'>
+
+
+        <div id="frameMask" ref={frameMask} className=" grid grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop rounded-br-[769.01px] rounded-bl-[769.01px]  row-start-1 row-end-6 col-start-1 col-end-6 border-none border-green-500  overflow-hidden justify-items-center justify-center">
+
+          <img id='frame' ref={frame} src="frame-hollow.svg" alt="frame" className=' w-full col-start-2 col-end-5 row-start-2 row-end-4  z-20' />
+
+          <div id="screen" ref={screen} className="grid col-start-3 col-end-4 row-start-3 row-end-4  grid-areas-screen grid-cols-screenMobile lg:grid-cols-screenDesktop grid-rows-screenMobile lg:grid-rows-screenDesktop overflow-hidden rounded-[20px]  lg:rounded-[42px] border-none border-orange-500 z-20">
+
+
+
+            <img src="/availability.svg" alt="availability" id="availability" ref={availability} className="z-12 grid-in-body self-start w-full opacity-0" />
+
+            {/* property tab shadow and chip strokes broken in SVG, consider image or fixing .svg  or accepting it*/}
+            <img src="/property-bar.svg" alt="property-bar" id="property-bar" ref={propertyBar} className="z-12 grid-in-body self-end w-full opacity-100" />
+
+            <img src="/property.svg" alt="calendar" id="property" ref={property} className="z-11 grid-in-body self-start w-full opacity-1000" />
+
+            <div id="overlay" ref={overlay} className="bg-black opacity-50 grid-in-body z-9" />
+
+            <img src="/calendar.svg" alt="calendar" id="calendar" ref={calendar} className="z-10 grid-in-body self-end w-full" />
+
+            <div id="markers" ref={markers} className='grid-in-body self-end z-1'>
+              <img src={markerImage} alt="markers-1-desktop" />
+
+            </div>
+
+            {/* <div id='markers' className='flex grid-in-body z-4 place-self-center gap-4'>
+                <Marker
+                  text='5 units'
+                  state={markerStyle}
+                />
+                <Marker
+                  text='$3000'
+                  state={markerStyle2}
+                />
+                <Marker
+                  text='$2700'
+                  state='unviewed'
+                />
+              </div> */}
+
+            <img src="/status-search-filter.svg" alt="status"
+              className='grid-in-status z-2 shadow-lg w-full ' />
+
+            <div id='carousel' ref={carousel} className=' grid grid-in-body justify-items-end self-end z-6 pb-[17px] lg:pb-[28.5px] overflow-x-scroll scrollbar-hide snap-x  pt-2'>
+
+              <div ref={cards} className='flex flex-row min-w-max gap-2 px-4 overflow-visible'>
+                <Card />
+                <Card />
+                <Card />
+                <Card />
+                <Card />
+                <Card />
+                <Card />
+                <Card />
+                <Card />
+                <Card />
+                <Card />
+                <Card />
+              </div>
+
+            </div>
+
+            <img src="/home.svg" alt="home" className=' grid-in-body justify-self-center self-end pb-[5.23px] z-20 w-[91px] lg:w-[123px]' />
+
+          </div>
+        </div>
+
+
+        <div id="wrapperMapMask" ref={wrapperMapMask} className='grid col-start-3 col-end-4 row-start-1 row-end-4  overflow-hidden border-none border-pink-500 rounded-[20px] lg:rounded-[41px] self-start justify-center '>
+          {/* <div id="spacer" ref={spacer} className="h-[28px]" /> */}
+
+          <div id="mapMask" ref={mapMask} className='w-[344px] h-[744px] rounded-none lg:rounded-[41px] overflow-hidden border-none border-fuchsia-300' >
+
+            <img id='map' src="map-5.png" alt="map" className='object-cover  w-[800px] h-[800px]' />
+          </div>
         </div>
 
       </div>
 
-      {/* <div id="spacerBottom" className='h-screen' /> */}
+
+
+
+
+
 
       <div id="demo" ref={demo} className='flex flex-col h-[1000px] self-center text-center justify-center pt-[20] lg:pt-[36] pl-[24px] pr-[32px]'>
         <h1 className=' font-bold text-[28px] lg:text-[48px]leading-[24px] text-[rgba(60,64,67,1)]'>Request a Demo</h1>

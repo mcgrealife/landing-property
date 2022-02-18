@@ -39,8 +39,8 @@ module.exports = {
       'screenDesktop': 'auto'
     },
     gridTemplateRows: {
-      'mobile': 'auto',
-      'desktop': 'auto',
+      'mobile': 'auto', // 100vh?
+      'desktop': 'auto', // 100vh?
       'phoneMobile': '28px 8px 552px 8px 49px',
       'phoneDesktop': '28px 11px 745px 11px 49px',
       'screenMobile': '30px 522.5px',
