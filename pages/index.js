@@ -36,7 +36,9 @@ export default function Home() {
 
     // maybe conditional workround for pin
 
-    gsap.to(window, { duration: 1, scrollTo: { y: demo.current, offsetY: 100, autoKill: true }, ease: "power3", invalidateOnRefresh: true })
+    // gsap.to(window, { duration: 1, scrollTo: { y: demo.current, offsetY: 100 }, ease: "power3", autoKill: true, invalidateOnRefresh: true })
+
+    console.log(ScrollTrigger.getAll())
 
   }
 
@@ -120,6 +122,8 @@ export default function Home() {
   useEffect(() => {
 
 
+
+
     // onLoad Animation
     gsap.timeline({
       onStart: () => console.log("animation 'map intro' plays only once on page load/refresh")
@@ -178,10 +182,14 @@ export default function Home() {
     })
 
 
-    function vh(num) {
-      if (typeof window !== "undefined") {
-        return window.innerHeight * (num / 100)
+    function vh(desktop, mobile) {
+
+      if (isDesktop) {
+        return "+=" + (window.innerHeight * (desktop / 100))
+      } else {
+        return "+=" + (window.innerHeight * (mobile / 100))
       }
+
     }
 
     // desktop - map intro
@@ -203,7 +211,7 @@ export default function Home() {
     let cardSwipe1 = gsap.to(cards.current, {
       scrollTrigger: {
         trigger: rightTextDataIntegrity.current,
-        start: () => isDesktop ? 'top 85%' : 'top 85%', //desktop top85
+        start: () => isDesktop ? 'top 85%' : 'top 85%',
         end: '+=1',
         scrub: 2,
         ease: "power1.inOut",
@@ -212,20 +220,53 @@ export default function Home() {
       },
       x: '-312',
     })
+
 
     let cardSwipe2 = gsap.to(cards.current, {
       scrollTrigger: {
         trigger: rightTextDataIntegrity.current,
-        start: 'top 85%', //
+        start: () => isDesktop ? 'top 60%' : 'top 60%',
         end: '+=1',
         scrub: 2,
         ease: "power1.inOut",
-        onEnter: () => setMarkerImage(imgUrl("desktop", 2)),
-        onEnterBack: () => setMarkerImage(imgUrl("desktop", 1)),
+        onEnter: () => setMarkerImage(imgUrl("desktop", 3)),
+        onEnterBack: () => setMarkerImage(imgUrl("desktop", 2)),
       },
-      x: '-312',
+      x: '-=312',
     })
 
+    let filterToSearch = gsap.to(leftTextWrapper.current, {
+      scrollTrigger: {
+        trigger: rightTextDataIntegrity.current,
+        start: () => isDesktop ? 'top top+=10%' : 'top top+=10%',
+        onEnter: () => setLeftText("Filter"),
+        onEnterBack: () => setLeftText("Search")
+      },
+    })
+
+    console.log("+=" + isDesktop ? vh(50) : vh(50))
+
+    let calendarAnimation = gsap.timeline({
+      scrollTrigger: {
+        trigger: rightTextMoveIn.current,
+        start: 'center bottom',
+        end: () => vh(50, 50),
+        toggleActions: 'play reverse play reverse',
+        scrub: true
+      },
+    })
+      .from(overlay.current, {
+        opacity: 0,
+      }, 0)
+      .from(calendar0.current, {
+        y: () => calendar0.current.getBoundingClientRect().height,
+      }, 0)
+      .set(calendar1.current, {
+        display: 'block'
+      })
+      .set(calendar0.current, {
+        display: 'hidden'
+      })
 
     ScrollTrigger.matchMedia({
 
@@ -243,56 +284,14 @@ export default function Home() {
           },
         })
 
-        // desktop - card swipe
         cardSwipe1
         cardSwipe2
 
-        gsap.to(cards.current, {
-          scrollTrigger: {
-            trigger: rightTextDataIntegrity.current,
-            start: 'top 60%',
-            end: '+=1',
-            scrub: 2,
-            ease: "power1.inOut",
-            onEnter: () => setMarkerImage(imgUrl("desktop", 3)),
-            onEnterBack: () => setMarkerImage(imgUrl("desktop", 2)),
-          },
-          x: '-=312',
-        })
-
-        // desktop - leftText Search > Filter
-        gsap.to(leftTextWrapper.current, {
-          scrollTrigger: {
-            trigger: rightTextDataIntegrity.current,
-            start: 'top top+=10%',
-            markers: true,
-            onEnter: () => setLeftText("Filter"),
-            onEnterBack: () => setLeftText("Search")
-          },
-        })
+        filterToSearch
+        calendarAnimation
 
         // desktop - calendar
-        gsap.timeline({
-          scrollTrigger: {
-            trigger: rightTextMoveIn.current,
-            start: 'center bottom',
-            end: () => "+=" + vh(50),
-            toggleActions: 'play reverse play reverse',
-            scrub: true
-          },
-        })
-          .from(overlay.current, {
-            opacity: 0,
-          }, 0)
-          .from(calendar0.current, {
-            y: () => calendar0.current.getBoundingClientRect().height,
-          }, 0)
-          .set(calendar1.current, {
-            display: 'block'
-          })
-          .set(calendar0.current, {
-            display: 'hidden'
-          })
+
 
         // desktop - leftText Filter > Property
         gsap.to(leftTextWrapper.current, {
