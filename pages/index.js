@@ -12,9 +12,22 @@ import map from '../public/map-circle-4x.png'
 import phoneHeroImg from '../public/phone-hero-img.png'
 import phoneHeroImgSquare from '../public/phone-hero-img-square.png'
 import mapImg from '../public/map-img-4x.png'
+import calendarImg0 from '../public/calendar-0-4x.png'
+import calendarImg1 from '../public/calendar-1-4x.png'
 
 
 export default function Home() {
+
+  const isDesktop = () => {
+    if (typeof window !== "undefined") {
+      if (window.innerWidth >= 800) {
+        return true
+      } else {
+        return false
+      }
+    } else console.log("not a window")
+  }
+
 
 
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
@@ -71,7 +84,8 @@ export default function Home() {
   const headerSubText = useRef()
   const spacer = useRef()
   const overlay = useRef()
-  const calendar = useRef()
+  const calendar0 = useRef()
+  const calendar1 = useRef()
   const property = useRef() // svg shadow broken
   const propertyBar = useRef()
   const availability = useRef()
@@ -81,7 +95,7 @@ export default function Home() {
 
 
   const imgUrl = (device, number) => {
-    return `/markers-${number}-${device}.svg`
+    return `/markers-${number}-${device}.png`
   }
 
   const [markerImage, setMarkerImage] = useState(imgUrl("desktop", 1))
@@ -136,16 +150,18 @@ export default function Home() {
       })
 
 
-    function scrollToMain() {
-      // getVelocity() to adjust ease in based on current velocity??
-      gsap.to(window, { duration: 1, scrollTo: { y: main.current } })
-      // ease: "power3.inOut"
-    }
+
 
 
     function scrollToTop() {
       // getVelocity() to adjust ease in based on current velocity??
-      gsap.to(window, { duration: 1, scrollTo: { y: 0 } })
+      gsap.to(window, { duration: 0.5, scrollTo: { y: 0 }, autoKill: true })
+      // ease: "power3.inOut"
+    }
+
+    function scrollToMain() {
+      // getVelocity() to adjust ease in based on current velocity??
+      gsap.to(window, { duration: 1, scrollTo: { y: main.current }, autoKill: true, ease: "Power2.in" })
       // ease: "power3.inOut"
     }
 
@@ -156,22 +172,65 @@ export default function Home() {
         endTrigger: main.current,
         end: "center center",
         onEnter: scrollToMain,
-        onEnterBack: scrollToTop,
+        // onEnterBack: scrollToTop,
         markers: true
       }
     })
 
 
+    function vh(num) {
+      if (typeof window !== "undefined") {
+        return window.innerHeight * (num / 100)
+      }
+    }
+
+    // desktop - map intro
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: main.current,
+        start: 'center center',
+        end: rightTextCol.current.getBoundingClientRect().height, // 100%
+        pin: true,
+        scrub: 2,
+        toggleActions: "play pause play reverse",
+      }
+    })
+      .set(leftTextWrapper.current, {
+        opacity: 100
+      }, "<10%")
 
 
+    let cardSwipe1 = gsap.to(cards.current, {
+      scrollTrigger: {
+        trigger: rightTextDataIntegrity.current,
+        start: () => isDesktop ? 'top 85%' : 'top 85%', //desktop top85
+        end: '+=1',
+        scrub: 2,
+        ease: "power1.inOut",
+        onEnter: () => setMarkerImage(imgUrl("desktop", 2)),
+        onEnterBack: () => setMarkerImage(imgUrl("desktop", 1)),
+      },
+      x: '-312',
+    })
 
+    let cardSwipe2 = gsap.to(cards.current, {
+      scrollTrigger: {
+        trigger: rightTextDataIntegrity.current,
+        start: 'top 85%', //
+        end: '+=1',
+        scrub: 2,
+        ease: "power1.inOut",
+        onEnter: () => setMarkerImage(imgUrl("desktop", 2)),
+        onEnterBack: () => setMarkerImage(imgUrl("desktop", 1)),
+      },
+      x: '-312',
+    })
 
 
     ScrollTrigger.matchMedia({
 
       // Desktop
       "(min-width: 800px)": function () {
-
 
         // header shadow 
         gsap.to(headerShadow.current, {
@@ -182,54 +241,23 @@ export default function Home() {
             toggleActions: 'play reverse play reverse',
             scrub: true
           },
-          onStart: () => { console.log("desktop: header shadow disappears on scroll. re-appears in demo section?; mobile: entire header disappears on scroll. stays hidden on scrollup? and doesn't show again until top??") }
         })
-
-        // desktop - map intro
-        gsap.timeline({
-          scrollTrigger: {
-            trigger: main.current,
-            start: 'center center',
-            end: rightTextCol.current.getBoundingClientRect().height, // 100%
-            pin: true,
-            scrub: 2,
-            toggleActions: "play pause play reverse",
-          }
-        })
-          .set(leftTextWrapper.current, {
-            opacity: 100
-          }, "<10%")
-
 
         // desktop - card swipe
+        cardSwipe1
+        cardSwipe2
 
         gsap.to(cards.current, {
           scrollTrigger: {
             trigger: rightTextDataIntegrity.current,
-            start: 'top 90%', // when it's 60% of the phone container. good use for a label?
-            end: '+=1',
-            scrub: 2,
-            ease: "power1.inOut",
-            onEnter: () => setMarkerImage(imgUrl("desktop", 2)),
-            onEnterBack: () => setMarkerImage(imgUrl("desktop", 1)),
-          },
-          x: '-312',
-          // ease: "power1.inOut",
-        })
-
-        gsap.to(cards.current, {
-          scrollTrigger: {
-            trigger: rightTextDataIntegrity.current,
-            start: 'top 70%', // when it's 60% of the phone container. good use for a label?
+            start: 'top 60%',
             end: '+=1',
             scrub: 2,
             ease: "power1.inOut",
             onEnter: () => setMarkerImage(imgUrl("desktop", 3)),
             onEnterBack: () => setMarkerImage(imgUrl("desktop", 2)),
-            // markers: true
           },
           x: '-=312',
-          // ease: "power1.inOut",
         })
 
         // desktop - leftText Search > Filter
@@ -241,16 +269,14 @@ export default function Home() {
             onEnter: () => setLeftText("Filter"),
             onEnterBack: () => setLeftText("Search")
           },
-
         })
 
         // desktop - calendar
         gsap.timeline({
           scrollTrigger: {
             trigger: rightTextMoveIn.current,
-            start: 'bottom bottom',
-            end: () => window.innerHeight * 0.8, // '+=100vh',
-            // ease: "power1.inOut",
+            start: 'center bottom',
+            end: () => "+=" + vh(50),
             toggleActions: 'play reverse play reverse',
             scrub: true
           },
@@ -258,18 +284,21 @@ export default function Home() {
           .from(overlay.current, {
             opacity: 0,
           }, 0)
-          .from(calendar.current, {
-            y: '+456',
-            // ease: "power1.inOut",
-            duration: 0.5
+          .from(calendar0.current, {
+            y: () => calendar0.current.getBoundingClientRect().height,
           }, 0)
+          .set(calendar1.current, {
+            display: 'block'
+          })
+          .set(calendar0.current, {
+            display: 'hidden'
+          })
 
         // desktop - leftText Filter > Property
         gsap.to(leftTextWrapper.current, {
           scrollTrigger: {
             trigger: rightTextMoveIn.current,
             start: 'top top+=10%',
-            markers: true,
             onEnter: () => setLeftText("Property"),
             onEnterBack: () => setLeftText("Filter")
           },
@@ -293,9 +322,6 @@ export default function Home() {
             y: screen.current.getBoundingClientRect().height,
           }, "<15%")
 
-
-
-
         // desktop - filteredAvailability 
         gsap.timeline({
           scrollTrigger: {
@@ -310,9 +336,6 @@ export default function Home() {
           .to(availability.current, {
             opacity: 100,
           })
-
-
-
 
       },
 
@@ -515,6 +538,8 @@ export default function Home() {
       </Head>
 
 
+
+
       <header className='bg-white py-[12px] w-full grid h-[78px] static lg:sticky top-0 z-20 pr-[16px] pl-[24px]'>
         <div className=" relative">
           <Image
@@ -533,6 +558,9 @@ export default function Home() {
 
 
       <div ref={headerShadow} className='shadow-[0_2px_4px_rgba(60,64,67,0.1)] w-full h-[78px] absolute lg:fixed top-0 z-10 opacity-100 lg:opacity-0' />
+
+
+
 
       <div id='hero-section' ref={heroSection} className='flex flex-col place-items-center text-center'>
 
@@ -598,14 +626,37 @@ export default function Home() {
 
               <img src="/availability.svg" alt="availability" id="availability" ref={availability} className="z-12 grid-in-body self-start w-full opacity-0" />
 
-              {/* property tab shadow and chip strokes broken in SVG, consider image or fixing .svg  or accepting it*/}
               <img src="/property-bar.svg" alt="property-bar" id="property-bar" ref={propertyBar} className="z-12 grid-in-body self-end w-full opacity-100" />
 
-              <img src="/property.svg" alt="calendar" id="property" ref={property} className="z-11 grid-in-body self-start w-full opacity-1000" />
+              <img src="/property.svg" alt="property-page" id="property" ref={property} className="z-11 grid-in-body self-start w-full opacity-1000" />
 
               <div id="overlay" ref={overlay} className="bg-black opacity-50 grid-in-body z-9" />
 
-              <img src="/calendar.svg" alt="calendar" id="calendar" ref={calendar} className="z-10 grid-in-body self-end w-full" />
+
+              {/* <div ref={calendar0} className='relative grid-in-body'>
+                <Image
+                  src={calendarImg0}
+                  alt="calendarImg0"
+                  layout='fill'
+                  objectFit='cover'
+                  objectPosition='bottom'
+                />
+              </div>
+
+
+              <div id="calendar1" ref={calendar1} className='relative z-10 grid-in-body self-end w-full '>
+                <Image
+                  src={calendarImg1}
+                  alt="calendarImg1"
+                  layout="fill"
+                  objectFit='fill'
+                  objectPosition="bottom"
+                />
+              </div> */}
+
+              <img src="/calendar-0-4x.png" alt="calendar0" id="calendar0" ref={calendar0} className="z-10 grid-in-body self-end w-full" />
+
+              <img src="calendar-1-4x.png" alt="calendar1" id="calendar1" ref={calendar1} className="z-10 grid-in-body self-end w-full hidden" />
 
               <div id="markers" ref={markers} className='grid-in-body self-end z-1'>
                 <img src={markerImage} alt="markers-1-desktop" />
@@ -650,7 +701,6 @@ export default function Home() {
               </div>
 
               <img src="/home.svg" alt="home" className=' grid-in-body justify-self-center self-end pb-[5.23px] z-20 w-[91px] lg:w-[123px]' />
-
 
 
               <div className='relative grid-in-body'>
