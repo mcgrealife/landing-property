@@ -299,21 +299,6 @@ export default function Home() {
 
 
 
-
-
-        // desktop - leftText Filter > Property
-        // gsap.to(leftTextWrapper.current, {
-        //   scrollTrigger: {
-        //     trigger: rightTextMoveIn.current,
-        //     start: 'top top+=10%',
-        //     end: '+=1px',
-        //     onEnter: () => setLeftText("Property"),
-        //     onLeave: () => setLeftText("Filter"),
-        //     markers: { startColor: "orange", endColor: "orange" }
-        //   },
-        // })
-
-
         // desktop - property
         // https://greensock.com/forums/topic/28674-what-do-tween-durations-mean-when-using-scrolltrigger/?do=findComment&comment=142241&_rid=110013
         gsap.timeline({
@@ -370,21 +355,6 @@ export default function Home() {
             onReverseComplete: () => setLeftText("Property"),
           })
 
-
-        // desktop - filteredAvailability 
-        //   gsap.timeline({
-        //     scrollTrigger: {
-        //       trigger: rightTextFilteredAvailability.current,
-        //       start: 'top 80%',
-        //       end: '2000px',
-        //       // ease: "power1.inOut",
-        //       toggleActions: 'play reverse play reverse'
-        //     },
-        //   })
-        //     // possible gsap.set
-        //     .to(availability.current, {
-        //       opacity: 100,
-        //     })
 
       },
 
