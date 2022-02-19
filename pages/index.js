@@ -70,6 +70,10 @@ export default function Home() {
   const rightTextMoveIn = useRef()
   const rightTextPersonalizedPage = useRef()
   const rightTextFilteredAvailability = useRef()
+  const rightTextTourType = useRef()
+  const rightTextInstantSchedule = useRef()
+  const rightTextCaptureDetails = useRef()
+  const rightTextTourConfirmation = useRef()
   const rightTextCol = useRef()
   const topLogo = useRef()
   const headerShadow = useRef()
@@ -92,6 +96,9 @@ export default function Home() {
   const leftTextWrapper = useRef()
   const markers = useRef()
   const demo = useRef()
+  const propertyHeader = useRef()
+  const whiteBgPropIntro = useRef()
+  const status = useRef()
 
 
   const imgUrl = (device, number) => {
@@ -155,13 +162,13 @@ export default function Home() {
 
     function scrollToTop() {
       // getVelocity() to adjust ease in based on current velocity??
-      gsap.to(window, { duration: 0.5, scrollTo: { y: 0 }, autoKill: true })
+      gsap.to(window, { duration: 0.5, scrollTo: { y: 0, autoKill: true } })
       // ease: "power3.inOut"
     }
 
     function scrollToMain() {
       // getVelocity() to adjust ease in based on current velocity??
-      gsap.to(window, { duration: 1, scrollTo: { y: main.current }, autoKill: true, ease: "Power2.in" })
+      gsap.to(window, { duration: 1, scrollTo: { y: main.current, autoKill: true }, ease: "Power2.in" })
       // ease: "power3.inOut"
     }
 
@@ -195,36 +202,10 @@ export default function Home() {
         toggleActions: "play pause play reverse",
       }
     })
-      .set(leftTextWrapper.current, {
+      .to(main.current, {
         opacity: 100
-      }, "<10%")
+      })
 
-
-    let cardSwipe1 = gsap.to(cards.current, {
-      scrollTrigger: {
-        trigger: rightTextDataIntegrity.current,
-        start: () => isDesktop ? 'top 85%' : 'top 85%', //desktop top85
-        end: '+=1',
-        scrub: 2,
-        ease: "power1.inOut",
-        onEnter: () => setMarkerImage(imgUrl("desktop", 2)),
-        onEnterBack: () => setMarkerImage(imgUrl("desktop", 1)),
-      },
-      x: '-312',
-    })
-
-    let cardSwipe2 = gsap.to(cards.current, {
-      scrollTrigger: {
-        trigger: rightTextDataIntegrity.current,
-        start: 'top 85%', //
-        end: '+=1',
-        scrub: 2,
-        ease: "power1.inOut",
-        onEnter: () => setMarkerImage(imgUrl("desktop", 2)),
-        onEnterBack: () => setMarkerImage(imgUrl("desktop", 1)),
-      },
-      x: '-312',
-    })
 
 
     ScrollTrigger.matchMedia({
@@ -244,13 +225,23 @@ export default function Home() {
         })
 
         // desktop - card swipe
-        cardSwipe1
-        cardSwipe2
+        gsap.to(cards.current, {
+          scrollTrigger: {
+            trigger: rightTextDataIntegrity.current,
+            start: 'top 85%', //
+            end: '+=1',
+            scrub: 2,
+            ease: "power1.inOut",
+            onEnter: () => setMarkerImage(imgUrl("desktop", 2)),
+            onEnterBack: () => setMarkerImage(imgUrl("desktop", 1)),
+          },
+          x: '-312',
+        })
 
         gsap.to(cards.current, {
           scrollTrigger: {
             trigger: rightTextDataIntegrity.current,
-            start: 'top 60%',
+            start: 'top 50%',
             end: '+=1',
             scrub: 2,
             ease: "power1.inOut",
@@ -261,29 +252,41 @@ export default function Home() {
         })
 
         // desktop - leftText Search > Filter
-        gsap.to(leftTextWrapper.current, {
-          scrollTrigger: {
-            trigger: rightTextDataIntegrity.current,
-            start: 'top top+=10%',
-            markers: true,
-            onEnter: () => setLeftText("Filter"),
-            onEnterBack: () => setLeftText("Search")
-          },
-        })
+        // gsap.to(leftTextWrapper.current, {
+        //   scrollTrigger: {
+        //     trigger: rightTextDataIntegrity.current,
+        //     start: 'top top+=10%',
+        //     end: '+=1px',
+        //     markers: true,
+        //     onEnter: () => setLeftText("Filter"),
+        //     onEnterBack: () => setLeftText("Search")
+        //   },
+        // })
 
         // desktop - calendar
         gsap.timeline({
           scrollTrigger: {
             trigger: rightTextMoveIn.current,
-            start: 'center bottom',
-            end: () => "+=" + vh(50),
+            start: 'top bottom',
+            endTrigger: rightTextPersonalizedPage.current,
+            end: "top bottom",
             toggleActions: 'play reverse play reverse',
-            scrub: true
+            scrub: true,
+            markers: true,
           },
         })
+          .to(leftTextWrapper.current, {
+            opacity: 0,
+          })
+          .to(leftTextWrapper.current, {
+            onStart: () => setLeftText("Filter"),
+            onReverseComplete: () => setLeftText("Search"),
+            opacity: 100
+          })
           .from(overlay.current, {
             opacity: 0,
-          }, 0)
+            duration: 1
+          }, "+=100%")
           .from(calendar0.current, {
             y: () => calendar0.current.getBoundingClientRect().height,
           }, 0)
@@ -294,48 +297,94 @@ export default function Home() {
             display: 'hidden'
           })
 
+
+
+
+
         // desktop - leftText Filter > Property
-        gsap.to(leftTextWrapper.current, {
-          scrollTrigger: {
-            trigger: rightTextMoveIn.current,
-            start: 'top top+=10%',
-            onEnter: () => setLeftText("Property"),
-            onEnterBack: () => setLeftText("Filter")
-          },
+        // gsap.to(leftTextWrapper.current, {
+        //   scrollTrigger: {
+        //     trigger: rightTextMoveIn.current,
+        //     start: 'top top+=10%',
+        //     end: '+=1px',
+        //     onEnter: () => setLeftText("Property"),
+        //     onLeave: () => setLeftText("Filter"),
+        //     markers: { startColor: "orange", endColor: "orange" }
+        //   },
+        // })
 
-        })
 
-        // desktop - property 
+        // desktop - property
+        // https://greensock.com/forums/topic/28674-what-do-tween-durations-mean-when-using-scrolltrigger/?do=findComment&comment=142241&_rid=110013
         gsap.timeline({
           scrollTrigger: {
             trigger: rightTextPersonalizedPage.current,
             start: 'top bottom',
-            end: '100px',
+            endTrigger: rightTextTourType.current,
+            end: "top bottom",
             toggleActions: 'play reverse play reverse',
-            scrub: true
+            scrub: true,
+            // onEnter: () => setLeftText("Property"),
+            // onLeave: () => setLeftText("Filter"),
+            markers: { startColor: "purple", endColor: "purple" }
           },
         })
-          .from(property.current, {
-            y: screen.current.getBoundingClientRect().height,
+          .to(leftTextWrapper.current, {
+            onStart: () => setLeftText("Property"),
+            onReverseComplete: () => setLeftText("Filter"),
           })
+          .from(whiteBgPropIntro.current, {
+            opacity: 0,
+          }, 0)
+          .from(property.current, {
+            y: () => screen.current.getBoundingClientRect().height - status.current.getBoundingClientRect().height,
+          }, "<50%")
           .from(propertyBar.current, {
             y: screen.current.getBoundingClientRect().height,
-          }, "<15%")
+          }, "<10%")
+          .to(property.current, {
+            y: '-=235',
+            ease: "Power1.out",
+          }, ">30%")
+          .set(propertyHeader.current, {
+            opacity: 100,
+            duration: 1
+          }, "<90%")
+          .set(availability.current, {
+            opacity: 100,
+          }, ">200%")
 
-        // desktop - filteredAvailability 
+
         gsap.timeline({
           scrollTrigger: {
-            trigger: rightTextFilteredAvailability.current,
-            start: 'top 80%',
-            end: '2000px',
-            // ease: "power1.inOut",
-            toggleActions: 'play reverse play reverse'
+            trigger: rightTextTourType.current,
+            start: 'top bottom',
+            endTrigger: rightTextCaptureDetails.current,
+            end: "top bottom",
+            toggleActions: 'play reverse play reverse',
+            scrub: true,
           },
         })
-          // possible gsap.set
-          .to(availability.current, {
-            opacity: 100,
+          .to(leftTextWrapper.current, {
+            onStart: () => setLeftText("Booking"),
+            onReverseComplete: () => setLeftText("Property"),
           })
+
+
+        // desktop - filteredAvailability 
+        //   gsap.timeline({
+        //     scrollTrigger: {
+        //       trigger: rightTextFilteredAvailability.current,
+        //       start: 'top 80%',
+        //       end: '2000px',
+        //       // ease: "power1.inOut",
+        //       toggleActions: 'play reverse play reverse'
+        //     },
+        //   })
+        //     // possible gsap.set
+        //     .to(availability.current, {
+        //       opacity: 100,
+        //     })
 
       },
 
@@ -571,8 +620,6 @@ export default function Home() {
         <p ref={headerSubText} className='text-[rgba(96,99,103,1)] mt-[15.15px] lg:mt-[16px] text-[18px] lg:text-[26px] leading-[30px] lg:leading-[38px] max-w-[326px] lg:max-w-[579px]'>Resider is a smart, efficient and helpful way to qualify and schedule your prospective tenants.</p>
 
         <div id="phone-hero" className='grid justify-items-center justify-center rounded-br-full rounded-bl-full overflow-hidden'>
-          {/* <img src="/phone-hero.svg" alt="phone-hero" 
-        className='align-end row-start-1 col-start-1 z-2 w-full' /> */}
 
           <div ref={phoneHero} className='relative w-[303px] h-[303px] lg:w-[526px] lg:h-[526px] col-start-1 row-start-1 z-2'>
             <Image
@@ -602,13 +649,11 @@ export default function Home() {
 
       </div>
 
-      <div id='spacer' className='h-[100px]' />
-
       <div id="gridContainer" className='grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop z-20'>
 
-        <div id="phoneAndLeftText" ref={main} className='grid-in-left col-end-right grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop self-start'>
+        <div id="phoneAndLeftText" ref={main} className='grid-in-left col-end-right grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop self-start opacity-10 h-screen '>
 
-          <div id="leftTextNew" ref={leftTextWrapper} className='grid-in-left place-self-center text-[72px] font-[600] text-[rgba(60,64,67,1)] opacity-100'>
+          <div id="leftTextWrapper" ref={leftTextWrapper} className='grid-in-left place-self-center text-[72px] font-[600] text-[rgba(60,64,67,1)]'>
             {leftText}
           </div>
 
@@ -618,17 +663,21 @@ export default function Home() {
 
 
 
-            <img id='frame' ref={frame} src="frame-hollow.svg" alt="frame" className=' w-full col-start-2 col-end-5 row-start-2 row-end-4  z-20 frame-shadow' />
+            <img id='frame' ref={frame} src="frame-hollow.svg" alt="frame" className=' w-full col-start-2 col-end-5 row-start-2 row-end-4  z-30' />
 
             <div id="screen" ref={screen} className="grid col-start-3 col-end-4 row-start-3 row-end-4  grid-areas-screen grid-cols-screenMobile lg:grid-cols-screenDesktop grid-rows-screenMobile lg:grid-rows-screenDesktop overflow-hidden rounded-[20px]  lg:rounded-[42px]  z-20">
 
+              <img id="status-bar" ref={status} src="/status-bar-4x.png" alt="status-bar" className="z-20 grid-in-status self-start w-full opacity-100" />
 
+              <div id="white-bg-prop-intro" ref={whiteBgPropIntro} className="bg-white grid-in-body opacity-100 z-11" />
 
-              <img src="/availability.svg" alt="availability" id="availability" ref={availability} className="z-12 grid-in-body self-start w-full opacity-0" />
+              <img src="/availability-4x.png" alt="availability" id="availability" ref={availability} className="z-14 grid-in-body self-start w-full opacity-0" />
 
-              <img src="/property-bar.svg" alt="property-bar" id="property-bar" ref={propertyBar} className="z-12 grid-in-body self-end w-full opacity-100" />
+              <img src="/property-bar.svg" alt="property-bar" id="property-bar" ref={propertyBar} className="z-13 grid-in-body self-end w-full opacity-100" />
 
-              <img src="/property.svg" alt="property-page" id="property" ref={property} className="z-11 grid-in-body self-start w-full opacity-1000" />
+              <img src="/property-header-4x.png" alt="property-header-4x" id="property-bar" ref={propertyHeader} className="z-13 grid-in-body self-start w-full opacity-0" />
+
+              <img src="/property-4x.png" alt="property-page" id="property" ref={property} className="z-12 grid-in-body self-start w-full opacity-1000" />
 
               <div id="overlay" ref={overlay} className="bg-black opacity-50 grid-in-body z-9" />
 
@@ -678,8 +727,8 @@ export default function Home() {
                 />
               </div> */}
 
-              <img src="/status-search-filter.svg" alt="status"
-                className='grid-in-status z-2 shadow-lg w-full ' />
+              <img src="/search-filter-bar-4x.png" alt="search-filter"
+                className='grid-in-body self-start z-2 w-full ' />
 
               <div id='carousel' ref={carousel} className=' grid grid-in-body justify-items-end self-end z-6 pb-[17px] lg:pb-[28.5px] overflow-x-scroll scrollbar-hide snap-x  pt-2'>
 
@@ -721,51 +770,40 @@ export default function Home() {
 
         </div>
 
-        <div id="rightTextCol" ref={rightTextCol} className='grid-in-right col-end-left lg:col-end-right flex flex-col gap-[70vh] lg:gap-[70vh] pt-[1000px] z-10 w-fit min-w-[280px] lg:min-w-[404px] mr-[16px] lg:mr-[59px] place-items-start justify-self-end'>
-
+        <div id="rightTextCol" ref={rightTextCol} className='grid-in-right col-end-left lg:col-end-right flex flex-col gap-[70vh] lg:gap-[70vh]  z-10 w-fit min-w-[280px] lg:min-w-[404px] mr-[16px] lg:mr-[59px] place-items-start justify-self-end pt-[110vh]'>
 
 
           <div id='rightTextDataIntegrity' ref={rightTextDataIntegrity} className='bg-white lg:justify-self-end self-center lg:bg-transparent shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit mr-[16px] lg:mr-[59px] rounded-[8px]  flex flex-col gap-[8px] lg:gap-[16px] pl-[24px]  pr-[36px] lg:pr-[24px] pt-[36px] lg:pt-[32px] pb-[28px] lg:pb-[32px]'>
 
-            {/* <div className="hidden lg:block h-[500px] w-10" /> */}
             <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Search</div>
 
             <h1 className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'>Data <span className='text-resider-blue-primary '>integrity</span></h1>
-
             <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>Resider solely consists of rental properties syndicated through data API’s. With up to date and accurate listings, your clients can browse with confidence.</p>
 
           </div>
 
           <div id='rightTextMoveIn' ref={rightTextMoveIn} className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
 
-            {/* <div className="hidden lg:block h-[500px] w-10" /> */}
-
             <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Filter</div>
 
             <h1 className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'><span className='text-resider-blue-primary '>Move in</span> date</h1>
-
             <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>Qualified leads are our emphasis. Allowing users to narrow down exact availability by their move in date is the first step.</p>
 
           </div>
 
-          <div id='rightTextPersonalizedPage' ref={rightTextPersonalizedPage} className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
-
-            {/* <div className="hidden lg:block h-[500px] w-10" /> */}
+          {/* personalizedPage has padding-bottom, since more animations */}
+          <div id='rightTextPersonalizedPage' ref={rightTextPersonalizedPage} className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px] mb-[300px]'>
 
             <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Property</div>
 
             <h1 className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'><span className='text-resider-blue-primary '>Personalized</span> page</h1>
-
             <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>With a beautiful display of your property,
               we highlight key aspects including
               parking, pet and utility info.</p>
-
           </div>
 
 
           <div id='rightTextFilteredAvailability' ref={rightTextFilteredAvailability} className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
-
-            {/* <div className="hidden lg:block h-[500px] w-10" /> */}
 
             <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Property</div>
 
@@ -773,12 +811,46 @@ export default function Home() {
 
             <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>Grouped by floor plan, available units are based on the user’s filters to ensure eligible results, and qualified clients.</p>
 
-
-
-
-
-            {/* <div id="spacer3" className='h-[500px] lg:h-[1000px]' /> */}
           </div>
+
+
+          <div id='rightTextTourType' ref={rightTextTourType} className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
+
+            <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Booking</div>
+
+            <h1 className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'><span className='text-resider-blue-primary '>Tour</span> type</h1>
+            <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>Users are able to book an in-person tour, or a remote tour using Zoom.</p>
+          </div>
+
+          <div id='rightTextInstantSchedule' ref={rightTextInstantSchedule} className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
+
+            <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Booking</div>
+
+            <h1 className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'><span className='text-resider-blue-primary '>Instant</span> schedule</h1>
+            <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>Through the RENTCafé platform, Resider syncs to your appointment calender and allows the user to instantly schedule an available tour.</p>
+          </div>
+
+
+          <div id='rightTextCaptureDetails' ref={rightTextCaptureDetails} className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
+
+            <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Booking</div>
+
+            <h1 className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'><span className='text-resider-blue-primary '>Capture</span> required details</h1>
+            <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>Before successfully booking, users are instructed to fill in mandatory information vital to the lead qualifying process.</p>
+          </div>
+
+          <div id='rightTextTourConfirmation' ref={rightTextTourConfirmation} className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
+
+            <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Booking</div>
+
+            <h1 className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'><span className='text-resider-blue-primary '>Tour</span> confirmation</h1>
+            <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>Once a tour is booked, all captured information is logged as a guest card and stored in your RENTCafé CRM. </p>
+          </div>
+
+          <div className='h-1' />
+
+
+
         </div>
 
 
