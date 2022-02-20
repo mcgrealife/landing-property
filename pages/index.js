@@ -88,6 +88,7 @@ export default function Home() {
   const headerSubText = useRef()
   const spacer = useRef()
   const overlay = useRef()
+  const overlayTour = useRef()
   const calendar0 = useRef()
   const calendar1 = useRef()
   const property = useRef() // svg shadow broken
@@ -99,7 +100,12 @@ export default function Home() {
   const propertyHeader = useRef()
   const whiteBgPropIntro = useRef()
   const status = useRef()
-
+  const tourTypeSheet = useRef()
+  const tourTypeSheet2 = useRef()
+  const appointment1 = useRef()
+  const appointment2 = useRef()
+  const confirmDetails = useRef()
+  const success = useRef()
 
   const imgUrl = (device, number) => {
     return `/markers-${number}-${device}.png`
@@ -109,20 +115,20 @@ export default function Home() {
 
   const [leftText, setLeftText] = useState("Search")
 
-  const [markerStyle, setMarkerStyle] = useState('selected')
-  const [markerStyle2, setMarkerStyle2] = useState('unviewed')
-  const update = () => {
-    setTimeout(() => {
-      setMarkerStyle('viewed')
-      setMarkerStyle2('selected')
-    }, 500)
-  }
-  const reverseUpdate = () => {
-    setTimeout(() => {
-      setMarkerStyle('selected')
-      setMarkerStyle2('viewed')
-    }, 500)
-  }
+  // const [markerStyle, setMarkerStyle] = useState('selected')
+  // const [markerStyle2, setMarkerStyle2] = useState('unviewed')
+  // const update = () => {
+  //   setTimeout(() => {
+  //     setMarkerStyle('viewed')
+  //     setMarkerStyle2('selected')
+  //   }, 500)
+  // }
+  // const reverseUpdate = () => {
+  //   setTimeout(() => {
+  //     setMarkerStyle('selected')
+  //     setMarkerStyle2('viewed')
+  //   }, 500)
+  // }
 
   useEffect(() => {
 
@@ -143,7 +149,7 @@ export default function Home() {
 
 
     // hero outro fade
-    let heroFade = gsap.timeline({
+    gsap.timeline({
       scrollTrigger: {
         trigger: headerSubText.current,
         start: "top top",
@@ -180,16 +186,10 @@ export default function Home() {
         end: "center center",
         onEnter: scrollToMain,
         // onEnterBack: scrollToTop,
-        markers: true
+        // markers: true
       }
     })
 
-
-    function vh(num) {
-      if (typeof window !== "undefined") {
-        return window.innerHeight * (num / 100)
-      }
-    }
 
     // desktop - map intro
     gsap.timeline({
@@ -205,6 +205,186 @@ export default function Home() {
       .to(main.current, {
         opacity: 100
       })
+
+    // desktop - card swipe
+    gsap.to(cards.current, {
+      scrollTrigger: {
+        trigger: rightTextDataIntegrity.current,
+        start: 'top 85%', //
+        end: '+=1',
+        scrub: 2,
+        ease: "power1.inOut",
+        onEnter: () => setMarkerImage(imgUrl("desktop", 2)),
+        onEnterBack: () => setMarkerImage(imgUrl("desktop", 1)),
+      },
+      x: '-312',
+    })
+
+    gsap.to(cards.current, {
+      scrollTrigger: {
+        trigger: rightTextDataIntegrity.current,
+        start: 'top 50%',
+        end: '+=1',
+        scrub: 2,
+        ease: "power1.inOut",
+        onEnter: () => setMarkerImage(imgUrl("desktop", 3)),
+        onEnterBack: () => setMarkerImage(imgUrl("desktop", 2)),
+      },
+      x: '-=312',
+    })
+
+    // desktop - calendar
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: rightTextMoveIn.current,
+        start: 'top bottom',
+        endTrigger: rightTextPersonalizedPage.current,
+        end: "top bottom+=30%",
+        toggleActions: 'play reverse play reverse',
+        scrub: true,
+        // markers: true,
+      },
+    })
+      .to(leftTextWrapper.current, {
+        onStart: () => setLeftText("Filter"),
+        onReverseComplete: () => setLeftText("Search"),
+        opacity: 100
+      })
+      .from(overlay.current, {
+        opacity: 0,
+      }, "<%")
+      .from(calendar0.current, {
+        y: () => calendar0.current.getBoundingClientRect().height,
+      }, "<%")
+      .set(calendar1.current, {
+        display: 'block'
+      })
+      .set(calendar0.current, {
+        display: 'none'
+      })
+
+
+
+    // desktop - property
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: rightTextPersonalizedPage.current,
+        start: 'top bottom',
+        endTrigger: rightTextTourType.current,
+        end: "top bottom+=50%",
+        toggleActions: 'play reverse play reverse',
+        scrub: true,
+        markers: { startColor: "purple", endColor: "purple" }
+      },
+    })
+      .to(leftTextWrapper.current, {
+        onStart: () => setLeftText("Property"),
+        onReverseComplete: () => setLeftText("Filter"),
+      })
+      .from(whiteBgPropIntro.current, {
+        opacity: 0,
+      }, "<")
+      .from(property.current, {
+        y: () => screen.current.getBoundingClientRect().height - status.current.getBoundingClientRect().height,
+        duration: 0.3
+      }, "<50%")
+      .from(propertyBar.current, {
+        y: screen.current.getBoundingClientRect().height,
+        duration: 0.3
+      }, "<5%")
+      .to(property.current, {
+        y: '-=235',
+        ease: "Power1.out",
+        duration: 0.3
+      }, ">30%")
+      .set(propertyHeader.current, {
+        display: 'block',
+        duration: 5
+      }, "<80%")
+      .set(availability.current, {
+        display: 'block'
+      }, ">+500%")
+
+
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: rightTextTourType.current,
+        start: 'top bottom',
+        endTrigger: rightTextCaptureDetails.current,
+        end: "top bottom+=70%",
+        toggleActions: 'play reverse play reverse',
+        scrub: true,
+      },
+    })
+      .to(leftTextWrapper.current, {
+        onStart: () => setLeftText("Booking"),
+        onReverseComplete: () => setLeftText("Property"),
+      })
+      .from(overlayTour.current, {
+        opacity: 0,
+      })
+      .from(tourTypeSheet.current, {
+        y: () => tourTypeSheet.current.getBoundingClientRect().height,
+        ease: "power1.out"
+      }, "<")
+      .set(tourTypeSheet2.current, {
+        display: "block"
+      }, ">25%")
+      .set(tourTypeSheet.current, {
+        display: "none"
+      }, "<")
+      .to(appointment1.current, {
+        display: "block",
+        duration: 1
+      }, ">+=500%")
+      .set(appointment2.current, {
+        display: "block",
+        // duration: 1
+      }, ">10%")
+      .set(appointment1.current, {
+        display: "none",
+        // duration: 1
+      }, "<")
+
+
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: rightTextCaptureDetails.current,
+        start: 'top bottom',
+
+        toggleActions: 'play reverse play reverse',
+        // scrub: true,
+        markers: true
+      },
+    })
+      .set(confirmDetails.current, {
+        display: 'block',
+      })
+      .set(appointment2.current, {
+        display: 'none',
+      }, "<")
+
+
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: rightTextTourConfirmation.current,
+        start: 'top bottom',
+        endTrigger: rightTextCol.current,
+        end: 'bottom bottom',
+        toggleActions: 'play reverse play reverse',
+        scrub: true,
+      },
+    })
+      .to(confirmDetails.current, {
+        y: () => "+=" + confirmDetails.current.getBoundingClientRect().height,
+        // y: "+=600",
+        duration: 2
+      })
+      .to(success.current, {
+        display: 'block',
+        duration: 2
+      })
+
 
 
 
@@ -224,141 +404,7 @@ export default function Home() {
           },
         })
 
-        // desktop - card swipe
-        gsap.to(cards.current, {
-          scrollTrigger: {
-            trigger: rightTextDataIntegrity.current,
-            start: 'top 85%', //
-            end: '+=1',
-            scrub: 2,
-            ease: "power1.inOut",
-            onEnter: () => setMarkerImage(imgUrl("desktop", 2)),
-            onEnterBack: () => setMarkerImage(imgUrl("desktop", 1)),
-          },
-          x: '-312',
-        })
-
-        gsap.to(cards.current, {
-          scrollTrigger: {
-            trigger: rightTextDataIntegrity.current,
-            start: 'top 50%',
-            end: '+=1',
-            scrub: 2,
-            ease: "power1.inOut",
-            onEnter: () => setMarkerImage(imgUrl("desktop", 3)),
-            onEnterBack: () => setMarkerImage(imgUrl("desktop", 2)),
-          },
-          x: '-=312',
-        })
-
-        // desktop - leftText Search > Filter
-        // gsap.to(leftTextWrapper.current, {
-        //   scrollTrigger: {
-        //     trigger: rightTextDataIntegrity.current,
-        //     start: 'top top+=10%',
-        //     end: '+=1px',
-        //     markers: true,
-        //     onEnter: () => setLeftText("Filter"),
-        //     onEnterBack: () => setLeftText("Search")
-        //   },
-        // })
-
-        // desktop - calendar
-        gsap.timeline({
-          scrollTrigger: {
-            trigger: rightTextMoveIn.current,
-            start: 'top bottom',
-            endTrigger: rightTextPersonalizedPage.current,
-            end: "top bottom",
-            toggleActions: 'play reverse play reverse',
-            scrub: true,
-            markers: true,
-          },
-        })
-          .to(leftTextWrapper.current, {
-            opacity: 0,
-          })
-          .to(leftTextWrapper.current, {
-            onStart: () => setLeftText("Filter"),
-            onReverseComplete: () => setLeftText("Search"),
-            opacity: 100
-          })
-          .from(overlay.current, {
-            opacity: 0,
-            duration: 1
-          }, "+=100%")
-          .from(calendar0.current, {
-            y: () => calendar0.current.getBoundingClientRect().height,
-          }, 0)
-          .set(calendar1.current, {
-            display: 'block'
-          })
-          .set(calendar0.current, {
-            display: 'hidden'
-          })
-
-
-
-        // desktop - property
-        // https://greensock.com/forums/topic/28674-what-do-tween-durations-mean-when-using-scrolltrigger/?do=findComment&comment=142241&_rid=110013
-        gsap.timeline({
-          scrollTrigger: {
-            trigger: rightTextPersonalizedPage.current,
-            start: 'top bottom',
-            endTrigger: rightTextTourType.current,
-            end: "top bottom",
-            toggleActions: 'play reverse play reverse',
-            scrub: true,
-            // onEnter: () => setLeftText("Property"),
-            // onLeave: () => setLeftText("Filter"),
-            markers: { startColor: "purple", endColor: "purple" }
-          },
-        })
-          .to(leftTextWrapper.current, {
-            onStart: () => setLeftText("Property"),
-            onReverseComplete: () => setLeftText("Filter"),
-          })
-          .from(whiteBgPropIntro.current, {
-            opacity: 0,
-          }, 0)
-          .from(property.current, {
-            y: () => screen.current.getBoundingClientRect().height - status.current.getBoundingClientRect().height,
-          }, "<50%")
-          .from(propertyBar.current, {
-            y: screen.current.getBoundingClientRect().height,
-          }, "<10%")
-          .to(property.current, {
-            y: '-=235',
-            ease: "Power1.out",
-          }, ">30%")
-          .set(propertyHeader.current, {
-            opacity: 100,
-            duration: 1
-          }, "<90%")
-          .set(availability.current, {
-            opacity: 100,
-          }, ">200%")
-
-
-        gsap.timeline({
-          scrollTrigger: {
-            trigger: rightTextTourType.current,
-            start: 'top bottom',
-            endTrigger: rightTextCaptureDetails.current,
-            end: "top bottom",
-            toggleActions: 'play reverse play reverse',
-            scrub: true,
-          },
-        })
-          .to(leftTextWrapper.current, {
-            onStart: () => setLeftText("Booking"),
-            onReverseComplete: () => setLeftText("Property"),
-          })
-
-
       },
-
-
 
       // Mobile
       "(max-width: 799px)": function () {
@@ -373,172 +419,6 @@ export default function Home() {
           }
 
         })
-
-        let tlMainMobile = gsap.timeline({
-          scrollTrigger: {
-            trigger: phone.current,
-            start: 'top 15%',
-            end: rightTextCol.current.getBoundingClientRect().height, // 100%
-            // onEnter: scrollToMain,
-            // onLeaveBack: scrollToTop,
-            // probably onEnterBack function reverseIntro with smoother easing
-            pin: true,
-            // markers: true,
-            toggleActions: "play pause play reverse"
-          }
-        })
-
-          // mobile map-transition
-          .from(phone.current, {
-            width: '500px',
-            x: "+=10%"
-          })
-          .from(screen.current, {
-            height: '440px',
-          })
-          .from(markers.current, {
-            y: "-=100"
-          }, 0)
-          .fromTo(mapMask.current, {
-            y: '-=0px',
-            height: '303px',
-            width: '303px',
-            borderRadius: '769.01'
-          }, {
-            height: '623px',
-            width: '303px',
-            borderRadius: '30px'
-          }, 0)
-          .from(frame.current, {
-            width: '212px'
-          }, 0)
-          .from(screen.current, {
-            width: '197px'
-          }, 0)
-          .from(wrapperMapMask.current, {
-
-            width: '303px',
-            borderRadius: '0'
-          }, 0)
-          .fromTo(frameMask.current, {
-            width: '303px',
-            height: '303px'
-          }, {
-            width: '275px',
-            height: '645px',
-            borderRadius: '10px'
-          }, 0)
-          // .from(phone.current, {
-          //   width: '303px'
-          // }, 0)
-          // .to(screen.current, {
-          //   height: '552px'
-          // }, 0)
-          .to(wrapperMapMask.current, {
-            width: '254px',
-            height: '590px',
-            ease: "power2",
-          }, '<75%')
-          // .from(spacer.current, {
-          //   height: '0'
-          // })
-
-          .to(phone.current, {
-            filter: 'drop-shadow(0px 22.3363px 17.869px rgba(0, 0, 0, 0.0655718)) drop-shadow(0px 12.5216px 10.0172px rgba(0, 0, 0, 0.055)) drop-shadow(0px 6.6501px 5.32008px rgba(0, 0, 0, 0.0444282)) drop-shadow(0px 2.76726px 2.21381px rgba(0, 0, 0, 0.030926))',
-          })
-          .set(leftText.current, {
-            opacity: 100
-          }, '<50%') // duration 50 fades but causes background calculations for 50 seconds
-
-
-
-        // mobile - card swipe
-        gsap.timeline({
-          scrollTrigger: {
-            trigger: rightTextDataIntegrity.current,
-            start: 'top 90%',
-            end: '+=1',
-            ease: "power1.inOut",
-            scrub: 2,
-            onEnter: () => setMarkerImage(imgUrl("mobile", 2)),
-            onEnterBack: () => setMarkerImage(imgUrl("mobile", 1)),
-          }
-        })
-          .to(cards.current, {
-            x: '-224',
-            ease: "power1.inOut",
-          })
-
-
-        gsap.to(cards.current, {
-          scrollTrigger: {
-            trigger: rightTextDataIntegrity.current,
-            start: 'top 50%', // when it's 60% of the phone container. good use for a label?
-            end: '+=1',
-            scrub: 2,
-            ease: "power1.inOut",
-            onEnter: () => setMarkerImage(imgUrl("mobile", 3)),
-            onEnterBack: () => setMarkerImage(imgUrl("mobile", 2)),
-          },
-          x: '-=224',
-          ease: "power1.inOut",
-        })
-
-
-        // mobile - calender
-        gsap.timeline({
-          scrollTrigger: {
-            trigger: rightTextMoveIn.current,
-            start: 'top 70%',
-            end: '+=2000px',
-            // ease: "power1.inOut",
-            toggleActions: 'play reverse play reverse'
-          },
-        })
-          .from(overlay.current, {
-            opacity: 0,
-          })
-          .from(calendar.current, {
-            y: '+338',
-            ease: "power1.inOut",
-            duration: 0.5
-          }, 0)
-
-        // mobile - property
-        gsap.timeline({
-          scrollTrigger: {
-            trigger: rightTextPersonalizedPage.current,
-            start: 'top 80%',
-            end: "+=2000",
-            // ease: "power1.inOut",
-            toggleActions: 'play reverse play reverse'
-          },
-          // duration: "0.1"
-        })
-          // possible gsap.set
-          .from(propertyBar.current, {
-            opacity: 0,
-          })
-          .from(property.current, {
-            opacity: 0,
-          }, 0)
-
-
-        // mobile - filteredAvailability 
-        gsap.timeline({
-          scrollTrigger: {
-            trigger: rightTextFilteredAvailability.current,
-            start: 'top 80%',
-            end: '2000px',
-            // ease: "power1.inOut",
-            toggleActions: 'play reverse play reverse'
-          },
-        })
-          // possible gsap.set
-          .to(availability.current, {
-            opacity: 100,
-          })
-
 
       }
     })
@@ -621,9 +501,9 @@ export default function Home() {
 
       <div id="gridContainer" className='grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop z-20'>
 
-        <div id="phoneAndLeftText" ref={main} className='grid-in-left col-end-right grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop self-start opacity-10 h-screen '>
+        <div id="phoneAndLeftText" ref={main} className='grid-in-left col-end-right grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop self-start opacity-0 h-screen '>
 
-          <div id="leftTextWrapper" ref={leftTextWrapper} className='grid-in-left place-self-center text-[72px] font-[600] text-[rgba(60,64,67,1)]'>
+          <div id="leftTextWrapper" ref={leftTextWrapper} className='hidden lg:block grid-in-left place-self-center text-[72px] font-[600] text-[rgba(60,64,67,1)]'>
             {leftText}
           </div>
 
@@ -639,39 +519,33 @@ export default function Home() {
 
               <img id="status-bar" ref={status} src="/status-bar-4x.png" alt="status-bar" className="z-20 grid-in-status self-start w-full opacity-100" />
 
+              <div id="overlay" ref={overlayTour} className="bg-black opacity-50 grid-in-body z-15" />
+
+              <img src="/success-4x.png" alt="success" id="success" ref={success} className="z-18 grid-in-body place-self-center hidden" />
+
+              <img src="/confirm-details-4x.png" alt="confirm-details" id="confirm-details" ref={confirmDetails} className="z-17 grid-in-body self-end w-full hidden" />
+
+              <img src="/appointment-1-4x.png" alt="appointment1" id="appointment1" ref={appointment1} className="z-16 grid-in-body self-end w-full hidden" />
+
+              <img src="/appointment-2-4x.png" alt="appointment-2" id="appointment2" ref={appointment2} className="z-16 grid-in-body self-end w-full hidden" />
+
+              <img src="/tour-type-4x.png" alt="tour-type" id="tour-type" ref={tourTypeSheet} className="z-15 grid-in-body self-end w-full " />
+
+              <img src="/tour-type-2-4x.png" alt="tour-type" id="tour-type" ref={tourTypeSheet2} className="z-15 grid-in-body self-end w-full hidden" />
+
+
               <div id="white-bg-prop-intro" ref={whiteBgPropIntro} className="bg-white grid-in-body opacity-100 z-11" />
 
-              <img src="/availability-4x.png" alt="availability" id="availability" ref={availability} className="z-14 grid-in-body self-start w-full opacity-0" />
+              <img src="/availability-4x.png" alt="availability" id="availability" ref={availability} className="z-14 grid-in-body self-start w-full hidden" />
 
-              <img src="/property-bar.svg" alt="property-bar" id="property-bar" ref={propertyBar} className="z-13 grid-in-body self-end w-full opacity-100" />
+              <img src="/property-footer-4x.png" alt="property-bar" id="property-bar" ref={propertyBar} className="z-13 grid-in-body self-end w-full" />
 
-              <img src="/property-header-4x.png" alt="property-header-4x" id="property-bar" ref={propertyHeader} className="z-13 grid-in-body self-start w-full opacity-0" />
+              <img src="/property-header-4x.png" alt="property-header-4x" id="property-bar" ref={propertyHeader} className="z-13 grid-in-body self-start w-full hidden" />
 
-              <img src="/property-4x.png" alt="property-page" id="property" ref={property} className="z-12 grid-in-body self-start w-full opacity-1000" />
+              <img src="/property-4x.png" alt="property-page" id="property" ref={property} className="z-12 grid-in-body self-start w-full opacity-100" />
 
               <div id="overlay" ref={overlay} className="bg-black opacity-50 grid-in-body z-9" />
 
-
-              {/* <div ref={calendar0} className='relative grid-in-body'>
-                <Image
-                  src={calendarImg0}
-                  alt="calendarImg0"
-                  layout='fill'
-                  objectFit='cover'
-                  objectPosition='bottom'
-                />
-              </div>
-
-
-              <div id="calendar1" ref={calendar1} className='relative z-10 grid-in-body self-end w-full '>
-                <Image
-                  src={calendarImg1}
-                  alt="calendarImg1"
-                  layout="fill"
-                  objectFit='fill'
-                  objectPosition="bottom"
-                />
-              </div> */}
 
               <img src="/calendar-0-4x.png" alt="calendar0" id="calendar0" ref={calendar0} className="z-10 grid-in-body self-end w-full" />
 
@@ -682,40 +556,14 @@ export default function Home() {
 
               </div>
 
-              {/* <div id='markers' className='flex grid-in-body z-4 place-self-center gap-4'>
-                <Marker
-                  text='5 units'
-                  state={markerStyle}
-                />
-                <Marker
-                  text='$3000'
-                  state={markerStyle2}
-                />
-                <Marker
-                  text='$2700'
-                  state='unviewed'
-                />
-              </div> */}
 
               <img src="/search-filter-bar-4x.png" alt="search-filter"
                 className='grid-in-body self-start z-2 w-full ' />
 
-              <div id='carousel' ref={carousel} className=' grid grid-in-body justify-items-end self-end z-6 pb-[17px] lg:pb-[28.5px] overflow-x-scroll scrollbar-hide snap-x  pt-2'>
 
-                <div ref={cards} className='flex flex-row min-w-max gap-2 px-4 overflow-visible'>
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                  <Card />
-                </div>
+              <div id='carousel' ref={carousel} className='grid-in-body justify-items-end self-end z-6 pb-[16px] lg:pb-[20.5px] overflow-x-scroll scrollbar-hide snap-x pt-2 h-28px'>
+
+                <img src="/cards-4x.png" ref={cards} alt="cards" className='col-start-1 justify-self-start self-end z-6 min-w-[927.38px] lg:min-w-[1252.31px] overflow-visible' />
 
               </div>
 
@@ -762,7 +610,7 @@ export default function Home() {
           </div>
 
           {/* personalizedPage has padding-bottom, since more animations */}
-          <div id='rightTextPersonalizedPage' ref={rightTextPersonalizedPage} className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px] mb-[300px]'>
+          <div id='rightTextPersonalizedPage' ref={rightTextPersonalizedPage} className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px] '>
 
             <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Property</div>
 
