@@ -316,12 +316,10 @@ export default function Home() {
       .to(confirmDetails.current, {
         y: () => "+=" + confirmDetails.current.getBoundingClientRect().height,
         // y: "+=600",
-        duration: 2
       })
       .to(success.current, {
         display: 'block',
-        duration: 2
-      })
+      }, "+=20%")
 
 
 
