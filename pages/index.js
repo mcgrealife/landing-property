@@ -206,32 +206,7 @@ export default function Home() {
         opacity: 100
       })
 
-    // desktop - card swipe
-    gsap.to(cards.current, {
-      scrollTrigger: {
-        trigger: rightTextDataIntegrity.current,
-        start: 'top 85%', //
-        end: '+=1',
-        scrub: 2,
-        ease: "power1.inOut",
-        onEnter: () => setMarkerImage(imgUrl("desktop", 2)),
-        onEnterBack: () => setMarkerImage(imgUrl("desktop", 1)),
-      },
-      x: '-312',
-    })
 
-    gsap.to(cards.current, {
-      scrollTrigger: {
-        trigger: rightTextDataIntegrity.current,
-        start: 'top 50%',
-        end: '+=1',
-        scrub: 2,
-        ease: "power1.inOut",
-        onEnter: () => setMarkerImage(imgUrl("desktop", 3)),
-        onEnterBack: () => setMarkerImage(imgUrl("desktop", 2)),
-      },
-      x: '-=312',
-    })
 
     // desktop - calendar
     gsap.timeline({
@@ -265,45 +240,7 @@ export default function Home() {
 
 
 
-    // desktop - property
-    gsap.timeline({
-      scrollTrigger: {
-        trigger: rightTextPersonalizedPage.current,
-        start: 'top bottom',
-        endTrigger: rightTextTourType.current,
-        end: "top bottom+=50%",
-        toggleActions: 'play reverse play reverse',
-        scrub: true,
-        markers: { startColor: "purple", endColor: "purple" }
-      },
-    })
-      .to(leftTextWrapper.current, {
-        onStart: () => setLeftText("Property"),
-        onReverseComplete: () => setLeftText("Filter"),
-      })
-      .from(whiteBgPropIntro.current, {
-        opacity: 0,
-      }, "<")
-      .from(property.current, {
-        y: () => screen.current.getBoundingClientRect().height - status.current.getBoundingClientRect().height,
-        duration: 0.3
-      }, "<50%")
-      .from(propertyBar.current, {
-        y: screen.current.getBoundingClientRect().height,
-        duration: 0.3
-      }, "<5%")
-      .to(property.current, {
-        y: '-=235',
-        ease: "Power1.out",
-        duration: 0.3
-      }, ">30%")
-      .set(propertyHeader.current, {
-        display: 'block',
-        duration: 5
-      }, "<80%")
-      .set(availability.current, {
-        display: 'block'
-      }, ">+500%")
+
 
 
     gsap.timeline({
@@ -351,10 +288,11 @@ export default function Home() {
       scrollTrigger: {
         trigger: rightTextCaptureDetails.current,
         start: 'top bottom',
+        end: '10px',
 
         toggleActions: 'play reverse play reverse',
         // scrub: true,
-        markers: true
+        // markers: true
       },
     })
       .set(confirmDetails.current, {
@@ -404,21 +342,146 @@ export default function Home() {
           },
         })
 
+
+        // desktop - card swipe
+        gsap.to(cards.current, {
+          scrollTrigger: {
+            trigger: rightTextDataIntegrity.current,
+            start: 'top 85%', //
+            end: '+=1',
+            scrub: 2,
+            ease: "power1.inOut",
+            onEnter: () => setMarkerImage(imgUrl("desktop", 2)),
+            onEnterBack: () => setMarkerImage(imgUrl("desktop", 1)),
+          },
+          x: '-312',
+        })
+
+        gsap.to(cards.current, {
+          scrollTrigger: {
+            trigger: rightTextDataIntegrity.current,
+            start: 'top 50%',
+            end: '+=1',
+            scrub: 2,
+            ease: "power1.inOut",
+            onEnter: () => setMarkerImage(imgUrl("desktop", 3)),
+            onEnterBack: () => setMarkerImage(imgUrl("desktop", 2)),
+          },
+          x: '-=312',
+        })
+
+
+        // desktop - property
+        gsap.timeline({
+          scrollTrigger: {
+            trigger: rightTextPersonalizedPage.current,
+            start: 'top bottom',
+            endTrigger: rightTextTourType.current,
+            end: "top bottom+=50%",
+            toggleActions: 'play reverse play reverse',
+            scrub: true,
+            // markers: { startColor: "purple", endColor: "purple" }
+          },
+        })
+          .to(leftTextWrapper.current, {
+            onStart: () => setLeftText("Property"),
+            onReverseComplete: () => setLeftText("Filter"),
+          })
+          .from(whiteBgPropIntro.current, {
+            opacity: 0,
+          }, "<")
+          .from(property.current, {
+            y: () => screen.current.getBoundingClientRect().height - status.current.getBoundingClientRect().height,
+            duration: 0.3
+          }, "<50%")
+          .from(propertyBar.current, {
+            y: screen.current.getBoundingClientRect().height,
+            duration: 0.3
+          }, "<5%")
+          .to(property.current, {
+            y: '-=235',
+            ease: "Power1.out",
+            duration: 0.3
+          }, ">30%")
+          .set(propertyHeader.current, {
+            display: 'block',
+            duration: 5
+          }, "<80%")
+          .set(availability.current, {
+            display: 'block'
+          }, ">+500%")
+
       },
 
       // Mobile
       "(max-width: 799px)": function () {
 
-        gsap.to(headerSubText.current, {
+        // desktop - card swipe
+        gsap.to(cards.current, {
           scrollTrigger: {
-            trigger: headerSubText.current,
-            start: "top 15%",
-            // markers: true,
-            // onEnter: scrollToMain,
-            // onLeaveBack: scrollToTop
-          }
-
+            trigger: rightTextDataIntegrity.current,
+            start: 'top 85%', //
+            end: '+=1',
+            scrub: 2,
+            ease: "power1.inOut",
+            onEnter: () => setMarkerImage(imgUrl("desktop", 2)),
+            onEnterBack: () => setMarkerImage(imgUrl("desktop", 1)),
+          },
+          x: '-234',
         })
+
+        gsap.to(cards.current, {
+          scrollTrigger: {
+            trigger: rightTextDataIntegrity.current,
+            start: 'top 50%',
+            end: '+=1',
+            scrub: 2,
+            ease: "power1.inOut",
+            onEnter: () => setMarkerImage(imgUrl("desktop", 3)),
+            onEnterBack: () => setMarkerImage(imgUrl("desktop", 2)),
+          },
+          x: '-=234',
+        })
+
+
+        gsap.timeline({
+          scrollTrigger: {
+            trigger: rightTextPersonalizedPage.current,
+            start: 'top bottom',
+            endTrigger: rightTextTourType.current,
+            end: "top bottom+=50%",
+            toggleActions: 'play reverse play reverse',
+            scrub: true,
+            // markers: { startColor: "purple", endColor: "purple" }
+          },
+        })
+          .to(leftTextWrapper.current, {
+            onStart: () => setLeftText("Property"),
+            onReverseComplete: () => setLeftText("Filter"),
+          })
+          .from(whiteBgPropIntro.current, {
+            opacity: 0,
+          }, "<")
+          .from(property.current, {
+            y: () => screen.current.getBoundingClientRect().height - status.current.getBoundingClientRect().height,
+            duration: 0.3
+          }, "<50%")
+          .from(propertyBar.current, {
+            y: screen.current.getBoundingClientRect().height,
+            duration: 0.3
+          }, "<5%")
+          .to(property.current, {
+            y: '-=174',
+            ease: "Power1.out",
+            duration: 0.3
+          }, ">30%")
+          .set(propertyHeader.current, {
+            display: 'block',
+            duration: 5
+          }, "<80%")
+          .set(availability.current, {
+            display: 'block'
+          }, ">+500%")
 
       }
     })
@@ -435,7 +498,6 @@ export default function Home() {
         <title>Resider</title>
 
       </Head>
-
 
 
 
@@ -457,8 +519,6 @@ export default function Home() {
 
 
       <div ref={headerShadow} className='shadow-[0_2px_4px_rgba(60,64,67,0.1)] w-full h-[78px] absolute lg:fixed top-0 z-10 opacity-100 lg:opacity-0' />
-
-
 
 
       <div id='hero-section' ref={heroSection} className='flex flex-col place-items-center text-center'>
@@ -491,9 +551,6 @@ export default function Home() {
             />
           </div>
 
-
-
-
         </div>
 
 
@@ -509,9 +566,6 @@ export default function Home() {
 
 
           <div id="phone" ref={phone} className='grid-in-left lg:grid-in-middle place-self-center min-w-[274px] lg:min-w[370px] grid grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop rounded-[42px]  ml-[24px] lg:ml-0 frame-shadow'>
-            {/* row-start-1 row-end-6 col-start-1 col-end-6  */}
-
-
 
             <img id='frame' ref={frame} src="frame-hollow.svg" alt="frame" className=' w-full col-start-2 col-end-5 row-start-2 row-end-4  z-30' />
 
@@ -561,9 +615,9 @@ export default function Home() {
                 className='grid-in-body self-start z-2 w-full ' />
 
 
-              <div id='carousel' ref={carousel} className='grid-in-body justify-items-end self-end z-6 pb-[16px] lg:pb-[20.5px] overflow-x-scroll scrollbar-hide snap-x pt-2 h-28px'>
+              <div id='carousel' ref={carousel} className='grid-in-body justify-items-end self-end z-6 pb-[12.35px] lg:pb-[16.53px] overflow-x-scroll scrollbar-hide snap-x pt-2 h-28px'>
 
-                <img src="/cards-4x.png" ref={cards} alt="cards" className='col-start-1 justify-self-start self-end z-6 min-w-[927.38px] lg:min-w-[1252.31px] overflow-visible' />
+                <img src="/cards-4x.png" ref={cards} alt="cards" className=' pl-[10px] lg:pl-[12px] col-start-1 justify-self-start self-end z-6 min-w-[927.38px] lg:min-w-[1252.31px] overflow-visible' />
 
               </div>
 
