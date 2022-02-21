@@ -115,7 +115,7 @@ export default function Home() {
 
     // onLoad map Animation
     gsap.timeline({
-      onStart: () => console.log("animation 'map intro' plays only once on page load/refresh")
+
     })
       .from(mapHero.current, {
         scale: 0,
@@ -126,77 +126,45 @@ export default function Home() {
       })
 
 
+
+    let happened = false
+
+    function fadeOutHero() {
+      if (!happened) {
+        gsap.to(heroSection.current, {
+          opacity: 0,
+        }
+        )
+      } else {
+        console.log(
+          "already happened"
+        )
+      }
+
+      happened = true
+    }
+
+
     // hero outro fade
     gsap.timeline({
       scrollTrigger: {
         trigger: headerSubText.current,
         start: "top top",
         endTrigger: mapHero.current,
-        end: "bottom top+=5%",
-        scrub: true,
-        toggleActions: "play none none none"
-      }
+        end: "bottom top+=10%",
+        // scrub: true,
+        toggleActions: "play none none none",
+        onEnter: fadeOutHero,
+      },
     })
-      .to(heroSection.current, {
-        opacity: 0
+      .to(window, { duration: 1, scrollTo: { y: main.current, autoKill: false }, ease: "Power2.in" })
+      .from(main.current, {
+        opacity: 0,
+        duration: 1,
+        onComplete: () => gsap.to(heroSection.current, {
+          opacity: 100
+        })
       })
-
-
-
-    function scrollToTop() {
-      // getVelocity() to adjust ease in based on current velocity??
-      gsap.to(window, { duration: 0.5, scrollTo: { y: 0, autoKill: true } })
-      // ease: "power3.inOut"
-    }
-
-    function scrollToMain() {
-      // getVelocity() to adjust ease in based on current velocity??
-      gsap.to(window, { duration: 1, scrollTo: { y: main.current, autoKill: true }, ease: "Power2.in" })
-      // ease: "power3.inOut"
-    }
-
-    gsap.timeline({
-      scrollTrigger: {
-        trigger: headerSubText.current,
-        start: "top top+=10%",
-        endTrigger: main.current,
-        end: "center center",
-        onEnter: scrollToMain,
-        // onEnterBack: scrollToTop,
-        // markers: true
-      }
-    })
-
-
-    // desktop - map intro
-    gsap.timeline({
-      scrollTrigger: {
-        trigger: main.current,
-        start: 'center center',
-        end: rightTextCol.current.getBoundingClientRect().height, // 100%
-        // pin: true,
-        scrub: 2,
-        toggleActions: "play pause play reverse",
-      }
-    })
-      .to(main.current, {
-        opacity: 100
-      })
-
-
-    gsap.timeline({
-      scrollTrigger: {
-        trigger: main.current,
-        start: 'center center',
-        end: '1px', // 100%
-        // toggleActions: "play pause play reverse",
-      }
-    })
-      .set(heroSection.current, {
-        opacity: 100
-      })
-
-
 
 
 
@@ -391,17 +359,17 @@ export default function Home() {
       "(min-width: 800px)": function () {
 
         //desktop - scrollTo
-        gsap.timeline({
-          scrollTrigger: {
-            trigger: headerSubText.current,
-            start: "top top+=10%",
-            endTrigger: main.current,
-            end: "center center",
-            onEnter: scrollToMain,
-            // onEnterBack: scrollToTop,
-            // markers: true
-          }
-        })
+        // gsap.timeline({
+        //   scrollTrigger: {
+        //     trigger: headerSubText.current,
+        //     start: "top top+=10%",
+        //     endTrigger: main.current,
+        //     end: "center center",
+        //     onEnter: scrollToMain,
+        //     // onEnterBack: scrollToTop,
+        //     // markers: true
+        //   }
+        // })
 
         // header shadow desktop override only
         gsap.to(headerShadow.current, {
@@ -509,7 +477,7 @@ export default function Home() {
 
       <div id="gridContainer" className='grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop z-20'>
 
-        <div id="phoneAndLeftText" ref={main} className='grid-in-left col-end-right grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop self-start opacity-0 h-screen sticky left-0 top-0'>
+        <div id="phoneAndLeftText" ref={main} className='grid-in-left col-end-right grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop self-start  h-screen sticky left-0 top-0'>
 
           <div id="leftTextWrapper" ref={leftTextWrapper} className='hidden lg:block grid-in-left place-self-center text-[72px] font-[600] text-[rgba(60,64,67,1)]'>
             {leftText}
