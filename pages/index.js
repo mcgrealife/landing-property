@@ -16,7 +16,6 @@ import calendarImg0 from '../public/calendar-0-4x.png'
 import calendarImg1 from '../public/calendar-1-4x.png'
 
 
-
 export default function Home() {
 
   const isDesktop = () => {
@@ -37,16 +36,9 @@ export default function Home() {
   function scheduleDemoClick() {
 
     // maybe conditional workround for pin
-
     gsap.to(window, { duration: 1, scrollTo: { y: demo.current, offsetY: 100, autoKill: true }, ease: "power3", invalidateOnRefresh: true })
 
   }
-
-
-  // ScrollTrigger.create({
-  //   trigger: rightTextDataIntegrity.current,
-  //   animation: tlMainMobile,
-  // })
 
 
   // return jsx with <span> for titles. or split the titles
@@ -182,7 +174,7 @@ export default function Home() {
         trigger: main.current,
         start: 'center center',
         end: rightTextCol.current.getBoundingClientRect().height, // 100%
-        pin: true,
+        // pin: true,
         scrub: 2,
         toggleActions: "play pause play reverse",
       }
@@ -517,7 +509,7 @@ export default function Home() {
 
       <div id="gridContainer" className='grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop z-20'>
 
-        <div id="phoneAndLeftText" ref={main} className='grid-in-left col-end-right grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop self-start opacity-0 h-screen '>
+        <div id="phoneAndLeftText" ref={main} className='grid-in-left col-end-right grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop self-start opacity-0 h-screen sticky left-0 top-0'>
 
           <div id="leftTextWrapper" ref={leftTextWrapper} className='hidden lg:block grid-in-left place-self-center text-[72px] font-[600] text-[rgba(60,64,67,1)]'>
             {leftText}
@@ -678,9 +670,7 @@ export default function Home() {
             <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>Once a tour is booked, all captured information is logged as a guest card and stored in your RENTCafé CRM. </p>
           </div>
 
-          <div className='h-1' />
-
-
+          <div className='h-[500px]' />
 
         </div>
 
