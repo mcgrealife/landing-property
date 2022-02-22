@@ -482,7 +482,7 @@ export default function Home() {
 
         <div className="flex flex-row justify-end gap-[4px] col-start-2 row-start-1">
 
-          <button className='block bg-resider-blue-primary rounded text-white align-center font-[600] text-[14px] leading-[20px] px-[16px] py-[14px]' onClick={scheduleDemoClick}>Request A Demo</button>
+          <button className='block bg-resider-blue-primary rounded text-white align-center font-[600] text-[14px] leading-[20px] px-[16px] py-[14px] z-20' onClick={scheduleDemoClick}>Request A Demo</button>
         </div>
       </header>
 
@@ -492,10 +492,19 @@ export default function Home() {
 
       <div id='hero-section' ref={heroSection} className='flex flex-col place-items-center text-center'>
 
-        <img src="/logo-square-mobile.svg" alt="logo-square-mobile" className='block lg:hidden  mt-[28px]' />
-        {/* h-[36px] */}
+        <div className="relative aspect-square h-[36px] lg:h-[52px] mt-[28px] lg:mt-[12px]">
+          <Image
+            src={logoSquare}
+            layout='fill'
+            objectFit='fill'
+          // objectPosition='left'
+          />
+        </div>
 
-        <img src="/logo-square-desktop.svg" alt="logo-square-desktop" className='hidden lg:block  mt-[12px]' />
+        {/* <img src="/logo-square-mobile.svg" alt="logo-square-mobile" className='block lg:hidden  mt-[28px]' /> */}
+        {/* h-[36px] */}
+        {/* 
+        <img src="/logo-square-desktop.svg" alt="logo-square-desktop" className='hidden lg:block  mt-[12px]' /> */}
         {/* h-[52px] */}
 
         <h1 id="heroText" ref={heroText} className='mt-[24.49px] lg:mt-[24px] text-[rgba(60,64,67,1)] font-[700] text-[36px] lg:text-[72px] leading-[48px] lg:leading-[84px] tracking-[0.1px] max-w-[326px] lg:max-w-[639px]'>A <span className='text-[rgba(54,108,165,1)]'>better</span> way to generate leads</h1>

@@ -8,6 +8,7 @@ import { ScrollTrigger } from "gsap/dist/ScrollTrigger"
 import { ScrollToPlugin } from "gsap/dist/ScrollToPlugin"
 // import { TextPlugin } from "gsap/dist/TextPlugin"
 import logo from '../public/resider-logo.png'
+import logoSquare from '../public/logo-square-4x.png'
 import map from '../public/map-circle-4x.png'
 import phoneHeroImg from '../public/phone-hero-img.png'
 import phoneHeroImgSquare from '../public/phone-hero-img-square.png'
@@ -33,12 +34,8 @@ export default function Home() {
 
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
 
-  function scheduleDemoClick() {
 
-    // maybe conditional workround for pin
-    gsap.to(window, { duration: 1, scrollTo: { y: demo.current, offsetY: 100, autoKill: true }, ease: "power3", invalidateOnRefresh: true })
 
-  }
 
 
   // return jsx with <span> for titles. or split the titles
@@ -111,6 +108,22 @@ export default function Home() {
 
   const [leftText, setLeftText] = useState("Search")
 
+
+  function scheduleDemoClick() {
+    console.log("click")
+    gsap.to(window, { duration: 1, scrollTo: { y: demo.current, offsetY: 100, autoKill: true }, ease: "power3" })
+
+    //this scrollTo function must force all scrollTriggers to end position (or something). maybe get their progress. or just add a fastScrollEnd to EACH scrolltrigger. so if scroll is happening super fast, then 
+    // ScrollTrigger.config(
+    //   {
+    //     fastScrollEnd: 2000
+    //   }
+    // )
+
+  }
+
+  const fastScrollEndValue = 3000
+
   useEffect(() => {
 
     // onLoad map Animation
@@ -127,6 +140,7 @@ export default function Home() {
     // hero > phone scroll down fade
     gsap.timeline({
       scrollTrigger: {
+        fastScrollEnd: fastScrollEndValue,
         trigger: headerSubText.current,
         start: "top top+=10%",
         // duration: 1.2,
@@ -157,6 +171,10 @@ export default function Home() {
         y: isDesktop ? "+=136" : "+=102",
         ease: "Power3.out"
       }, "<")
+      .set(header.current, {
+        opacity: 0
+      })
+
 
 
 
@@ -165,6 +183,7 @@ export default function Home() {
 
     gsap.timeline({
       scrollTrigger: {
+        fastScrollEnd: fastScrollEndValue,
         trigger: rightTextCol.current,
         start: 'top top+=1',
         endTrigger: heroSection.current,
@@ -189,8 +208,8 @@ export default function Home() {
         // ease: "power4.out"
       })
       .from(header.current, {
-        opacity: () => !isDesktop && 1
-      })
+        opacity: () => !isDesktop && 0
+      }, "<")
 
     // card swipe
 
@@ -500,20 +519,29 @@ export default function Home() {
 
         <div className="flex flex-row justify-end gap-[4px] col-start-2 row-start-1">
 
-          <button className='block bg-resider-blue-primary rounded text-white align-center font-[600] text-[14px] leading-[20px] px-[16px] py-[14px]' onClick={scheduleDemoClick}>Request A Demo</button>
+          <button className='block bg-resider-blue-primary rounded text-white align-center font-[600] text-[14px] leading-[20px] px-[16px] py-[14px] z-20' onClick={scheduleDemoClick}>Request A Demo</button>
         </div>
       </header>
 
 
-      <div ref={headerShadow} className='shadow-[0_2px_4px_rgba(60,64,67,0.1)] w-full h-[78px] absolute lg:fixed top-0 z-10 opacity-100 lg:opacity-0' />
+      <div ref={headerShadow} className='shadow-[0_2px_4px_rgba(60,64,67,0.1)] w-full h-[78px] absolute lg:fixed top-0 z-10 opacity-0' />
 
 
       <div id='hero-section' ref={heroSection} className='flex flex-col place-items-center text-center'>
 
-        <img src="/logo-square-mobile.svg" alt="logo-square-mobile" className='block lg:hidden  mt-[28px]' />
+        <div className="relative aspect-square h-[36px] lg:h-[52px] mt-[28px] lg:mt-[12px]">
+          <Image
+            src={logoSquare}
+            layout='fill'
+            objectFit='fill'
+          // objectPosition='left'
+          />
+        </div>
+
+        {/* <img src="/logo-square-mobile.svg" alt="logo-square-mobile" className='block lg:hidden  mt-[28px]' /> */}
         {/* h-[36px] */}
 
-        <img src="/logo-square-desktop.svg" alt="logo-square-desktop" className='hidden lg:block  mt-[12px]' />
+        {/* <img src="/logo-square-desktop.svg" alt="logo-square-desktop" className='hidden lg:block  mt-[12px]' /> */}
         {/* h-[52px] */}
 
         <h1 id="heroText" ref={heroText} className='mt-[24.49px] lg:mt-[24px] text-[rgba(60,64,67,1)] font-[700] text-[36px] lg:text-[72px] leading-[48px] lg:leading-[84px] tracking-[0.1px] max-w-[326px] lg:max-w-[639px]'>A <span className='text-[rgba(54,108,165,1)]'>better</span> way to generate leads</h1>
