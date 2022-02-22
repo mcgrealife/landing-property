@@ -130,104 +130,62 @@ export default function Home() {
         y: () => "+=" + phoneHero.current.getBoundingClientRect().height,
       })
 
-    let tldownAnimation = gsap.timeline()
-      .to(heroSection.current, {
-        opacity: 0,
-        onStart: () => console.log("heroSection fade out onStart")
-      })
-      .to(window, {
-        duration: 0.5, scrollTo: { y: main.current, autoKill: false, onAutoKill: () => console.log("down scrollTo autoKilled") },
-      }, "<")
-      .to(main.current, {
-        opacity: 1,
-        duration: 1
-      })
-      .from(markers.current, {
-        y: () => isDesktop() ? '+=10' : '+=5',
-        opacity: 0,
-        duration: 1
-      }, "<25%")
-      .to(cards.current, {
-        display: 'block'
-      }, "<50%")
-      .from(cards.current, {
-        y: () => isDesktop() ? "+=136" : "+=102",
-        ease: "Power3.out"
-      }, "<")
-      .set(header.current, {
-        opacity: () => !isDesktop() && 0
-      })
-
-
     // hero > phone scroll down fade
-    let tldown = ScrollTrigger.create({
-      animation: tldownAnimation,
+    ScrollTrigger.create({
+      fastScrollEnd: 1000,
       trigger: headerSubText.current,
       start: "top top+=10%",
       endTrigger: main.current,
       end: "center center",
       // duration: 1.2,
       ease: "power3.out",
+      onEnter: () => {
+        // possibly trigger timeline here
+        gsap.timeline()
+          .to(heroSection.current, {
+            opacity: 0,
+            onStart: () => console.log("heroSection fade out onStart")
+          })
+          .to(window, {
+            duration: 0.5, scrollTo: { y: main.current, autoKill: false },
+          }, "<")
+          .to(main.current, {
+            opacity: 1,
+            duration: 1
+          })
+          .from(markers.current, {
+            y: () => isDesktop() ? '+=10' : '+=5',
+            opacity: 0,
+            duration: 1
+          }, "<25%")
+          .to(cards.current, {
+            display: 'block'
+          }, "<50%")
+          .from(cards.current, {
+            y: () => isDesktop() ? "+=136" : "+=102",
+            ease: "Power3.out"
+          }, "<")
+          .set(header.current, {
+            opacity: () => !isDesktop() && 0
+          })
+      },
       // toggleActions: "play none none none",
     })
-    //   scrollTrigger: {
-    //     // fastScrollEnd: fastScrollEndValue,
-    //     trigger: headerSubText.current,
-    //     start: "top top+=10%",
-    //     // duration: 1.2,
-    //     ease: "power3.out",
-    //     onEnter: ({ progress, direction, isActive }) => {
-    //       console.log("down onEnter,", progress, direction, isActive, ScrollTrigger.getAll()[0])
-    //       // gsap.to(window, {
-    //       //   duration: 0.5, scrollTo: { y: main.current, autoKill: false, onAutoKill: () => console.log("down scrollTo autoKilled") },
-    //       // }, "<")
-    //     },
-    //     onLeave: ({ progress, direction, isActive }) => console.log("down onLeave,", progress, direction, isActive),
-    //     onEnterBack: ({ progress, direction, isActive }) => console.log("down onEnterBack,", progress, direction, isActive),
-    //     onLeaveBack: ({ progress, direction, isActive }) => console.log("down onLeaveBack,", progress, direction, isActive),
-    //     // onToggle: () => console.log("onToggle")
-    //     // preventOverlaps: true,
-    //     // refreshPriority: 1
-    //     toggleActions: "play none none none",
-    //     onRefresh: () => console.log("down refreshed"),
-    //     onUpdate: ({ progress }) => console.log(progress)
-    //   },
-    //   id: "down",
-    //   onComplete: () => {
-    //     console.log("down onComplete")
-    //     // ScrollTrigger.getAll()[0].kill()
-    //   }
-    // })
 
 
-
-
-    ScrollTrigger.getAll()
 
     // phone > hero / header scroll up tl
 
     gsap.timeline({
       scrollTrigger: {
-        // fastScrollEnd: fastScrollEndValue,
+        fastScrollEnd: 1000,
         trigger: rightTextCol.current,
         start: 'top top+=1',
         endTrigger: heroSection.current,
         end: "top top+=77",
         toggleActions: "none none play none",
         // preventOverlaps: true,
-        onEnter: ({ progress, direction, isActive }) => console.log("up onEnter,", progress, direction, isActive, tldownAnimation),
-        onLeave: ({ progress, direction, isActive }) => console.log("up onLeave,", progress, direction, isActive),
-        onEnterBack: ({ progress, direction, isActive }) => console.log("up onEnterBack,", progress, direction, isActive),
-        onLeaveBack: ({ progress, direction, isActive }) => console.log("up onLeaveBack,", progress, direction, isActive),
       },
-      onComplete: () => {
-        // console.log("up onComplete", ScrollTrigger.getAll())
-        // ScrollTrigger.getAll()[0].refresh("force")
-        // console.log(gsap.timeline().getById("down"),
-        //   tldown, tldownAnimation.isActive())
-        // tldownAnimation.seek(0)
-
-      }
     })
       .to(main.
         current, {
@@ -237,7 +195,7 @@ export default function Home() {
       })
       .to(window, {
         duration: 1, scrollTo: {
-          y: 0, autoKill: false, onAutoKill: () => console.log("up scrollTo autoKilled")
+          y: 0, autoKill: false
         }
       }, "<")
       .to(heroSection.current, {
@@ -262,7 +220,7 @@ export default function Home() {
         onEnter: () => setMarkerImage(imgUrl("desktop", 2)),
         onEnterBack: () => setMarkerImage(imgUrl("desktop", 1)),
       },
-      x: () => isDesktop() ? '-312' : '-234',
+      x: () => isDesktop() ? '-315' : '-233',
     })
 
     gsap.to(cards.current, {
@@ -275,7 +233,7 @@ export default function Home() {
         onEnter: () => setMarkerImage(imgUrl("desktop", 3)),
         onEnterBack: () => setMarkerImage(imgUrl("desktop", 2)),
       },
-      x: () => isDesktop() ? '-=312' : '-=234'
+      x: () => isDesktop() ? '-=315' : '-=233'
     })
 
 
@@ -678,9 +636,9 @@ export default function Home() {
                 className='grid-in-body self-start z-2 w-full ' />
 
 
-              <div id='carousel' ref={carousel} className=' grid-in-body justify-items-end self-end z-6 pb-[12.35px] lg:pb-[16.53px] overflow-x-scroll scrollbar-hide snap-x h-28px'>
+              <div id='carousel' ref={carousel} className=' grid-in-body justify-items-end self-end z-6 overflow-x-scroll scrollbar-hide snap-x h-28px'>
 
-                <img src="/cards-4x.png" ref={cards} alt="cards" className=' pl-[10px] lg:pl-[12px] grid-in-body justify-self-start self-end z-6 min-w-[927.38px] lg:min-w-[1252.31px] overflow-visible' />
+                <img src="/cards-4x-padded.png" ref={cards} alt="cards" className=' grid-in-body justify-self-start self-end z-6 min-w-[927.38px] lg:min-w-[1252.31px] overflow-visible' />
 
               </div>
 

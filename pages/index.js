@@ -29,12 +29,7 @@ export default function Home() {
 
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
 
-  function scheduleDemoClick() {
 
-    // maybe conditional workround for pin
-    gsap.to(window, { duration: 1, scrollTo: { y: demo.current, offsetY: 100, autoKill: true }, ease: "power3", invalidateOnRefresh: true })
-
-  }
 
 
   // return jsx with <span> for titles. or split the titles
@@ -109,6 +104,14 @@ export default function Home() {
 
   const [leftText, setLeftText] = useState("Search")
 
+
+  function scheduleDemoClick() {
+
+    // maybe conditional workround for pin
+    gsap.to(window, { duration: 1, scrollTo: { y: demo.current, offsetY: -300, autoKill: true }, ease: "power3", invalidateOnRefresh: true })
+
+  }
+
   useEffect(() => {
 
     // onLoad map Animation
@@ -139,15 +142,16 @@ export default function Home() {
     // hero outro fade
     gsap.timeline({
       scrollTrigger: {
+        // fastScrollEnd: 1000,
         trigger: headerSubText.current,
         start: "top top+=10%",
         onEnter: fadeOutHero,
-        onEnter: () => console.log("onEnter"),
-        onLeave: () => console.log("onLeave"),
-        onEnterBack: () => console.log("onEnterBack"),
-        onLeaveBack: () => console.log("onLeaveBack"),
+        // onEnter: () => console.log("onEnter"),
+        // onLeave: () => console.log("onLeave"),
+        // onEnterBack: () => console.log("onEnterBack"),
+        // onLeaveBack: () => console.log("onLeaveBack"),
         // markers: true
-        duration: 1.2
+        duration: 1.2,
       },
     })
       .to(window, { duration: 1, scrollTo: { y: main.current, autoKill: false }, ease: "Power2.in" })
@@ -182,7 +186,7 @@ export default function Home() {
         onEnter: () => setMarkerImage(imgUrl("desktop", 2)),
         onEnterBack: () => setMarkerImage(imgUrl("desktop", 1)),
       },
-      x: () => isDesktop() ? '-312' : '-234',
+      x: () => isDesktop() ? '-=315' : '-=220',
     })
 
     gsap.to(cards.current, {
@@ -195,7 +199,7 @@ export default function Home() {
         onEnter: () => setMarkerImage(imgUrl("desktop", 3)),
         onEnterBack: () => setMarkerImage(imgUrl("desktop", 2)),
       },
-      x: () => isDesktop() ? '-=312' : '-=234'
+      x: () => isDesktop() ? '-=315' : '-=220'
     })
 
 
@@ -599,9 +603,9 @@ export default function Home() {
                 className='grid-in-body self-start z-2 w-full ' />
 
 
-              <div id='carousel' ref={carousel} className=' grid-in-body justify-items-end self-end z-6 pb-[12.35px] lg:pb-[16.53px] overflow-x-scroll scrollbar-hide snap-x h-28px'>
+              <div id='carousel' ref={carousel} className=' grid-in-body justify-items-end self-end z-6 overflow-x-scroll scrollbar-hide snap-x h-28px'>
 
-                <img src="/cards-4x.png" ref={cards} alt="cards" className=' pl-[10px] lg:pl-[12px] grid-in-body justify-self-start self-end z-6 min-w-[927.38px] lg:min-w-[1252.31px] overflow-visible' />
+                <img src="/cards-4x-padded.png" ref={cards} alt="cards" className=' grid-in-body justify-self-start self-end z-6 min-w-[927.38px] lg:min-w-[1252.31px] overflow-visible' />
 
               </div>
 
