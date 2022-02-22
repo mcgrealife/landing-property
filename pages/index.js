@@ -115,9 +115,6 @@ export default function Home() {
 
   useEffect(() => {
 
-
-
-
     // onLoad map Animation
     gsap.timeline({
 
@@ -149,7 +146,7 @@ export default function Home() {
     gsap.timeline({
       scrollTrigger: {
         trigger: headerSubText.current,
-        start: "top top",
+        start: "top top+=10%",
         // endTrigger: mapHero.current,
         // end: "bottom top+=10%",
         // toggleActions: "play none none none",
@@ -169,14 +166,23 @@ export default function Home() {
           opacity: 100,
         })
       })
+      .from(markers.current, {
+        y: () => isDesktop ? '+=10' : '+=5',
+        opacity: 0
+      })
+      .from(carousel.current, {
+        y: () => carousel.current.getBoundingClientRect().height,
+        ease: "Power3.out"
+      })
 
 
 
     // card swipe
+
     gsap.to(cards.current, {
       scrollTrigger: {
         trigger: rightTextDataIntegrity.current,
-        start: 'top 85%', //
+        start: 'top 90%', //
         end: '+=1',
         scrub: 2,
         ease: "power1.inOut",
@@ -218,14 +224,14 @@ export default function Home() {
       })
       .from(overlay.current, {
         opacity: 0,
-      }, "<%")
+      }, "<")
       .from(calendar0.current, {
         y: () => calendar0.current.getBoundingClientRect().height,
-      }, "<%")
-      .set(calendar1.current, {
+      }, "<")
+      .to(calendar1.current, {
         display: 'block'
       })
-      .set(calendar0.current, {
+      .to(calendar0.current, {
         display: 'none'
       })
 
@@ -266,12 +272,9 @@ export default function Home() {
         display: 'block',
         duration: 5
       }, "<80%")
-      .set(availability.current, {
+      .to(availability.current, {
         display: 'block'
-      }, ">+300%")
-
-
-
+      })
 
     gsap.timeline({
       scrollTrigger: {
@@ -302,9 +305,10 @@ export default function Home() {
       .to(tourTypeSheet2.current, {
         display: "block"
       }, ">25%")
-      .to(tourTypeSheet.current, {
-        display: "none"
-      }, "<1%")
+      .set(tourTypeSheet.current, {
+        display: "none",
+        opacity: 0
+      }, "<")
 
     let dx = (el1, el2, sign, log) => {
       let a = el1.getBoundingClientRect().height
@@ -394,11 +398,12 @@ export default function Home() {
       scrollTrigger: {
         trigger: rightTextTourConfirmation.current,
         start: 'top bottom',
-        end: '1px',
+        // end: '1px',
+        end: 'top center',
         // endTrigger: rightTextCol.current,
         // end: 'bottom bottom',
-        toggleActions: 'play none reverse none',
-        // scrub: true,
+        // toggleActions: 'play pause reverse pause',
+        scrub: true,
         markers: true
       },
     })
@@ -579,7 +584,7 @@ export default function Home() {
                 className='grid-in-body self-start z-2 w-full ' />
 
 
-              <div id='carousel' ref={carousel} className='grid-in-body justify-items-end self-end z-6 pb-[12.35px] lg:pb-[16.53px] overflow-x-scroll scrollbar-hide snap-x pt-2 h-28px'>
+              <div id='carousel' ref={carousel} className='grid-in-body justify-items-end self-end z-6 pb-[12.35px] lg:pb-[16.53px] overflow-x-scroll scrollbar-hide snap-x h-28px'>
 
                 <img src="/cards-4x.png" ref={cards} alt="cards" className=' pl-[10px] lg:pl-[12px] col-start-1 justify-self-start self-end z-6 min-w-[927.38px] lg:min-w-[1252.31px] overflow-visible' />
 
