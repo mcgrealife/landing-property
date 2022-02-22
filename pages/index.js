@@ -101,6 +101,9 @@ export default function Home() {
   const appointment2 = useRef()
   const confirmDetails = useRef()
   const success = useRef()
+  const sheetBg = useRef()
+
+
 
   const imgUrl = (device, number) => {
     return `/markers-${number}-${device}.png`
@@ -111,6 +114,8 @@ export default function Home() {
   const [leftText, setLeftText] = useState("Search")
 
   useEffect(() => {
+
+
 
 
     // onLoad map Animation
@@ -126,21 +131,16 @@ export default function Home() {
       })
 
 
-
+    // "once" logic for heroSection fadeOut
     let happened = false
-
-    function fadeOutHero() {
+    let fadeOutHero = () => {
       if (!happened) {
         gsap.to(heroSection.current, {
           opacity: 0,
         }
         )
       } else {
-        console.log(
-          "already happened"
-        )
       }
-
       happened = true
     }
 
@@ -150,11 +150,15 @@ export default function Home() {
       scrollTrigger: {
         trigger: headerSubText.current,
         start: "top top",
-        endTrigger: mapHero.current,
-        end: "bottom top+=10%",
-        // scrub: true,
-        toggleActions: "play none none none",
+        // endTrigger: mapHero.current,
+        // end: "bottom top+=10%",
+        // toggleActions: "play none none none",
         onEnter: fadeOutHero,
+        onEnter: () => console.log("onEnter"),
+        onLeave: () => console.log("onLeave"),
+        onEnterBack: () => console.log("onEnterBack"),
+        onLeaveBack: () => console.log("onLeaveBack"),
+        markers: true
       },
     })
       .to(window, { duration: 1, scrollTo: { y: main.current, autoKill: false }, ease: "Power2.in" })
@@ -162,13 +166,13 @@ export default function Home() {
         opacity: 0,
         duration: 1,
         onComplete: () => gsap.to(heroSection.current, {
-          opacity: 100
+          opacity: 100,
         })
       })
 
 
 
-    // desktop - card swipe
+    // card swipe
     gsap.to(cards.current, {
       scrollTrigger: {
         trigger: rightTextDataIntegrity.current,
@@ -179,7 +183,6 @@ export default function Home() {
         onEnter: () => setMarkerImage(imgUrl("desktop", 2)),
         onEnterBack: () => setMarkerImage(imgUrl("desktop", 1)),
       },
-      // x: '-312', // mobile: -234,
       x: () => isDesktop() ? '-312' : '-234',
     })
 
@@ -193,21 +196,19 @@ export default function Home() {
         onEnter: () => setMarkerImage(imgUrl("desktop", 3)),
         onEnterBack: () => setMarkerImage(imgUrl("desktop", 2)),
       },
-      // x: '-=312', //  mobile: x: '-=234',
       x: () => isDesktop() ? '-=312' : '-=234'
     })
 
 
-    // desktop - calendar
+    // calendar
     gsap.timeline({
       scrollTrigger: {
         trigger: rightTextMoveIn.current,
         start: 'top bottom',
         endTrigger: rightTextPersonalizedPage.current,
-        end: "top bottom+=30%",
-        toggleActions: 'play reverse play reverse',
+        end: "top bottom",
+        // toggleActions: 'play reverse play reverse',
         scrub: true,
-        // markers: true,
       },
     })
       .to(leftTextWrapper.current, {
@@ -234,8 +235,8 @@ export default function Home() {
         trigger: rightTextPersonalizedPage.current,
         start: 'top bottom',
         endTrigger: rightTextTourType.current,
-        end: "top bottom+=50%",
-        toggleActions: 'play reverse play reverse',
+        end: "top bottom",
+        // toggleActions: 'play reverse play reverse',
         scrub: true,
         // markers: { startColor: "purple", endColor: "purple" }
       },
@@ -267,7 +268,7 @@ export default function Home() {
       }, "<80%")
       .set(availability.current, {
         display: 'block'
-      }, ">+500%")
+      }, ">+300%")
 
 
 
@@ -276,10 +277,11 @@ export default function Home() {
       scrollTrigger: {
         trigger: rightTextTourType.current,
         start: 'top bottom',
-        endTrigger: rightTextCaptureDetails.current,
-        end: "top bottom+=70%",
-        toggleActions: 'play reverse play reverse',
+        endTrigger: rightTextInstantSchedule.current,
+        end: "top bottom",
+        // toggleActions: 'play reverse play reverse',
         scrub: true,
+        markers: true
       },
     })
       .to(leftTextWrapper.current, {
@@ -289,43 +291,98 @@ export default function Home() {
       .from(overlayTour.current, {
         opacity: 0,
       })
+      .from(sheetBg.current, {
+        y: () => tourTypeSheet.current.getBoundingClientRect().height,
+        ease: "power1.out"
+      }, "<")
       .from(tourTypeSheet.current, {
         y: () => tourTypeSheet.current.getBoundingClientRect().height,
         ease: "power1.out"
       }, "<")
-      .set(tourTypeSheet2.current, {
+      .to(tourTypeSheet2.current, {
         display: "block"
       }, ">25%")
-      .set(tourTypeSheet.current, {
+      .to(tourTypeSheet.current, {
         display: "none"
-      }, "<")
+      }, "<1%")
+
+    let dx = (el1, el2, sign, log) => {
+      let a = el1.getBoundingClientRect().height
+      let b = el2.getBoundingClientRect().height
+      let dx = b - a
+
+      if (log) {
+        console.log("el2", b)
+        console.log("el1", a)
+        console.log(b - a)
+      }
+
+      return `${sign}=${dx}`
+    }
+
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: rightTextInstantSchedule.current,
+        start: 'top bottom',
+        endTrigger: rightTextCaptureDetails.current,
+        end: "top bottom",
+        // toggleActions: 'play reverse play reverse',
+        scrub: true,
+        markers: true
+      },
+    })
       .to(appointment1.current, {
         display: "block",
-        duration: 1
-      }, ">+=500%")
+      })
+      .to(sheetBg.current, {
+        height: () => dx(appointment1.current, tourTypeSheet2.current, "-")
+      }, "<")
+      .to(tourTypeSheet2.current, {
+        y: () => dx(appointment1.current, tourTypeSheet2.current, "+"),
+        opacity: 0
+      }, "<")
+      .from(appointment1.current, {
+        y: () => dx(appointment1.current, tourTypeSheet2.current, "-"),
+        opacity: 0
+      }, "<")
+      .to(tourTypeSheet2.current, {
+        display: "none"
+      })
       .set(appointment2.current, {
         display: "block",
-        // duration: 1
-      }, ">10%")
+      }, ">90%")
       .set(appointment1.current, {
         display: "none",
-        // duration: 1
       }, "<")
+
 
 
     gsap.timeline({
       scrollTrigger: {
         trigger: rightTextCaptureDetails.current,
         start: 'top bottom',
-        end: '10px',
-
-        toggleActions: 'play reverse play reverse',
-        // scrub: true,
+        endTrigger: rightTextTourConfirmation.current,
+        end: 'top bottom',
+        // toggleActions: 'play reverse play reverse',
+        scrub: true,
         // markers: true
       },
     })
       .set(confirmDetails.current, {
         display: 'block',
+      })
+      .from(confirmDetails.current, {
+        y: () => dx(confirmDetails.current, appointment2.current, "-", "log"),
+        opacity: 0
+      })
+      .to(appointment2.current, {
+        opacity: 0
+      }, "<")
+      // .to(tourTypeSheet2.current, {
+      //   opacity: 0,
+      // }, ">")
+      .to(tourTypeSheet2.current, {
+        display: "none"
       })
       .set(appointment2.current, {
         display: 'none',
@@ -336,19 +393,17 @@ export default function Home() {
       scrollTrigger: {
         trigger: rightTextTourConfirmation.current,
         start: 'top bottom',
-        endTrigger: rightTextCol.current,
-        end: 'bottom bottom',
-        toggleActions: 'play reverse play reverse',
+        end: '500px',
+        // endTrigger: rightTextCol.current,
+        // end: 'bottom bottom',
+        // toggleActions: 'play reverse play reverse',
         scrub: true,
       },
     })
-      .to(confirmDetails.current, {
-        y: () => "+=" + confirmDetails.current.getBoundingClientRect().height,
-        // y: "+=600",
-      })
+
       .to(success.current, {
         display: 'block',
-      }, "+=20%")
+      }, ">20%")
 
 
 
@@ -358,26 +413,13 @@ export default function Home() {
       // Desktop
       "(min-width: 800px)": function () {
 
-        //desktop - scrollTo
-        // gsap.timeline({
-        //   scrollTrigger: {
-        //     trigger: headerSubText.current,
-        //     start: "top top+=10%",
-        //     endTrigger: main.current,
-        //     end: "center center",
-        //     onEnter: scrollToMain,
-        //     // onEnterBack: scrollToTop,
-        //     // markers: true
-        //   }
-        // })
-
         // header shadow desktop override only
         gsap.to(headerShadow.current, {
           opacity: 100,
           scrollTrigger: {
             trigger: topLogo.current,
             end: "+=300",
-            toggleActions: 'play reverse play reverse',
+            // toggleActions: 'play reverse play reverse',
             scrub: true
           },
         })
@@ -387,18 +429,6 @@ export default function Home() {
       // Mobile
       "(max-width: 799px)": function () {
 
-        //desktop - scrollTo: AutoKill False because thumb scroll interferes
-        gsap.timeline({
-          scrollTrigger: {
-            trigger: heroText.current,
-            start: "top top",
-            endTrigger: main.current,
-            end: "center center",
-            onEnter: () => gsap.to(window, { duration: 1, scrollTo: { y: main.current, autoKill: false }, ease: "Power2.in" }),
-            // onEnterBack: scrollToTop,
-            // markers: true
-          }
-        })
 
       }
     })
@@ -502,12 +532,17 @@ export default function Home() {
 
               <img src="/appointment-2-4x.png" alt="appointment-2" id="appointment2" ref={appointment2} className="z-16 grid-in-body self-end w-full hidden" />
 
+              <div id="sheet-bg" ref={sheetBg} className='grid bg-white grid-in-body  self-end  z-15 shadow-[0_0.918124px_5.50874px_rgba(60,64,67,0.3)] h-[294.4px] lg:h-[397.55px] rounded-t-[5.44px] lg:rounded-t-[7.34px]'>
+                <div id="handle" className='justify-self-center mt-[5.44px] lg:mt-[7.34px] rounded-full bg-[rgba(218,220,224,1)] w-[19.04px] h-[2.72px] lg:w-[25.71px] lg:h-[3.67px]' />
+              </div>
+
               <img src="/tour-type-4x.png" alt="tour-type" id="tour-type" ref={tourTypeSheet} className="z-15 grid-in-body self-end w-full " />
 
               <img src="/tour-type-2-4x.png" alt="tour-type" id="tour-type" ref={tourTypeSheet2} className="z-15 grid-in-body self-end w-full hidden" />
 
 
-              <div id="white-bg-prop-intro" ref={whiteBgPropIntro} className="bg-white grid-in-body opacity-100 z-11" />
+
+              <div id="white-bg-prop-intro" ref={whiteBgPropIntro} className="bg-white grid-in-body z-11" />
 
               <img src="/availability-4x.png" alt="availability" id="availability" ref={availability} className="z-14 grid-in-body self-start w-full hidden" />
 
