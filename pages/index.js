@@ -372,15 +372,16 @@ export default function Home() {
         display: 'block',
       })
       .from(confirmDetails.current, {
-        y: () => dx(confirmDetails.current, appointment2.current, "-", "log"),
+        y: () => dx(confirmDetails.current, appointment2.current, "-"),
         opacity: 0
       })
       .to(appointment2.current, {
+        y: () => dx(confirmDetails.current, appointment2.current, "+"),
         opacity: 0
       }, "<")
-      // .to(tourTypeSheet2.current, {
-      //   opacity: 0,
-      // }, ">")
+      .to(sheetBg.current, {
+        height: () => dx(confirmDetails.current, appointment2.current, "-"),
+      }, "<")
       .to(tourTypeSheet2.current, {
         display: "none"
       })
@@ -393,17 +394,26 @@ export default function Home() {
       scrollTrigger: {
         trigger: rightTextTourConfirmation.current,
         start: 'top bottom',
-        end: '500px',
+        end: '1px',
         // endTrigger: rightTextCol.current,
         // end: 'bottom bottom',
-        // toggleActions: 'play reverse play reverse',
-        scrub: true,
+        toggleActions: 'play none reverse none',
+        // scrub: true,
+        markers: true
       },
     })
-
+      .to(confirmDetails.current, {
+        y: () => "+=" + confirmDetails.current.getBoundingClientRect().height,
+      })
+      .to(sheetBg.current, {
+        y: () => "+=" + confirmDetails.current.getBoundingClientRect().height
+      }, "<")
       .to(success.current, {
         display: 'block',
-      }, ">20%")
+      })
+      .from(success.current, {
+        opacity: 0
+      }, "<")
 
 
 
@@ -524,7 +534,7 @@ export default function Home() {
 
               <div id="overlay" ref={overlayTour} className="bg-black opacity-50 grid-in-body z-15" />
 
-              <img src="/success-4x.png" alt="success" id="success" ref={success} className="z-18 grid-in-body place-self-center hidden" />
+              <img src="/success-4x.png" alt="success" id="success" ref={success} className="z-18 grid-in-body place-self-center max-w-[206.01px] lg:max-w-[278.19px] hidden" />
 
               <img src="/confirm-details-4x.png" alt="confirm-details" id="confirm-details" ref={confirmDetails} className="z-17 grid-in-body self-end w-full hidden" />
 
