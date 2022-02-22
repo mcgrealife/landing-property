@@ -117,7 +117,6 @@ export default function Home() {
 
     // onLoad map Animation
     gsap.timeline({
-
     })
       .from(mapHero.current, {
         scale: 0,
@@ -126,7 +125,6 @@ export default function Home() {
       .from(phoneHero.current, {
         y: () => "+=" + phoneHero.current.getBoundingClientRect().height,
       })
-
 
     // "once" logic for heroSection fadeOut
     let happened = false
@@ -147,15 +145,13 @@ export default function Home() {
       scrollTrigger: {
         trigger: headerSubText.current,
         start: "top top+=10%",
-        // endTrigger: mapHero.current,
-        // end: "bottom top+=10%",
-        // toggleActions: "play none none none",
         onEnter: fadeOutHero,
         onEnter: () => console.log("onEnter"),
         onLeave: () => console.log("onLeave"),
         onEnterBack: () => console.log("onEnterBack"),
         onLeaveBack: () => console.log("onLeaveBack"),
-        markers: true
+        // markers: true
+        duration: 1
       },
     })
       .to(window, { duration: 1, scrollTo: { y: main.current, autoKill: false }, ease: "Power2.in" })
@@ -170,12 +166,13 @@ export default function Home() {
         y: () => isDesktop ? '+=10' : '+=5',
         opacity: 0
       })
-      .from(carousel.current, {
-        y: () => carousel.current.getBoundingClientRect().height,
-        ease: "Power3.out"
+      .to(cards.current, {
+        display: 'block'
       })
-
-
+      .from(cards.current, {
+        y: isDesktop ? "+=136" : "+=102",
+        ease: "Power3.out"
+      }, "<")
 
     // card swipe
 
@@ -224,6 +221,9 @@ export default function Home() {
       })
       .from(overlay.current, {
         opacity: 0,
+      }, "<")
+      .to(calendar0.current, {
+        display: 'block'
       }, "<")
       .from(calendar0.current, {
         y: () => calendar0.current.getBoundingClientRect().height,
@@ -284,7 +284,7 @@ export default function Home() {
         end: "top bottom",
         // toggleActions: 'play reverse play reverse',
         scrub: true,
-        markers: true
+        // markers: true
       },
     })
       .to(leftTextWrapper.current, {
@@ -294,10 +294,13 @@ export default function Home() {
       .from(overlayTour.current, {
         opacity: 0,
       })
-      .from(sheetBg.current, {
-        y: () => tourTypeSheet.current.getBoundingClientRect().height,
-        ease: "power1.out"
+      .to(tourTypeSheet.current, {
+        display: "block"
       }, "<")
+      .to(sheetBg.current, {
+        y: () => "-=" + tourTypeSheet.current.getBoundingClientRect().height,
+        ease: "power1.out"
+      }, ">")
       .from(tourTypeSheet.current, {
         y: () => tourTypeSheet.current.getBoundingClientRect().height,
         ease: "power1.out"
@@ -332,14 +335,14 @@ export default function Home() {
         end: "top bottom",
         // toggleActions: 'play reverse play reverse',
         scrub: true,
-        markers: true
+        // markers: true
       },
     })
       .to(appointment1.current, {
         display: "block",
       })
       .to(sheetBg.current, {
-        height: () => dx(appointment1.current, tourTypeSheet2.current, "-")
+        y: () => dx(appointment1.current, tourTypeSheet2.current, "+")
       }, "<")
       .to(tourTypeSheet2.current, {
         y: () => dx(appointment1.current, tourTypeSheet2.current, "+"),
@@ -380,11 +383,11 @@ export default function Home() {
         opacity: 0
       })
       .to(appointment2.current, {
-        y: () => dx(confirmDetails.current, appointment2.current, "+"),
+        y: () => dx(confirmDetails.current, appointment2.current, "+", 'log'),
         opacity: 0
       }, "<")
       .to(sheetBg.current, {
-        height: () => dx(confirmDetails.current, appointment2.current, "-"),
+        y: () => dx(confirmDetails.current, appointment2.current, "+", "log"),
       }, "<")
       .to(tourTypeSheet2.current, {
         display: "none"
@@ -404,7 +407,7 @@ export default function Home() {
         // end: 'bottom bottom',
         // toggleActions: 'play pause reverse pause',
         scrub: true,
-        markers: true
+        // markers: true
       },
     })
       .to(confirmDetails.current, {
@@ -547,11 +550,11 @@ export default function Home() {
 
               <img src="/appointment-2-4x.png" alt="appointment-2" id="appointment2" ref={appointment2} className="z-16 grid-in-body self-end w-full hidden" />
 
-              <div id="sheet-bg" ref={sheetBg} className='grid bg-white grid-in-body  self-end  z-15 shadow-[0_0.918124px_5.50874px_rgba(60,64,67,0.3)] h-[294.4px] lg:h-[397.55px] rounded-t-[5.44px] lg:rounded-t-[7.34px]'>
+              <div id="sheet-bg" ref={sheetBg} className='grid bg-white col-start-[-2]  self-end  z-15 shadow-[0_0.918124px_5.50874px_rgba(60,64,67,0.3)] h-[318.42px] lg:h-[515.07px] rounded-t-[5.44px] lg:rounded-t-[7.34px]'>
                 <div id="handle" className='justify-self-center mt-[5.44px] lg:mt-[7.34px] rounded-full bg-[rgba(218,220,224,1)] w-[19.04px] h-[2.72px] lg:w-[25.71px] lg:h-[3.67px]' />
               </div>
 
-              <img src="/tour-type-4x.png" alt="tour-type" id="tour-type" ref={tourTypeSheet} className="z-15 grid-in-body self-end w-full " />
+              <img src="/tour-type-4x.png" alt="tour-type" id="tour-type" ref={tourTypeSheet} className="z-15 grid-in-body self-end w-full hidden " />
 
               <img src="/tour-type-2-4x.png" alt="tour-type" id="tour-type" ref={tourTypeSheet2} className="z-15 grid-in-body self-end w-full hidden" />
 
@@ -570,7 +573,7 @@ export default function Home() {
               <div id="overlay" ref={overlay} className="bg-black opacity-50 grid-in-body z-9" />
 
 
-              <img src="/calendar-0-4x.png" alt="calendar0" id="calendar0" ref={calendar0} className="z-10 grid-in-body self-end w-full" />
+              <img src="/calendar-0-4x.png" alt="calendar0" id="calendar0" ref={calendar0} className="z-10 grid-in-body self-end w-full hidden" />
 
               <img src="calendar-1-4x.png" alt="calendar1" id="calendar1" ref={calendar1} className="z-10 grid-in-body self-end w-full hidden" />
 
@@ -584,9 +587,9 @@ export default function Home() {
                 className='grid-in-body self-start z-2 w-full ' />
 
 
-              <div id='carousel' ref={carousel} className='grid-in-body justify-items-end self-end z-6 pb-[12.35px] lg:pb-[16.53px] overflow-x-scroll scrollbar-hide snap-x h-28px'>
+              <div id='carousel' ref={carousel} className=' grid-in-body justify-items-end self-end z-6 pb-[12.35px] lg:pb-[16.53px] overflow-x-scroll scrollbar-hide snap-x h-28px'>
 
-                <img src="/cards-4x.png" ref={cards} alt="cards" className=' pl-[10px] lg:pl-[12px] col-start-1 justify-self-start self-end z-6 min-w-[927.38px] lg:min-w-[1252.31px] overflow-visible' />
+                <img src="/cards-4x.png" ref={cards} alt="cards" className=' pl-[10px] lg:pl-[12px] grid-in-body justify-self-start self-end z-6 min-w-[927.38px] lg:min-w-[1252.31px] overflow-visible' />
 
               </div>
 
