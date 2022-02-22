@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/dist/ScrollTrigger"
 import { ScrollToPlugin } from "gsap/dist/ScrollToPlugin"
 // import { TextPlugin } from "gsap/dist/TextPlugin"
 import logo from '../public/resider-logo.png'
+import logoSquare from '../public/logo-square-4x.png'
 import map from '../public/map-circle-4x.png'
 import phoneHeroImgSquare from '../public/phone-hero-img-square.png'
 import mapImg from '../public/map-img-4x.png'
@@ -158,14 +159,14 @@ export default function Home() {
         })
       })
       .from(markers.current, {
-        y: () => isDesktop ? '+=10' : '+=5',
+        y: () => isDesktop() ? '+=10' : '+=5',
         opacity: 0
       }, "<25%")
       .to(cards.current, {
         display: 'block'
       }, "<50%")
       .from(cards.current, {
-        y: isDesktop ? "+=136" : "+=102",
+        y: () => isDesktop() ? "+=136" : "+=102",
         ease: "Power3.out"
       }, "<")
 
@@ -492,7 +493,7 @@ export default function Home() {
             src={logoSquare}
             layout='fill'
             objectFit='fill'
-            priority
+          // priority
           // objectPosition='left'
           />
         </div>
@@ -515,7 +516,7 @@ export default function Home() {
               alt="phoneHeroImgSquare"
               layout="fill"
               objectFit='fill'
-              priority
+            // priority
             />
           </div>
 
@@ -525,7 +526,7 @@ export default function Home() {
               alt='map'
               layout="fill"
               objectFit='fill'
-              priority
+            // priority
             />
           </div>
 

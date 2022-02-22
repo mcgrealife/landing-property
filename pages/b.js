@@ -30,9 +30,6 @@ export default function Home() {
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
 
 
-
-
-
   // return jsx with <span> for titles. or split the titles
   const rightText = [
     {
@@ -117,6 +114,8 @@ export default function Home() {
 
   }
 
+  // use Velocity somehow
+
   const fastScrollEndValue = 3000
 
   useEffect(() => {
@@ -132,6 +131,7 @@ export default function Home() {
         y: () => "+=" + phoneHero.current.getBoundingClientRect().height,
       })
 
+
     // hero > phone scroll down fade
     gsap.timeline({
       scrollTrigger: {
@@ -140,8 +140,11 @@ export default function Home() {
         start: "top top+=10%",
         // duration: 1.2,
         ease: "power3.out",
-        // toggleActions: "play"
-        onEnter: () => console.log("down onEnter"),
+        onEnter: ({ progress, direction, isActive }) => console.log("down onEnter,", progress, direction, isActive),
+        onLeave: ({ progress, direction, isActive }) => console.log("down onLeave,", progress, direction, isActive),
+        onEnterBack: ({ progress, direction, isActive }) => console.log("down onEnterBack,", progress, direction, isActive),
+        onLeaveBack: ({ progress, direction, isActive }) => console.log("down onLeaveBack,", progress, direction, isActive),
+        // onToggle: () => console.log("onToggle")
       },
     })
       .to(heroSection.current, {
@@ -155,7 +158,7 @@ export default function Home() {
         duration: 1
       })
       .from(markers.current, {
-        y: () => isDesktop ? '+=10' : '+=5',
+        y: () => isDesktop() ? '+=10' : '+=5',
         opacity: 0,
         duration: 1
       }, "<25%")
@@ -163,11 +166,11 @@ export default function Home() {
         display: 'block'
       }, "<50%")
       .from(cards.current, {
-        y: isDesktop ? "+=136" : "+=102",
+        y: () => isDesktop() ? "+=136" : "+=102",
         ease: "Power3.out"
       }, "<")
       .set(header.current, {
-        opacity: 0
+        opacity: () => !isDesktop() && 0
       })
 
 
@@ -184,7 +187,8 @@ export default function Home() {
         endTrigger: heroSection.current,
         end: "top top+=77",
         toggleActions: "none none play none",
-      }
+      },
+      onComplete: () => console.log("onComplete")
     })
       .to(main.
         current, {
@@ -199,11 +203,12 @@ export default function Home() {
       }, "<")
       .to(heroSection.current, {
         opacity: 1,
-        duration: 0.5,
+        duration: 1,
         // ease: "power4.out"
       })
-      .from(header.current, {
-        opacity: () => !isDesktop && 0
+      .to(header.current, {
+        opacity: () => !isDesktop() && 1,
+        duration: 1
       }, "<")
 
     // card swipe
@@ -529,7 +534,7 @@ export default function Home() {
             src={logoSquare}
             layout='fill'
             objectFit='fill'
-            priority
+          // priority
           // objectPosition='left'
           />
         </div>
@@ -552,7 +557,7 @@ export default function Home() {
               alt="phoneHeroImgSquare"
               layout="fill"
               objectFit='fill'
-              priority
+            // priority
             />
           </div>
 
@@ -562,7 +567,7 @@ export default function Home() {
               alt='map'
               layout="fill"
               objectFit='fill'
-              priority
+            // priority
             />
           </div>
 
