@@ -1,6 +1,4 @@
 import Head from 'next/head'
-import Card from '../components/Card'
-import Marker from '../components/Marker'
 import Image from 'next/image'
 import { useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { gsap } from 'gsap'
@@ -9,11 +7,8 @@ import { ScrollToPlugin } from "gsap/dist/ScrollToPlugin"
 // import { TextPlugin } from "gsap/dist/TextPlugin"
 import logo from '../public/resider-logo.png'
 import map from '../public/map-circle-4x.png'
-import phoneHeroImg from '../public/phone-hero-img.png'
 import phoneHeroImgSquare from '../public/phone-hero-img-square.png'
 import mapImg from '../public/map-img-4x.png'
-import calendarImg0 from '../public/calendar-0-4x.png'
-import calendarImg1 from '../public/calendar-1-4x.png'
 
 
 export default function Home() {
@@ -497,6 +492,7 @@ export default function Home() {
             src={logoSquare}
             layout='fill'
             objectFit='fill'
+            priority
           // objectPosition='left'
           />
         </div>
