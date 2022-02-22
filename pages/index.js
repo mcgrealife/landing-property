@@ -82,7 +82,7 @@ export default function Home() {
   const overlayTour = useRef()
   const calendar0 = useRef()
   const calendar1 = useRef()
-  const property = useRef() // svg shadow broken
+  const property = useRef()
   const propertyBar = useRef()
   const availability = useRef()
   const leftTextWrapper = useRef()
