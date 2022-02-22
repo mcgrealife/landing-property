@@ -151,7 +151,7 @@ export default function Home() {
         onEnterBack: () => console.log("onEnterBack"),
         onLeaveBack: () => console.log("onLeaveBack"),
         // markers: true
-        duration: 1
+        duration: 1.2
       },
     })
       .to(window, { duration: 1, scrollTo: { y: main.current, autoKill: false }, ease: "Power2.in" })
@@ -165,10 +165,10 @@ export default function Home() {
       .from(markers.current, {
         y: () => isDesktop ? '+=10' : '+=5',
         opacity: 0
-      })
+      }, "<25%")
       .to(cards.current, {
         display: 'block'
-      })
+      }, "<50%")
       .from(cards.current, {
         y: isDesktop ? "+=136" : "+=102",
         ease: "Power3.out"
@@ -209,7 +209,7 @@ export default function Home() {
         trigger: rightTextMoveIn.current,
         start: 'top bottom',
         endTrigger: rightTextPersonalizedPage.current,
-        end: "top bottom",
+        end: "top bottom+=10%",
         // toggleActions: 'play reverse play reverse',
         scrub: true,
       },
@@ -235,11 +235,12 @@ export default function Home() {
         display: 'none'
       })
 
+    // probably move white bg fade into end of filter section (or move property trigger up)
 
     gsap.timeline({
       scrollTrigger: {
         trigger: rightTextPersonalizedPage.current,
-        start: 'top bottom',
+        start: 'top bottom+=10%',
         endTrigger: rightTextTourType.current,
         end: "top bottom",
         // toggleActions: 'play reverse play reverse',
@@ -247,17 +248,19 @@ export default function Home() {
         // markers: { startColor: "purple", endColor: "purple" }
       },
     })
+      .from(whiteBgPropIntro.current, {
+        opacity: 0,
+        duration: 0.3
+      })
       .to(leftTextWrapper.current, {
         onStart: () => setLeftText("Property"),
         onReverseComplete: () => setLeftText("Filter"),
-      })
-      .from(whiteBgPropIntro.current, {
-        opacity: 0,
-      }, "<")
+      }, "<30%")
       .from(property.current, {
         y: () => screen.current.getBoundingClientRect().height - status.current.getBoundingClientRect().height,
         duration: 0.3
-      }, "<50%")
+      }, "<15%")
+
       .from(propertyBar.current, {
         y: screen.current.getBoundingClientRect().height,
         duration: 0.3
@@ -295,12 +298,15 @@ export default function Home() {
         opacity: 0,
       })
       .to(tourTypeSheet.current, {
-        display: "block"
+        display: "block",
       }, "<")
       .to(sheetBg.current, {
         y: () => "-=" + tourTypeSheet.current.getBoundingClientRect().height,
         ease: "power1.out"
       }, ">")
+      .set(tourTypeSheet.current, {
+        opacity: 100
+      }, "<")
       .from(tourTypeSheet.current, {
         y: () => tourTypeSheet.current.getBoundingClientRect().height,
         ease: "power1.out"
@@ -554,7 +560,7 @@ export default function Home() {
                 <div id="handle" className='justify-self-center mt-[5.44px] lg:mt-[7.34px] rounded-full bg-[rgba(218,220,224,1)] w-[19.04px] h-[2.72px] lg:w-[25.71px] lg:h-[3.67px]' />
               </div>
 
-              <img src="/tour-type-4x.png" alt="tour-type" id="tour-type" ref={tourTypeSheet} className="z-15 grid-in-body self-end w-full hidden " />
+              <img src="/tour-type-4x.png" alt="tour-type" id="tour-type" ref={tourTypeSheet} className="z-15 grid-in-body self-end w-full hidden opacity-0" />
 
               <img src="/tour-type-2-4x.png" alt="tour-type" id="tour-type" ref={tourTypeSheet2} className="z-15 grid-in-body self-end w-full hidden" />
 
