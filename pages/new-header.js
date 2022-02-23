@@ -9,6 +9,10 @@ import logoSquare from '../public/logo-square-4x.png'
 import map from '../public/map-circle-4x.png'
 import phoneHeroImgSquare from '../public/phone-hero-img-square.png'
 import mapImg from '../public/map-img-4x.png'
+import card1 from '../public/card1-4x.png'
+import card2 from '../public/card2-4x.png'
+import card3 from '../public/card3-4x.png'
+import card4 from '../public/card4-4x.png'
 
 export default function Home() {
 
@@ -80,6 +84,7 @@ export default function Home() {
   const rightTextSuperTitleStyle = 'block lg:hidden text-[rgba(96,99,103,1)] font-[700] text-[10px] tracking-[1.5px] leading-[10px] uppercase'
   const rightTextTitleStyle = 'text-[20px] lg:text-[36px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1)] font-[700]'
   const rightTextBodyStyle = 'text-[12px] lg:text-[18px] font-[500] leading-[20px] lg:leading-[32px] w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'
+  const cardStyle = 'w-[227.77px] lg:w-[307.57px] h-[81.59px] lg:h-[110.17px] snap-center shadow-[0_0.679899px_4.0794px_rgba(60,64,67,0.24) lg:shadow-[0_0.918114px_5.50869px_rgba(60,64,67,0.24)]'
 
   const scheduleDemoClick = () => {
     // this scrolls to the bottom of the page
@@ -132,9 +137,9 @@ export default function Home() {
       opacity: 0,
       duration: 1
     }, "<25%")
-    .to(cards.current, {
-      display: 'block'
-    }, "<50%")
+    // .to(cards.current, {
+    //   display: 'block'
+    // }, "<50%")
     .from(cards.current, {
       y: () => isDesktop() ? "+=136" : "+=102",
       ease: "Power3.out"
@@ -600,11 +605,16 @@ export default function Home() {
               <img src="/search-filter-bar-4x.png" alt="search-filter"
                 className='grid-in-body self-start z-2 w-full ' />
 
-
-              {/* snap-x */}
-              <div id='carousel' ref={carousel} className=' grid-in-body justify-items-end self-end z-6 overflow-x-scroll scrollbar-hide h-28px'>
-                <img src="/cards-4x-padded.png" ref={cards} alt="cards" className=' grid-in-body justify-self-start self-end z-6 min-w-[955px] lg:min-w-[1277px] overflow-visible' />
+            
+              <div id='carousel' ref={carousel} className='col-start-1 row-start-2 justify-items-end self-end z-6 overflow-x-scroll snap-x scrollbar-hide h-28px ' >
+                <div ref={cards} className='flex flex-row gap-2 min-w-max pb-[17px] lg:pb-[22.95px] pl-[13.6px] lg:pl-[18.36px]'>
+                    <img id="card1" src="/card1-4x.png" alt={card1} className={cardStyle} />
+                    <img id="card2" src="/card2-4x.png" alt={card2} className={cardStyle} />
+                    <img id="card3" src="/card3-4x.png" alt={card3} className={cardStyle} />
+                    <img id="card4" src="/card4-4x.png" alt={card4} className={cardStyle} />
+                </div>
               </div>
+            
 
               <img src="/home.svg" alt="home" className=' grid-in-body justify-self-center self-end pb-[5.23px] z-20 w-[91px] lg:w-[123px]' />
 
