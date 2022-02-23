@@ -1,10 +1,9 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { useEffect, useImperativeHandle, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger"
 import { ScrollToPlugin } from "gsap/dist/ScrollToPlugin"
-// import { TextPlugin } from "gsap/dist/TextPlugin"
 import logo from '../public/resider-logo.png'
 import logoSquare from '../public/logo-square-4x.png'
 import map from '../public/map-circle-4x.png'
@@ -13,18 +12,6 @@ import mapImg from '../public/map-img-4x.png'
 
 
 export default function Home() {
-
-  const isDesktop = () => {
-    if (typeof window !== "undefined") {
-      if (window.innerWidth >= 800) {
-        return true
-      } else {
-        return false
-      }
-    } else {
-      console.log("not a window")
-    }
-  }
 
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
 
@@ -73,7 +60,17 @@ export default function Home() {
   const success = useRef()
   const sheetBg = useRef()
 
-
+  const isDesktop = () => {
+    if (typeof window !== "undefined") {
+      if (window.innerWidth >= 800) {
+        return true
+      } else {
+        return false
+      }
+    } else {
+      console.log("not a window")
+    }
+  }
 
   const imgUrl = (device, number) => {
     return `/markers-${number}-${device}.png`
