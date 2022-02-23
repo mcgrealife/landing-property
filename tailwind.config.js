@@ -10,11 +10,9 @@ module.exports = {
 
     gridTemplateAreas: {
       'mobile': [
-        // 'header header header',
         'left right'
       ],
       'desktop': [
-        // 'header header header',
         'left middle right'
       ],
 
@@ -39,8 +37,8 @@ module.exports = {
       'screenDesktop': 'auto'
     },
     gridTemplateRows: {
-      'mobile': 'auto', // 100vh?
-      'desktop': 'auto', // 100vh?
+      'mobile': 'auto',
+      'desktop': 'auto',
       'phoneMobile': '28px 8px 552px 8px 49px',
       'phoneDesktop': '28px 11px 745px 11px 49px',
       'screenMobile': '30px 522.5px',
@@ -96,9 +94,7 @@ module.exports = {
     plugin(function ({ addUtilities }) {
       addUtilities({
         '.frame-shadow':
-          { 'filter': 'drop-shadow(0px 22.3363px 17.869px rgba(0, 0, 0, 0.0655718)) drop-shadow(0px 12.5216px 10.0172px rgba(0, 0, 0, 0.055)) drop-shadow(0px 6.6501px 5.32008px rgba(0, 0, 0, 0.0444282)) drop-shadow(0px 2.76726px 2.21381px rgba(0, 0, 0, 0.030926));' },
-        '.frame-shadow-none':
-          { 'filter': 'drop-shadow(0 0 0 white);' }
+          { 'filter': 'drop-shadow(0px 22.3363px 17.869px rgba(0, 0, 0, 0.0655718)) drop-shadow(0px 12.5216px 10.0172px rgba(0, 0, 0, 0.055)) drop-shadow(0px 6.6501px 5.32008px rgba(0, 0, 0, 0.0444282)) drop-shadow(0px 2.76726px 2.21381px rgba(0, 0, 0, 0.030926));' }
       }
       )
     }),

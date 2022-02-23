@@ -1,34 +1,24 @@
-# gitpod
+# Gitpod
 
-- Install the gitpod browser extension, click the green Gitpod button on the github repo
-- or https://gitpod.io/{repo-url}
-- This will open VScode in the browser, and run commands configured in gitpod.yaml
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/mcgrealife/landing-property)
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This will open VScode in the browser (with option to open in a desktop IDE), run commands configured in gitpod.yml, and open a localhost on port :3000.
 
-## Getting Started
+## Next.js
 
-First, run the development server:
+- This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+- Main files location in the /pages folder.
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+## Deployed
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- This project is deployed on vercel at [https://landing-property.vercel.app/](https://landing-property.vercel.app/) and [https://landing-property.vercel.app/new-header](https://landing-property.vercel.app/new-header)
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## TailwindCSS
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- TailwindCSS is used, with theme extensions and utilities defined in `tailwind.config.js`
+- Tailwind allows easy mobile and desktop width style variations. Styles are applied to mobile by default, or desktop by appening `lg:` in front of the style (ie. `className='pt-4 lg:pt-4'`)
+- Tailwind provides excellent defaults, however, we are primarily using "Arbitrary values" with this syntax `pt-[24px]`
+- Some arbitrary values have strict syntax requirements. For example, arbitrary shadow values requires `_` for spaces. (e.g. `shadow-[0_2px_4px_rgba(100,100,100,1)])
+- [TailwindCSS Docs](https://tailwindcss.com/docs/width) have quick reference for syntax. Scroll to the bottom of each page to see the arbitrary value syntax
+- We're also using a Tailwind plugin called `@savvywombat/tailwindcss-grid-areas` to make working with grid-areas easier (tailwind does not provide them out-of-the-box).
+- Tailwind can accept JSX inside of className strings. The JSX just has to output the full tailwind utility name. For example `className={`pt-[${variable}]`}` would not work. But `className={`${variable}`}` would work (where the variable outputs the full `pt-[24px]` string).
