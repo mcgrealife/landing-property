@@ -62,6 +62,7 @@ export default function Home() {
   const sheetBg = useRef()
 
   const isDesktop = () => {
+    // workaround for next.js
     if (typeof window !== "undefined") {
       if (window.innerWidth >= 800) {
         return true
@@ -76,26 +77,16 @@ export default function Home() {
   const imgUrl = (device, number) => {
     return `/markers-${number}-${device}.png`
   }
-
   const [markerImage, setMarkerImage] = useState(imgUrl("desktop", 1))
-
   const [leftText, setLeftText] = useState("Search")
-
-
-  function scheduleDemoClick() {
-
-    // maybe conditional workround for pin
-    gsap.to(window, { duration: 1, scrollTo: { y: demo.current, offsetY: -300, autoKill: true }, ease: "power3", invalidateOnRefresh: true })
-
-  }
-
   const rightTextBoxStyle = 'bg-white lg:justify-self-end self-center lg:bg-transparent shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit  rounded-[8px]  flex flex-col gap-[8px] lg:gap-[16px] pl-[24px]  pr-[24px] lg:pr-[24px] pt-[36px] lg:pt-[32px] pb-[28px] lg:pb-[32px]'
-
   const rightTextSuperTitleStyle = 'block lg:hidden text-[rgba(96,99,103,1)] font-[700] text-[10px] tracking-[1.5px] leading-[10px] uppercase'
-
   const rightTextTitleStyle = 'text-[20px] lg:text-[36px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1)] font-[700]'
-
   const rightTextBodyStyle = 'text-[12px] lg:text-[18px] font-[500] leading-[20px] lg:leading-[32px] w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'
+
+  const scheduleDemoClick = () => {
+    gsap.to(window, { duration: 1, scrollTo: { y: demo.current, offsetY: -300, autoKill: true }, ease: "power3", invalidateOnRefresh: true })
+  }
 
   useEffect(() => {
 

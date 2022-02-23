@@ -10,7 +10,6 @@ import map from '../public/map-circle-4x.png'
 import phoneHeroImgSquare from '../public/phone-hero-img-square.png'
 import mapImg from '../public/map-img-4x.png'
 
-
 export default function Home() {
 
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
@@ -38,7 +37,6 @@ export default function Home() {
   const screen = useRef()
   const carousel = useRef()
   const headerSubText = useRef()
-  const spacer = useRef()
   const overlay = useRef()
   const overlayTour = useRef()
   const calendar0 = useRef()
@@ -61,6 +59,7 @@ export default function Home() {
   const sheetBg = useRef()
 
   const isDesktop = () => {
+    // workaround for next.js
     if (typeof window !== "undefined") {
       if (window.innerWidth >= 800) {
         return true
@@ -75,38 +74,21 @@ export default function Home() {
   const imgUrl = (device, number) => {
     return `/markers-${number}-${device}.png`
   }
-
   const [markerImage, setMarkerImage] = useState(imgUrl("desktop", 1))
-
   const [leftText, setLeftText] = useState("Search")
-
-
-  function scheduleDemoClick() {
-    console.log("click")
-    gsap.to(window, { duration: 1, scrollTo: { y: demo.current, offsetY: 100, autoKill: true }, ease: "power3" })
-
-    //this scrollTo function must force all scrollTriggers to end position (or something). maybe get their progress. or just add a fastScrollEnd to EACH scrolltrigger. so if scroll is happening super fast, then 
-    // ScrollTrigger.config(
-    //   {
-    //     fastScrollEnd: 2000
-    //   }
-    // )
-
-  }
-
-  // use Velocity somehow
-
-  const fastScrollEndValue = 3000
-
-
   const rightTextBoxStyle = 'bg-white lg:justify-self-end self-center lg:bg-transparent shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit  rounded-[8px]  flex flex-col gap-[8px] lg:gap-[16px] pl-[24px]  pr-[24px] lg:pr-[24px] pt-[36px] lg:pt-[32px] pb-[28px] lg:pb-[32px]'
-
   const rightTextSuperTitleStyle = 'block lg:hidden text-[rgba(96,99,103,1)] font-[700] text-[10px] tracking-[1.5px] leading-[10px] uppercase'
-
   const rightTextTitleStyle = 'text-[20px] lg:text-[36px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1)] font-[700]'
-
   const rightTextBodyStyle = 'text-[12px] lg:text-[18px] font-[500] leading-[20px] lg:leading-[32px] w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'
 
+  const scheduleDemoClick = () => {
+    // this scrolls to the bottom of the page
+    // however, it catches scrollTriggers along the way and gets stuck
+    // maybe the scrollTriggers should have `preventOverlaps` or `fastScrollEnd`.
+    // maybe this funciton should manually pause the scrollTriggers
+    gsap.to(window, { duration: 1, scrollTo: { y: demo.current, offsetY: 100, autoKill: true }, ease: "power3" })
+  }
+ 
   useEffect(() => {
 
     // onLoad map Animation
@@ -120,68 +102,62 @@ export default function Home() {
         y: () => "+=" + phoneHero.current.getBoundingClientRect().height,
       })
 
-    // hero > phone scroll down fade
-    ScrollTrigger.create({
-      fastScrollEnd: 1000,
-      trigger: headerSubText.current,
-      start: "top top+=10%",
-      endTrigger: main.current,
-      end: "center center",
-      // duration: 1.2,
-      ease: "power3.out",
-      onEnter: () => {
-        // possibly trigger timeline here
-        gsap.timeline()
-          .to(heroSection.current, {
-            opacity: 0,
-            onStart: () => console.log("heroSection fade out onStart")
-          })
-          .to(window, {
-            duration: 0.5, scrollTo: { y: main.current, autoKill: false },
-          }, "<")
-          .to(main.current, {
-            opacity: 1,
-            duration: 1
-          })
-          .from(markers.current, {
-            y: () => isDesktop() ? '+=10' : '+=5',
-            opacity: 0,
-            duration: 1
-          }, "<25%")
-          .to(cards.current, {
-            display: 'block'
-          }, "<50%")
-          .from(cards.current, {
-            y: () => isDesktop() ? "+=136" : "+=102",
-            ease: "Power3.out"
-          }, "<")
-          .set(header.current, {
-            opacity: () => !isDesktop() && 0
-          })
-      },
-      // toggleActions: "play none none none",
-    })
-
-
-
-    // phone > hero / header scroll up tl
-
+    // Scroll down from Section-1 to phone  
     gsap.timeline({
       scrollTrigger: {
-        fastScrollEnd: 1000,
+        id: "down",
+        trigger: headerSubText.current,
+        start: "top top+=10%",
+        endTrigger: main.current,
+        end: "center center",
+        ease: "power3.out",
+        onEnter: () => {
+          // possibly trigger timeline here
+        },
+        toggleActions: "play none none none",
+      }
+    })
+    .to(heroSection.current, {
+      opacity: 0,
+    })
+    .to(window, {
+      duration: 0.5, scrollTo: { y: main.current, autoKill: false },
+    }, "<")
+    .to(main.current, {
+      opacity: 1,
+      duration: 1
+    })
+    .from(markers.current, {
+      y: () => isDesktop() ? '+=10' : '+=5',
+      opacity: 0,
+      duration: 1
+    }, "<25%")
+    .to(cards.current, {
+      display: 'block'
+    }, "<50%")
+    .from(cards.current, {
+      y: () => isDesktop() ? "+=136" : "+=102",
+      ease: "Power3.out"
+    }, "<")
+    .set(header.current, {
+      opacity: () => !isDesktop() && 0
+    })
+
+    // Scroll up from Phone to Section-1
+    gsap.timeline({
+      scrollTrigger: {
+        id: "up",
         trigger: rightTextCol.current,
         start: 'top top+=1',
         endTrigger: heroSection.current,
         end: "top top+=77",
         toggleActions: "none none play none",
-        // preventOverlaps: true,
       },
     })
       .to(main.
         current, {
         opacity: 0,
         duration: 1,
-        // ease: "power1.in"
       })
       .to(window, {
         duration: 1, scrollTo: {
@@ -191,35 +167,33 @@ export default function Home() {
       .to(heroSection.current, {
         opacity: 1,
         duration: 1,
-        // ease: "power4.out"
       })
       .to(header.current, {
         opacity: () => !isDesktop() && 1,
         duration: 1
       }, "<")
 
-    // card swipe
-
+    // card swipe 1
     gsap.to(cards.current, {
       scrollTrigger: {
         trigger: rightTextDataIntegrity.current,
-        start: 'top 90%', //
+        start: 'top 90%', 
         end: '+=1',
-        scrub: 2,
-        ease: "power1.inOut",
+        scrub: 1,
+        // ease: "power1.inOut",
         onEnter: () => setMarkerImage(imgUrl("desktop", 2)),
         onEnterBack: () => setMarkerImage(imgUrl("desktop", 1)),
       },
-      x: () => isDesktop() ? '-=310' : '-233',
+      x: () => isDesktop() ? '-=310' : '-=233',
     })
-
+    // card swipe 2
     gsap.to(cards.current, {
       scrollTrigger: {
         trigger: rightTextDataIntegrity.current,
         start: 'top 50%',
         end: '+=1',
-        scrub: 2,
-        ease: "power1.inOut",
+        scrub: 1,
+        // ease: "power1.inOut",
         onEnter: () => setMarkerImage(imgUrl("desktop", 3)),
         onEnterBack: () => setMarkerImage(imgUrl("desktop", 2)),
       },
@@ -258,7 +232,6 @@ export default function Home() {
       .to(calendar0.current, {
         display: 'none'
       })
-
     // probably move white bg fade into end of filter section (or move property trigger up)
 
     gsap.timeline({
