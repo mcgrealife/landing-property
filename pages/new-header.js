@@ -9,10 +9,7 @@ import logoSquare from '../public/logo-square-4x.png'
 import map from '../public/map-circle-4x.png'
 import phoneHeroImgSquare from '../public/phone-hero-img-square.png'
 import mapImg from '../public/map-img-4x.png'
-import card1 from '../public/card1-4x.png'
-import card2 from '../public/card2-4x.png'
-import card3 from '../public/card3-4x.png'
-import card4 from '../public/card4-4x.png'
+import Card from '../components/Card'
 
 export default function Home() {
 
@@ -84,7 +81,6 @@ export default function Home() {
   const rightTextSuperTitleStyle = 'block lg:hidden text-[rgba(96,99,103,1)] font-[700] text-[10px] tracking-[1.5px] leading-[10px] uppercase'
   const rightTextTitleStyle = 'text-[20px] lg:text-[36px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1)] font-[700]'
   const rightTextBodyStyle = 'text-[12px] lg:text-[18px] font-[500] leading-[20px] lg:leading-[32px] w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'
-  const cardStyle = 'w-[227.77px] lg:w-[307.57px] h-[81.59px] lg:h-[110.17px] snap-center shadow-[0_0.679899px_4.0794px_rgba(60,64,67,0.24) lg:shadow-[0_0.918114px_5.50869px_rgba(60,64,67,0.24)]'
 
   const scheduleDemoClick = () => {
     // this scrolls to the bottom of the page
@@ -137,13 +133,10 @@ export default function Home() {
       opacity: 0,
       duration: 1
     }, "<25%")
-    // .to(cards.current, {
-    //   display: 'block'
-    // }, "<50%")
     .from(cards.current, {
       y: () => isDesktop() ? "+=136" : "+=102",
       ease: "Power3.out"
-    }, "<")
+    }, "<65%")
     .set(header.current, {
       opacity: () => !isDesktop() && 0
     })
@@ -188,7 +181,8 @@ export default function Home() {
         // ease: "power1.inOut",
         onEnter: () => setMarkerImage(imgUrl("desktop", 2)),
         onEnterBack: () => setMarkerImage(imgUrl("desktop", 1)),
-        toggleActions: "play none reverse none"
+        toggleActions: "play none reverse none",
+        ease: "power3.inOut"
       },
       x: () => isDesktop() ? '-=310' : '-=233',
     })
@@ -202,7 +196,8 @@ export default function Home() {
         // ease: "power1.inOut",
         onEnter: () => setMarkerImage(imgUrl("desktop", 3)),
         onEnterBack: () => setMarkerImage(imgUrl("desktop", 2)),
-        toggleActions: "play none reverse none"
+        toggleActions: "play none reverse none",
+        ease: "power3.inOut"
       },
       x: () => isDesktop() ? '-=310' : '-=233'
     })
@@ -607,11 +602,11 @@ export default function Home() {
 
             
               <div id='carousel' ref={carousel} className='col-start-1 row-start-2 justify-items-end self-end z-6 overflow-x-scroll snap-x scrollbar-hide h-28px ' >
-                <div ref={cards} className='flex flex-row gap-2 min-w-max pb-[17px] lg:pb-[22.95px] pl-[13.6px] lg:pl-[18.36px]'>
-                    <img id="card1" src="/card1-4x.png" alt={card1} className={cardStyle} />
-                    <img id="card2" src="/card2-4x.png" alt={card2} className={cardStyle} />
-                    <img id="card3" src="/card3-4x.png" alt={card3} className={cardStyle} />
-                    <img id="card4" src="/card4-4x.png" alt={card4} className={cardStyle} />
+                <div ref={cards} className='flex flex-row gap-2 min-w-max pb-[17px] lg:pb-[22.95px] pl-[13.6px] lg:pl-[18.36px] pt-2'>
+                    <Card num="1"/>
+                    <Card num="2"/>
+                    <Card num="3"/>
+                    <Card num="4"/>
                 </div>
               </div>
             
