@@ -180,11 +180,11 @@ export default function Home() {
       x: () => isDesktop() ? '-=310' : '-=232',
     })
 
-      .to(cards.current, {
-        x: () => isDesktop() ? '-=310' : '-=232',
-        onEnter: () => setMarkerImage(imgUrl("desktop", 2)),
-        onEnterBack: () => setMarkerImage(imgUrl("desktop", 1)),
-      })
+      // .to(cards.current, {
+      //   x: () => isDesktop() ? '-=310' : '-=232',
+      //   onEnter: () => setMarkerImage(imgUrl("desktop", 2)),
+      //   onEnterBack: () => setMarkerImage(imgUrl("desktop", 1)),
+      // })
 
     gsap.to(cards.current, {
       scrollTrigger: {
