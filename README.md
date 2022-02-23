@@ -21,4 +21,4 @@ This will open VScode in the browser (with option to open in a desktop IDE), run
 - Some arbitrary values have strict syntax requirements. For example, arbitrary shadow values requires `_` for spaces. (e.g. `shadow-[0_2px_4px_rgba(100,100,100,1)])
 - [TailwindCSS Docs](https://tailwindcss.com/docs/width) have quick reference for syntax. Scroll to the bottom of each page to see the arbitrary value syntax
 - We're also using a Tailwind plugin called `@savvywombat/tailwindcss-grid-areas` to make working with grid-areas easier (tailwind does not provide them out-of-the-box).
-- Tailwind can accept JSX inside of className strings. The JSX just has to output the full tailwind utility name. For example `className={`pt-[${variable}]`}` would not work. But `className={`${variable}`}` would work (where the variable outputs the full `pt-[24px]` string).
+- Tailwind can accept JSX inside of className strings. The JSX just has to output the full tailwind utility name. For example ``className={`pt-[${variable}]`}`` would not work. But ``className={`${variable}`}`` would work (where the variable outputs the full `pt-[24px]` string).
