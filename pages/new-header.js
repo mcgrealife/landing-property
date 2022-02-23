@@ -26,9 +26,7 @@ export default function Home() {
     }
   }
 
-
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
-
 
   const heroText = useRef()
   const phoneHero = useRef()
@@ -45,12 +43,10 @@ export default function Home() {
   const rightTextTourConfirmation = useRef()
   const rightTextCol = useRef()
   const topLogo = useRef()
+  const header = useRef()
   const headerShadow = useRef()
   const heroSection = useRef()
   const main = useRef()
-  const mapMask = useRef()
-  const wrapperMapMask = useRef()
-  const frameMask = useRef()
   const frame = useRef()
   const screen = useRef()
   const carousel = useRef()
@@ -89,19 +85,21 @@ export default function Home() {
 
 
   function scheduleDemoClick() {
+    console.log("click")
+    gsap.to(window, { duration: 1, scrollTo: { y: demo.current, offsetY: 100, autoKill: true }, ease: "power3" })
 
-    // maybe conditional workround for pin
-    gsap.to(window, { duration: 1, scrollTo: { y: demo.current, offsetY: -300, autoKill: true }, ease: "power3", invalidateOnRefresh: true })
+    //this scrollTo function must force all scrollTriggers to end position (or something). maybe get their progress. or just add a fastScrollEnd to EACH scrolltrigger. so if scroll is happening super fast, then 
+    // ScrollTrigger.config(
+    //   {
+    //     fastScrollEnd: 2000
+    //   }
+    // )
 
   }
 
-  const rightTextBoxStyle = 'bg-white lg:justify-self-end self-center lg:bg-transparent shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit  rounded-[8px]  flex flex-col gap-[8px] lg:gap-[16px] pl-[24px]  pr-[24px] lg:pr-[24px] pt-[36px] lg:pt-[32px] pb-[28px] lg:pb-[32px]'
+  // use Velocity somehow
 
-  const rightTextSuperTitleStyle = 'block lg:hidden text-[rgba(96,99,103,1)] font-[700] text-[10px] tracking-[1.5px] leading-[10px] uppercase'
-
-  const rightTextTitleStyle = 'text-[20px] lg:text-[36px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1)] font-[700]'
-
-  const rightTextBodyStyle = 'text-[12px] lg:text-[18px] font-[500] leading-[20px] lg:leading-[32px] w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'
+  const fastScrollEndValue = 3000
 
   useEffect(() => {
 
@@ -116,87 +114,110 @@ export default function Home() {
         y: () => "+=" + phoneHero.current.getBoundingClientRect().height,
       })
 
-    // "once" logic for heroSection fadeOut
-    let happened = false
-    let fadeOutHero = () => {
-      if (!happened) {
-        gsap.to(heroSection.current, {
-          opacity: 0,
-        }
-        )
-      } else {
-      }
-      happened = true
-    }
+    // hero > phone scroll down fade
+    ScrollTrigger.create({
+      fastScrollEnd: 1000,
+      trigger: headerSubText.current,
+      start: "top top+=10%",
+      endTrigger: main.current,
+      end: "center center",
+      // duration: 1.2,
+      ease: "power3.out",
+      onEnter: () => {
+        // possibly trigger timeline here
+        gsap.timeline()
+          .to(heroSection.current, {
+            opacity: 0,
+            onStart: () => console.log("heroSection fade out onStart")
+          })
+          .to(window, {
+            duration: 0.5, scrollTo: { y: main.current, autoKill: false },
+          }, "<")
+          .to(main.current, {
+            opacity: 1,
+            duration: 1
+          })
+          .from(markers.current, {
+            y: () => isDesktop() ? '+=10' : '+=5',
+            opacity: 0,
+            duration: 1
+          }, "<25%")
+          .to(cards.current, {
+            display: 'block'
+          }, "<50%")
+          .from(cards.current, {
+            y: () => isDesktop() ? "+=136" : "+=102",
+            ease: "Power3.out"
+          }, "<")
+          .set(header.current, {
+            opacity: () => !isDesktop() && 0
+          })
+      },
+      // toggleActions: "play none none none",
+    })
 
 
-    // hero outro fade
+
+    // phone > hero / header scroll up tl
+
     gsap.timeline({
       scrollTrigger: {
-        // fastScrollEnd: 1000,
-        trigger: headerSubText.current,
-        start: "top top+=10%",
-        onEnter: fadeOutHero,
-        // onEnter: () => console.log("onEnter"),
-        // onLeave: () => console.log("onLeave"),
-        // onEnterBack: () => console.log("onEnterBack"),
-        // onLeaveBack: () => console.log("onLeaveBack"),
-        // markers: true
-        duration: 1.2,
+        fastScrollEnd: 1000,
+        trigger: rightTextCol.current,
+        start: 'top top+=1',
+        endTrigger: heroSection.current,
+        end: "top top+=77",
+        toggleActions: "none none play none",
+        // preventOverlaps: true,
       },
     })
-      .to(window, { duration: 1, scrollTo: { y: main.current, autoKill: false }, ease: "Power2.in" })
-      .from(main.current, {
+      .to(main.
+        current, {
         opacity: 0,
         duration: 1,
-        onComplete: () => gsap.to(heroSection.current, {
-          opacity: 100,
-        })
+        // ease: "power1.in"
       })
-      .from(markers.current, {
-        y: () => isDesktop() ? '+=10' : '+=5',
-        opacity: 0
-      }, "<25%")
-      .to(cards.current, {
-        display: 'block'
-      }, "<50%")
-      .from(cards.current, {
-        y: () => isDesktop() ? "+=136" : "+=102",
-        ease: "Power3.out"
+      .to(window, {
+        duration: 1, scrollTo: {
+          y: 0, autoKill: false
+        }
+      }, "<")
+      .to(heroSection.current, {
+        opacity: 1,
+        duration: 1,
+        // ease: "power4.out"
+      })
+      .to(header.current, {
+        opacity: () => !isDesktop() && 1,
+        duration: 1
       }, "<")
 
     // card swipe
-    // COMBINE THESE
+
     gsap.to(cards.current, {
       scrollTrigger: {
         trigger: rightTextDataIntegrity.current,
-        start: 'top 90%',
+        start: 'top 90%', //
         end: '+=1',
-        scrub: true,
+        scrub: 2,
         ease: "power1.inOut",
         onEnter: () => setMarkerImage(imgUrl("desktop", 2)),
         onEnterBack: () => setMarkerImage(imgUrl("desktop", 1)),
       },
-      x: () => isDesktop() ? '-=310' : '-=232',
+      x: () => isDesktop() ? '-=310' : '-233',
     })
-
-      .to(cards.current, {
-        x: () => isDesktop() ? '-=310' : '-=232',
-        onEnter: () => setMarkerImage(imgUrl("desktop", 2)),
-        onEnterBack: () => setMarkerImage(imgUrl("desktop", 1)),
-      })
 
     gsap.to(cards.current, {
       scrollTrigger: {
         trigger: rightTextDataIntegrity.current,
         start: 'top 50%',
         end: '+=1',
-        scrub: true,
+        scrub: 2,
         ease: "power1.inOut",
         onEnter: () => setMarkerImage(imgUrl("desktop", 3)),
         onEnterBack: () => setMarkerImage(imgUrl("desktop", 2)),
       },
-      x: () => isDesktop() ? '-=310' : '-=232'
+      x: () => isDesktop() ? '-=310' : '-=233'
     })
 
 
@@ -386,11 +407,11 @@ export default function Home() {
         opacity: 0
       })
       .to(appointment2.current, {
-        y: () => dx(confirmDetails.current, appointment2.current, "+", 'log'),
+        y: () => dx(confirmDetails.current, appointment2.current, "+"),
         opacity: 0
       }, "<")
       .to(sheetBg.current, {
-        y: () => dx(confirmDetails.current, appointment2.current, "+", "log"),
+        y: () => dx(confirmDetails.current, appointment2.current, "+"),
       }, "<")
       .to(tourTypeSheet2.current, {
         display: "none"
@@ -467,7 +488,7 @@ export default function Home() {
 
       </Head>
 
-      <header className='bg-white py-[12px] w-full grid h-[78px] static lg:sticky top-0 z-20 pr-[16px] pl-[24px]'>
+      <header id="header" ref={header} className='bg-white py-[12px] w-full grid h-[78px] static lg:sticky top-0 z-20 pr-[16px] pl-[24px]'>
         <div className=" relative">
           <Image
             src={logo}
@@ -484,7 +505,7 @@ export default function Home() {
       </header>
 
 
-      <div ref={headerShadow} className='shadow-[0_2px_4px_rgba(60,64,67,0.1)] w-full h-[78px] absolute lg:fixed top-0 z-10 opacity-100 lg:opacity-0' />
+      <div ref={headerShadow} className='shadow-[0_2px_4px_rgba(60,64,67,0.1)] w-full h-[78px] absolute lg:fixed top-0 z-10 opacity-0' />
 
 
       <div id='hero-section' ref={heroSection} className='flex flex-col place-items-center text-center'>
@@ -501,8 +522,8 @@ export default function Home() {
 
         {/* <img src="/logo-square-mobile.svg" alt="logo-square-mobile" className='block lg:hidden  mt-[28px]' /> */}
         {/* h-[36px] */}
-        {/* 
-        <img src="/logo-square-desktop.svg" alt="logo-square-desktop" className='hidden lg:block  mt-[12px]' /> */}
+
+        {/* <img src="/logo-square-desktop.svg" alt="logo-square-desktop" className='hidden lg:block  mt-[12px]' /> */}
         {/* h-[52px] */}
 
         <h1 id="heroText" ref={heroText} className='mt-[24.49px] lg:mt-[24px] text-[rgba(60,64,67,1)] font-[700] text-[36px] lg:text-[72px] leading-[48px] lg:leading-[84px] tracking-[0.1px] max-w-[326px] lg:max-w-[639px]'>A <span className='text-[rgba(54,108,165,1)]'>better</span> way to generate leads</h1>
@@ -534,11 +555,10 @@ export default function Home() {
         </div>
       </div>
 
-      {/* <div id="spacerHero" className='h-[500px] w-full' /> */}
 
       <div id="gridContainer" className='grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop z-20'>
 
-        <div id="phoneAndLeftText" ref={main} className='grid-in-left col-end-right grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop self-start  h-screen sticky left-0 top-0'>
+        <div id="phoneAndLeftText" ref={main} className='grid-in-left col-end-right grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop self-start  h-screen sticky left-0 top-0 opacity-0'>
 
           <div id="leftTextWrapper" ref={leftTextWrapper} className='hidden lg:block grid-in-left place-self-center text-[72px] font-[600] text-[rgba(60,64,67,1)]'>
             {leftText}
@@ -563,7 +583,7 @@ export default function Home() {
 
               <img src="/appointment-2-4x.png" alt="appointment-2" id="appointment2" ref={appointment2} className="z-16 grid-in-body self-end w-full hidden" />
 
-              <div id="sheet-bg" ref={sheetBg} className='grid bg-white col-start-[-2]  self-end  z-15 shadow-[0_0.918124px_5.50874px_rgba(60,64,67,0.3)] h-[318.42px] lg:h-[515.07px] rounded-t-[5.44px] lg:rounded-t-[7.34px]'>
+              <div id="sheet-bg" ref={sheetBg} className='grid bg-white col-start-[-2]  self-end  z-15 shadow-[0_0.918124px_5.50874px_rgba(60,64,67,0.3)] h-[381.42px] lg:h-[515.07px] rounded-t-[5.44px] lg:rounded-t-[7.34px]'>
                 <div id="handle" className='justify-self-center mt-[5.44px] lg:mt-[7.34px] rounded-full bg-[rgba(218,220,224,1)] w-[19.04px] h-[2.72px] lg:w-[25.71px] lg:h-[3.67px]' />
               </div>
 
@@ -630,91 +650,78 @@ export default function Home() {
         <div id="rightTextCol" ref={rightTextCol} className='grid-in-right col-end-left lg:col-end-right flex flex-col gap-[110vh] lg:gap-[110vh]  z-10 w-fit min-w-[280px] lg:min-w-[404px] mr-[16px] lg:mr-[59px] place-items-start justify-self-end pt-[110vh]'>
 
 
-          <div id='rightTextDataIntegrity' ref={rightTextDataIntegrity} className={rightTextBoxStyle}>
+          <div id='rightTextDataIntegrity' ref={rightTextDataIntegrity} className='bg-white lg:justify-self-end self-center lg:bg-transparent shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit mr-[16px] lg:mr-[59px] rounded-[8px]  flex flex-col gap-[8px] lg:gap-[16px] pl-[24px]  pr-[36px] lg:pr-[24px] pt-[36px] lg:pt-[32px] pb-[28px] lg:pb-[32px]'>
 
-            <div className={rightTextSuperTitleStyle
-            }>Search</div>
+            <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Search</div>
 
-            <h1 className={rightTextTitleStyle}>Data <span className='text-resider-blue-primary '>integrity</span></h1>
-            <p className={rightTextBodyStyle}>Resider solely consists of rental properties syndicated through data API’s. With up to date and accurate listings, your clients can browse with confidence.</p>
-
-          </div>
-
-          <div id='rightTextMoveIn' ref={rightTextMoveIn} className={rightTextBoxStyle}>
-
-            <div className={rightTextSuperTitleStyle
-            }>Filter</div>
-
-            <h1 className={rightTextTitleStyle}><span className='text-resider-blue-primary '>Move in</span> date</h1>
-            <p className={rightTextBodyStyle}>Qualified leads are our emphasis. Allowing users to narrow down exact availability by their move in date is the first step.</p>
+            <h1 className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'>Data <span className='text-resider-blue-primary '>integrity</span></h1>
+            <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>Resider solely consists of rental properties syndicated through data API’s. With up to date and accurate listings, your clients can browse with confidence.</p>
 
           </div>
 
-          {/* personalizedPage has padding-bottom, since more animations 
-          // pb-[28px] lg:pb-[32px]
-          */}
+          <div id='rightTextMoveIn' ref={rightTextMoveIn} className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
 
-          <div id='rightTextPersonalizedPage' ref={rightTextPersonalizedPage} className={rightTextBoxStyle}>
+            <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Filter</div>
 
+            <h1 className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'><span className='text-resider-blue-primary '>Move in</span> date</h1>
+            <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>Qualified leads are our emphasis. Allowing users to narrow down exact availability by their move in date is the first step.</p>
 
+          </div>
 
-            <div className={rightTextSuperTitleStyle
-            }>Property</div>
+          {/* personalizedPage has padding-bottom, since more animations */}
+          <div id='rightTextPersonalizedPage' ref={rightTextPersonalizedPage} className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px] '>
 
-            <h1 className={rightTextTitleStyle}><span className='text-resider-blue-primary '>Personalized</span> page</h1>
-            <p className={rightTextBodyStyle}>With a beautiful display of your property,
+            <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Property</div>
+
+            <h1 className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'><span className='text-resider-blue-primary '>Personalized</span> page</h1>
+            <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>With a beautiful display of your property,
               we highlight key aspects including
               parking, pet and utility info.</p>
           </div>
 
 
-          <div id='rightTextFilteredAvailability' ref={rightTextFilteredAvailability} className={rightTextBoxStyle}>
+          <div id='rightTextFilteredAvailability' ref={rightTextFilteredAvailability} className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
 
-            <div className={rightTextSuperTitleStyle
-            }>Property</div>
+            <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Property</div>
 
-            <h1 className={rightTextTitleStyle}><span className='text-resider-blue-primary '>Filtered</span> availability</h1>
+            <h1 className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'><span className='text-resider-blue-primary '>Filtered</span> availability</h1>
 
-            <p className={rightTextBodyStyle}>Grouped by floor plan, available units are based on the user’s filters to ensure eligible results, and qualified clients.</p>
+            <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>Grouped by floor plan, available units are based on the user’s filters to ensure eligible results, and qualified clients.</p>
 
           </div>
 
 
-          <div id='rightTextTourType' ref={rightTextTourType} className={rightTextBoxStyle}>
+          <div id='rightTextTourType' ref={rightTextTourType} className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
 
-            <div className={rightTextSuperTitleStyle
-            }>Booking</div>
+            <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Booking</div>
 
-            <h1 className={rightTextTitleStyle}><span className='text-resider-blue-primary '>Tour</span> type</h1>
-            <p className={rightTextBodyStyle}>Users are able to book an in-person tour, or a remote tour using Zoom.</p>
+            <h1 className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'><span className='text-resider-blue-primary '>Tour</span> type</h1>
+            <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>Users are able to book an in-person tour, or a remote tour using Zoom.</p>
           </div>
 
-          <div id='rightTextInstantSchedule' ref={rightTextInstantSchedule} className={rightTextBoxStyle}>
+          <div id='rightTextInstantSchedule' ref={rightTextInstantSchedule} className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
 
-            <div className={rightTextSuperTitleStyle
-            }>Booking</div>
+            <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Booking</div>
 
-            <h1 className={rightTextTitleStyle}><span className='text-resider-blue-primary '>Instant</span> schedule</h1>
-            <p className={rightTextBodyStyle}>Through the RENTCafé platform, Resider syncs to your appointment calender and allows the user to instantly schedule an available tour.</p>
+            <h1 className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'><span className='text-resider-blue-primary '>Instant</span> schedule</h1>
+            <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>Through the RENTCafé platform, Resider syncs to your appointment calender and allows the user to instantly schedule an available tour.</p>
           </div>
 
 
-          <div id='rightTextCaptureDetails' ref={rightTextCaptureDetails} className={rightTextBoxStyle}>
+          <div id='rightTextCaptureDetails' ref={rightTextCaptureDetails} className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
 
-            <div className={rightTextSuperTitleStyle
-            }>Booking</div>
+            <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Booking</div>
 
-            <h1 className={rightTextTitleStyle}><span className='text-resider-blue-primary '>Capture</span> required details</h1>
-            <p className={rightTextBodyStyle}>Before successfully booking, users are instructed to fill in mandatory information vital to the lead qualifying process.</p>
+            <h1 className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'><span className='text-resider-blue-primary '>Capture</span> required details</h1>
+            <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>Before successfully booking, users are instructed to fill in mandatory information vital to the lead qualifying process.</p>
           </div>
 
-          <div id='rightTextTourConfirmation' ref={rightTextTourConfirmation} className={rightTextBoxStyle}>
+          <div id='rightTextTourConfirmation' ref={rightTextTourConfirmation} className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
 
-            <div className={rightTextSuperTitleStyle
-            }>Booking</div>
+            <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Booking</div>
 
-            <h1 className={rightTextTitleStyle}><span className='text-resider-blue-primary '>Tour</span> confirmation</h1>
-            <p className={rightTextBodyStyle}>Once a tour is booked, all captured information is logged as a guest card and stored in your RENTCafé CRM. </p>
+            <h1 className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'><span className='text-resider-blue-primary '>Tour</span> confirmation</h1>
+            <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>Once a tour is booked, all captured information is logged as a guest card and stored in your RENTCafé CRM. </p>
           </div>
 
           <div className='h-[500px]' />
