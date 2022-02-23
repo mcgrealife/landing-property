@@ -31,3 +31,8 @@
 - This project uses their core GSAP library, with additional `ScrollTrigger` and `ScrollTo` plugins
 - Targets HTML elements with React Refs
 - GSAP code must be placed inside a UseEffect()
+
+
+## Gitpod Tips
+- If you use Gitpod in the browser often (rather than opening in local IDE), these browser settings are recommended [https://www.gitpod.io/docs/configure/browser-settings](https://www.gitpod.io/docs/configure/browser-settings)
+- Gitpod command 
