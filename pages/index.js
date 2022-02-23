@@ -10,9 +10,8 @@ import map from '../public/map-circle-4x.png'
 import phoneHeroImgSquare from '../public/phone-hero-img-square.png'
 import mapImg from '../public/map-img-4x.png'
 
-
 export default function Home() {
-
+  
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
 
   const heroText = useRef()
@@ -538,7 +537,6 @@ export default function Home() {
           <div id="leftTextWrapper" ref={leftTextWrapper} className='hidden lg:block grid-in-left place-self-center text-[72px] font-[600] text-[rgba(60,64,67,1)]'>
             {leftText}
           </div>
-
 
           <div id="phone" ref={phone} className='grid-in-left lg:grid-in-middle place-self-center min-w-[274px] lg:min-w[370px] grid grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop rounded-[42px]  ml-[24px] lg:ml-0 frame-shadow'>
 
