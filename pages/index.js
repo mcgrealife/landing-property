@@ -166,13 +166,13 @@ export default function Home() {
       }, "<")
 
     // card swipe
-
+    // COMBINE THESE
     gsap.to(cards.current, {
       scrollTrigger: {
         trigger: rightTextDataIntegrity.current,
-        start: 'top 90%', //
+        start: 'top 90%',
         end: '+=1',
-        scrub: 2,
+        scrub: true,
         ease: "power1.inOut",
         onEnter: () => setMarkerImage(imgUrl("desktop", 2)),
         onEnterBack: () => setMarkerImage(imgUrl("desktop", 1)),
@@ -180,12 +180,18 @@ export default function Home() {
       x: () => isDesktop() ? '-=310' : '-=232',
     })
 
+      .to(cards.current, {
+        x: () => isDesktop() ? '-=310' : '-=232',
+        onEnter: () => setMarkerImage(imgUrl("desktop", 2)),
+        onEnterBack: () => setMarkerImage(imgUrl("desktop", 1)),
+      })
+
     gsap.to(cards.current, {
       scrollTrigger: {
         trigger: rightTextDataIntegrity.current,
         start: 'top 50%',
         end: '+=1',
-        scrub: 2,
+        scrub: true,
         ease: "power1.inOut",
         onEnter: () => setMarkerImage(imgUrl("desktop", 3)),
         onEnterBack: () => setMarkerImage(imgUrl("desktop", 2)),

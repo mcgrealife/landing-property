@@ -28,22 +28,6 @@ export default function Home() {
 
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
 
-
-  // return jsx with <span> for titles. or split the titles
-  const rightText = [
-    {
-      blueTitle: "..",
-      darkTitle: "..",
-      title: "Data integrity",
-      body: "Resider solely consists of rental properties syndicated through data API’s. With up to date and accurate listings, your clients can browse with confidence.",
-    },
-    {
-      title: "Move in date",
-      body: "Qualified leads are our emphasis. Allowing users to narrow down exact availability by their move in date is the first step.",
-    }
-
-  ]
-
   const heroText = useRef()
   const phoneHero = useRef()
   const mapHero = useRef()
