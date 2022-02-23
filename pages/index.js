@@ -30,23 +30,6 @@ export default function Home() {
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
 
 
-
-
-  // return jsx with <span> for titles. or split the titles
-  const rightText = [
-    {
-      blueTitle: "..",
-      darkTitle: "..",
-      title: "Data integrity",
-      body: "Resider solely consists of rental properties syndicated through data API’s. With up to date and accurate listings, your clients can browse with confidence.",
-    },
-    {
-      title: "Move in date",
-      body: "Qualified leads are our emphasis. Allowing users to narrow down exact availability by their move in date is the first step.",
-    }
-
-  ]
-
   const heroText = useRef()
   const phoneHero = useRef()
   const mapHero = useRef()
@@ -111,6 +94,14 @@ export default function Home() {
     gsap.to(window, { duration: 1, scrollTo: { y: demo.current, offsetY: -300, autoKill: true }, ease: "power3", invalidateOnRefresh: true })
 
   }
+
+  const rightTextBoxStyle = 'bg-white lg:justify-self-end self-center lg:bg-transparent shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit  rounded-[8px]  flex flex-col gap-[8px] lg:gap-[16px] pl-[24px]  pr-[24px] lg:pr-[24px] pt-[36px] lg:pt-[32px] pb-[28px] lg:pb-[32px]'
+
+  const rightTextSuperTitleStyle = 'block lg:hidden text-[rgba(96,99,103,1)] font-[700] text-[10px] tracking-[1.5px] leading-[10px] uppercase'
+
+  const rightTextTitleStyle = 'text-[20px] lg:text-[36px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1)] font-[700]'
+
+  const rightTextBodyStyle = 'text-[12px] lg:text-[18px] font-[500] leading-[20px] lg:leading-[32px] w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'
 
   useEffect(() => {
 
@@ -186,7 +177,7 @@ export default function Home() {
         onEnter: () => setMarkerImage(imgUrl("desktop", 2)),
         onEnterBack: () => setMarkerImage(imgUrl("desktop", 1)),
       },
-      x: () => isDesktop() ? '-=315' : '-=220',
+      x: () => isDesktop() ? '-=310' : '-=232',
     })
 
     gsap.to(cards.current, {
@@ -199,7 +190,7 @@ export default function Home() {
         onEnter: () => setMarkerImage(imgUrl("desktop", 3)),
         onEnterBack: () => setMarkerImage(imgUrl("desktop", 2)),
       },
-      x: () => isDesktop() ? '-=315' : '-=220'
+      x: () => isDesktop() ? '-=310' : '-=232'
     })
 
 
@@ -605,7 +596,7 @@ export default function Home() {
 
               <div id='carousel' ref={carousel} className=' grid-in-body justify-items-end self-end z-6 overflow-x-scroll scrollbar-hide snap-x h-28px'>
 
-                <img src="/cards-4x-padded.png" ref={cards} alt="cards" className=' grid-in-body justify-self-start self-end z-6 min-w-[927.38px] lg:min-w-[1252.31px] overflow-visible' />
+                <img src="/cards-4x-padded.png" ref={cards} alt="cards" className=' grid-in-body justify-self-start self-end z-6 min-w-[955px] lg:min-w-[1277px] overflow-visible' />
 
               </div>
 
@@ -630,81 +621,94 @@ export default function Home() {
 
         </div>
 
-        <div id="rightTextCol" ref={rightTextCol} className='grid-in-right col-end-left lg:col-end-right flex flex-col gap-[70vh] lg:gap-[70vh]  z-10 w-fit min-w-[280px] lg:min-w-[404px] mr-[16px] lg:mr-[59px] place-items-start justify-self-end pt-[110vh]'>
+        <div id="rightTextCol" ref={rightTextCol} className='grid-in-right col-end-left lg:col-end-right flex flex-col gap-[110vh] lg:gap-[110vh]  z-10 w-fit min-w-[280px] lg:min-w-[404px] mr-[16px] lg:mr-[59px] place-items-start justify-self-end pt-[110vh]'>
 
 
-          <div id='rightTextDataIntegrity' ref={rightTextDataIntegrity} className='bg-white lg:justify-self-end self-center lg:bg-transparent shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit mr-[16px] lg:mr-[59px] rounded-[8px]  flex flex-col gap-[8px] lg:gap-[16px] pl-[24px]  pr-[36px] lg:pr-[24px] pt-[36px] lg:pt-[32px] pb-[28px] lg:pb-[32px]'>
+          <div id='rightTextDataIntegrity' ref={rightTextDataIntegrity} className={rightTextBoxStyle}>
 
-            <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Search</div>
+            <div className={rightTextSuperTitleStyle
+            }>Search</div>
 
-            <h1 className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'>Data <span className='text-resider-blue-primary '>integrity</span></h1>
-            <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>Resider solely consists of rental properties syndicated through data API’s. With up to date and accurate listings, your clients can browse with confidence.</p>
-
-          </div>
-
-          <div id='rightTextMoveIn' ref={rightTextMoveIn} className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
-
-            <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Filter</div>
-
-            <h1 className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'><span className='text-resider-blue-primary '>Move in</span> date</h1>
-            <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>Qualified leads are our emphasis. Allowing users to narrow down exact availability by their move in date is the first step.</p>
+            <h1 className={rightTextTitleStyle}>Data <span className='text-resider-blue-primary '>integrity</span></h1>
+            <p className={rightTextBodyStyle}>Resider solely consists of rental properties syndicated through data API’s. With up to date and accurate listings, your clients can browse with confidence.</p>
 
           </div>
 
-          {/* personalizedPage has padding-bottom, since more animations */}
-          <div id='rightTextPersonalizedPage' ref={rightTextPersonalizedPage} className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px] '>
+          <div id='rightTextMoveIn' ref={rightTextMoveIn} className={rightTextBoxStyle}>
 
-            <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Property</div>
+            <div className={rightTextSuperTitleStyle
+            }>Filter</div>
 
-            <h1 className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'><span className='text-resider-blue-primary '>Personalized</span> page</h1>
-            <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>With a beautiful display of your property,
+            <h1 className={rightTextTitleStyle}><span className='text-resider-blue-primary '>Move in</span> date</h1>
+            <p className={rightTextBodyStyle}>Qualified leads are our emphasis. Allowing users to narrow down exact availability by their move in date is the first step.</p>
+
+          </div>
+
+          {/* personalizedPage has padding-bottom, since more animations 
+          // pb-[28px] lg:pb-[32px]
+          */}
+
+          <div id='rightTextPersonalizedPage' ref={rightTextPersonalizedPage} className={rightTextBoxStyle}>
+
+
+
+            <div className={rightTextSuperTitleStyle
+            }>Property</div>
+
+            <h1 className={rightTextTitleStyle}><span className='text-resider-blue-primary '>Personalized</span> page</h1>
+            <p className={rightTextBodyStyle}>With a beautiful display of your property,
               we highlight key aspects including
               parking, pet and utility info.</p>
           </div>
 
 
-          <div id='rightTextFilteredAvailability' ref={rightTextFilteredAvailability} className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
+          <div id='rightTextFilteredAvailability' ref={rightTextFilteredAvailability} className={rightTextBoxStyle}>
 
-            <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Property</div>
+            <div className={rightTextSuperTitleStyle
+            }>Property</div>
 
-            <h1 className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'><span className='text-resider-blue-primary '>Filtered</span> availability</h1>
+            <h1 className={rightTextTitleStyle}><span className='text-resider-blue-primary '>Filtered</span> availability</h1>
 
-            <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>Grouped by floor plan, available units are based on the user’s filters to ensure eligible results, and qualified clients.</p>
+            <p className={rightTextBodyStyle}>Grouped by floor plan, available units are based on the user’s filters to ensure eligible results, and qualified clients.</p>
 
           </div>
 
 
-          <div id='rightTextTourType' ref={rightTextTourType} className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
+          <div id='rightTextTourType' ref={rightTextTourType} className={rightTextBoxStyle}>
 
-            <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Booking</div>
+            <div className={rightTextSuperTitleStyle
+            }>Booking</div>
 
-            <h1 className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'><span className='text-resider-blue-primary '>Tour</span> type</h1>
-            <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>Users are able to book an in-person tour, or a remote tour using Zoom.</p>
+            <h1 className={rightTextTitleStyle}><span className='text-resider-blue-primary '>Tour</span> type</h1>
+            <p className={rightTextBodyStyle}>Users are able to book an in-person tour, or a remote tour using Zoom.</p>
           </div>
 
-          <div id='rightTextInstantSchedule' ref={rightTextInstantSchedule} className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
+          <div id='rightTextInstantSchedule' ref={rightTextInstantSchedule} className={rightTextBoxStyle}>
 
-            <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Booking</div>
+            <div className={rightTextSuperTitleStyle
+            }>Booking</div>
 
-            <h1 className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'><span className='text-resider-blue-primary '>Instant</span> schedule</h1>
-            <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>Through the RENTCafé platform, Resider syncs to your appointment calender and allows the user to instantly schedule an available tour.</p>
+            <h1 className={rightTextTitleStyle}><span className='text-resider-blue-primary '>Instant</span> schedule</h1>
+            <p className={rightTextBodyStyle}>Through the RENTCafé platform, Resider syncs to your appointment calender and allows the user to instantly schedule an available tour.</p>
           </div>
 
 
-          <div id='rightTextCaptureDetails' ref={rightTextCaptureDetails} className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
+          <div id='rightTextCaptureDetails' ref={rightTextCaptureDetails} className={rightTextBoxStyle}>
 
-            <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Booking</div>
+            <div className={rightTextSuperTitleStyle
+            }>Booking</div>
 
-            <h1 className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'><span className='text-resider-blue-primary '>Capture</span> required details</h1>
-            <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>Before successfully booking, users are instructed to fill in mandatory information vital to the lead qualifying process.</p>
+            <h1 className={rightTextTitleStyle}><span className='text-resider-blue-primary '>Capture</span> required details</h1>
+            <p className={rightTextBodyStyle}>Before successfully booking, users are instructed to fill in mandatory information vital to the lead qualifying process.</p>
           </div>
 
-          <div id='rightTextTourConfirmation' ref={rightTextTourConfirmation} className='grid-in-right col-end-left lg:col-end-right lg:justify-self-end self-center bg-white lg:bg-transparent  shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit rounded-[8px] mr-[16px] lg:mr-[59px] z-10 flex flex-col gap-[8px] lg:gap-[16px] pl-[24px] pt-[36px] lg:pt-[32px] pr-[36px] lg:pr-[24px] pb-[28px] lg:pb-[32px]'>
+          <div id='rightTextTourConfirmation' ref={rightTextTourConfirmation} className={rightTextBoxStyle}>
 
-            <div className="block lg:hidden text-[rgba(96,99,103,1)] font-bold text-[10px] tracking-[1.5px] leading-[10px] uppercase">Booking</div>
+            <div className={rightTextSuperTitleStyle
+            }>Booking</div>
 
-            <h1 className='text-[20px] lg:text-[34px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1) font-[700]'><span className='text-resider-blue-primary '>Tour</span> confirmation</h1>
-            <p className='text-[12px] lg:text-[18px] font-medium w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'>Once a tour is booked, all captured information is logged as a guest card and stored in your RENTCafé CRM. </p>
+            <h1 className={rightTextTitleStyle}><span className='text-resider-blue-primary '>Tour</span> confirmation</h1>
+            <p className={rightTextBodyStyle}>Once a tour is booked, all captured information is logged as a guest card and stored in your RENTCafé CRM. </p>
           </div>
 
           <div className='h-[500px]' />
@@ -717,7 +721,7 @@ export default function Home() {
 
       <div id="demo" ref={demo} className='flex flex-col h-[1000px] self-center text-center justify-center pt-[20] lg:pt-[36] pl-[24px] pr-[32px]'>
         <h1 className=' font-bold text-[28px] lg:text-[48px]leading-[24px] text-[rgba(60,64,67,1)]'>Request a Demo</h1>
-        <p className='text-[16px] text-[rgba(0,0,0,0.6)] leading-[24px] text-center'>Sign up to learn more about Resider.</p>
+        <p className='text-[16px] text-[rgba(0,0,0,0.6)] leading-[24px] text-center font-[500]'>Sign up to learn more about Resider.</p>
       </div>
       {/* <div className='grid grid-cols-[repeat(6, minmax(319px,527px))] grid-rows-[repeat(6,56px)] border-1'>
         <div className=''>test</div>
