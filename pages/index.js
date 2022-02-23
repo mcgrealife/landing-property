@@ -150,34 +150,27 @@ export default function Home() {
         ease: "Power3.out"
       }, "<")
 
-    // card swipe
-    // COMBINE THESE
+    // card swipe - 1
     gsap.to(cards.current, {
       scrollTrigger: {
         trigger: rightTextDataIntegrity.current,
         start: 'top 90%',
         end: '+=1',
-        scrub: true,
-        ease: "power1.inOut",
+        scrub: 1,
+        // ease: "power1.inOut",
         onEnter: () => setMarkerImage(imgUrl("desktop", 2)),
         onEnterBack: () => setMarkerImage(imgUrl("desktop", 1)),
       },
       x: () => isDesktop() ? '-=310' : '-=232',
     })
-
-      // .to(cards.current, {
-      //   x: () => isDesktop() ? '-=310' : '-=232',
-      //   onEnter: () => setMarkerImage(imgUrl("desktop", 2)),
-      //   onEnterBack: () => setMarkerImage(imgUrl("desktop", 1)),
-      // })
-
+    // card swipe - 2
     gsap.to(cards.current, {
       scrollTrigger: {
         trigger: rightTextDataIntegrity.current,
         start: 'top 50%',
         end: '+=1',
-        scrub: true,
-        ease: "power1.inOut",
+        scrub: 1,
+        // ease: "power1.inOut",
         onEnter: () => setMarkerImage(imgUrl("desktop", 3)),
         onEnterBack: () => setMarkerImage(imgUrl("desktop", 2)),
       },
@@ -584,10 +577,9 @@ export default function Home() {
                 className='grid-in-body self-start z-2 w-full ' />
 
 
-              <div id='carousel' ref={carousel} className=' grid-in-body justify-items-end self-end z-6 overflow-x-scroll scrollbar-hide snap-x h-28px'>
-
+              {/* snap-x */}
+              <div id='carousel' ref={carousel} className=' grid-in-body justify-items-end self-end z-6 overflow-x-scroll scrollbar-hide h-28px'> 
                 <img src="/cards-4x-padded.png" ref={cards} alt="cards" className=' grid-in-body justify-self-start self-end z-6 min-w-[955px] lg:min-w-[1277px] overflow-visible' />
-
               </div>
 
               <img src="/home.svg" alt="home" className=' grid-in-body justify-self-center self-end pb-[5.23px] z-20 w-[91px] lg:w-[123px]' />
