@@ -217,7 +217,7 @@ export default function Home() {
     gsap.timeline({
       scrollTrigger: {
         trigger: rightTextMoveIn.current,
-        start: 'top bottom',
+        start: 'top bottom+=10%',
         endTrigger: rightTextPersonalizedPage.current,
         end: "top bottom+=10%",
         // toggleActions: 'play reverse play reverse',
@@ -236,7 +236,7 @@ export default function Home() {
       })
       .from(overlay.current, {
         opacity: 0,
-      }, "<")
+      })
       .to(calendar0.current, {
         display: 'block'
       }, "<")
@@ -254,7 +254,7 @@ export default function Home() {
     gsap.timeline({
       scrollTrigger: {
         trigger: rightTextPersonalizedPage.current,
-        start: 'top bottom+=30%',
+        start: 'top bottom+=20%',
         endTrigger: rightTextTourType.current,
         end: "top bottom",
         // toggleActions: 'play reverse play reverse',
@@ -262,24 +262,25 @@ export default function Home() {
         // markers: { startColor: "purple", endColor: "purple" }
       },
     })
-      .from(whiteBgPropIntro.current, {
-        opacity: 0,
-        duration: 0.3
-      })
+
       .to(leftTextWrapper.current, {
         opacity: 0,
         duration: 0.1
-      }, "<")
+      })
       .to(leftTextWrapper.current, {
         onStart: () => setLeftText("Property"),
         onReverseComplete: () => setLeftText("Filter"),
         opacity: 1,
         duration: 0.1
-      }, ">")
+      }, "<")
+      .from(whiteBgPropIntro.current, {
+        opacity: 0,
+        duration: 0.2
+      }, "<")
       .from(property.current, {
         y: () => screen.current.getBoundingClientRect().height - status.current.getBoundingClientRect().height,
         duration: 0.3
-      }, "<")
+      }, "<50%")
       .from(propertyBar.current, {
         y: screen.current.getBoundingClientRect().height,
         duration: 0.3
@@ -321,20 +322,24 @@ export default function Home() {
       })
       .from(overlayTour.current, {
         opacity: 0,
+        duration: 0.2
       })
       .to(tourTypeSheet.current, {
         display: "block",
       }, "<")
       .to(sheetBg.current, {
         y: () => "-=" + tourTypeSheet.current.getBoundingClientRect().height,
-        ease: "power1.out"
-      }, ">")
+        ease: "power1.out",
+        duration: 0.2
+      }, "<")
       .set(tourTypeSheet.current, {
-        opacity: 100
+        opacity: 100,
+        duration: 0.2
       }, "<")
       .from(tourTypeSheet.current, {
         y: () => tourTypeSheet.current.getBoundingClientRect().height,
-        ease: "power1.out"
+        ease: "power1.out",
+        duration: 0.2
       }, "<")
       .to(tourTypeSheet2.current, {
         display: "block"
@@ -342,7 +347,7 @@ export default function Home() {
       .set(tourTypeSheet.current, {
         display: "none",
         opacity: 0
-      }, "<")
+      }, "<1%")
 
     let dx = (el1, el2, sign, log) => {
       let a = el1.getBoundingClientRect().height
@@ -386,12 +391,12 @@ export default function Home() {
       .to(tourTypeSheet2.current, {
         display: "none"
       })
-      .set(appointment2.current, {
+      .to(appointment2.current, {
         display: "block",
       }, ">90%")
       .set(appointment1.current, {
         display: "none",
-      }, "<")
+      }, "<1%")
 
 
 
