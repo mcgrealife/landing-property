@@ -87,7 +87,7 @@ export default function Home() {
     gsap.getById("scrollTween").invalidate() // force it to recalcualte vars
     gsap.to(window, { duration: 1, scrollTo: { y: demo.current, offsetY: 100, autoKill: true }, ease: "power3" })
     scrollTweenAutoKillBool = false // force it to recalcualte vars
-    gsap.getById("scrollTweem").invalidate()
+    gsap.getById("scrollTween").invalidate()
 
     // problem is that the tween and timeline don't exist yet. But keeping the timeline in a variable for reference is unrecheable from here, above the useEffect()
   }
