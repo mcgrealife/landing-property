@@ -58,6 +58,7 @@ export default function Home() {
   const confirmDetails = useRef()
   const success = useRef()
   const sheetBg = useRef()
+  const tabSelector = useRef()
 
   const isDesktop = () => {
     // workaround for next.js
@@ -87,6 +88,11 @@ export default function Home() {
   }
 
   useEffect(() => {
+
+    ScrollTrigger.defaults({
+      // preventOverlaps: true
+      // fastScrollEnd: 5000
+    })
 
     // onLoad map Animation
     gsap.timeline({
@@ -165,7 +171,7 @@ export default function Home() {
             .to(window, {
               id: "scrollTweenUp",
               duration: 1, scrollTo: {
-                y: 0, autoKill: false
+                y: 0, autoKill: () => gsap.getById("longScroll") == undefined ? false : true
               }
             }, "<")
             .to(heroSection.current, {
@@ -295,9 +301,15 @@ export default function Home() {
         display: 'block',
         duration: 5
       }, "<80%")
+      .to(tabSelector.current, {
+        x: () => isDesktop() ? "+=149.65" : '+=110.83',
+        width: () => isDesktop() ? '+=10.09' : '+=7.48',
+        ease: "power3.inOut",
+        duration: 0.2
+      })
       .to(availability.current, {
         display: 'block'
-      })
+      }, ">")
 
     gsap.timeline({
       scrollTrigger: {
@@ -615,7 +627,12 @@ export default function Home() {
 
               <img src="/property-header-4x.png" alt="property-header-4x" id="property-bar" ref={propertyHeader} className="z-13 grid-in-body self-start w-full hidden" />
 
-              <img src="/property-4x.png" alt="property-page" id="property" ref={property} className="z-12 grid-in-body self-start w-full opacity-100" />
+
+              <div ref={property} className="z-12 grid-in-body self-start w-full opacity-100 grid">
+                <div id="tabSelector" ref={tabSelector} className="bg-resider-blue-primary h-[2.04px] md:h-[2.75px] w-[41.47px] md:w-[56.01px] rounded-t-[9px] md:rounded-t-full row-start-1 col-start-1 z-2 mt-[236.2px] md:mt-[318.8px] ml-[47.59px] md:ml-[64.27px] overflow-hidden" />
+
+                <img src="/property-4x.png" alt="property-page" id="property" className='row-start-1 col-start-1 w-fit' />
+              </div>
 
               <div id="overlay" ref={overlay} className="bg-black opacity-50 grid-in-body z-9" />
 
@@ -656,8 +673,6 @@ export default function Home() {
                   objectPosition="bottom"
                 />
               </div>
-
-
 
             </div>
 
@@ -749,7 +764,7 @@ export default function Home() {
         </div>
 
 
-      </div>
+      </div >
 
 
       <div id="demo" ref={demo} className='flex flex-col h-[1000px] self-center text-center justify-center pt-[20] md:pt-[36] pl-[24px] pr-[32px]'>
