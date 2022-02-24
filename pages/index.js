@@ -77,10 +77,10 @@ export default function Home() {
   }
   const [markerImage, setMarkerImage] = useState(imgUrl("desktop", 1))
   const [leftText, setLeftText] = useState("Search")
-  const rightTextBoxStyle = 'bg-white lg:justify-self-end self-center lg:bg-transparent shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit  rounded-[8px]  flex flex-col gap-[8px] lg:gap-[16px] pl-[24px]  pr-[24px] lg:pr-[24px] pt-[36px] lg:pt-[32px] pb-[28px] lg:pb-[32px]'
-  const rightTextSuperTitleStyle = 'block lg:hidden text-[rgba(96,99,103,1)] font-[700] text-[10px] tracking-[1.5px] leading-[10px] uppercase'
-  const rightTextTitleStyle = 'text-[20px] lg:text-[36px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1)] font-[700]'
-  const rightTextBodyStyle = 'text-[12px] lg:text-[18px] font-[500] leading-[20px] lg:leading-[32px] w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)] liga-off '
+  const rightTextBoxStyle = 'bg-white md:justify-self-end self-center  lg:bg-transparent shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit  rounded-[8px]  flex flex-col gap-[8px] md:gap-[16px] pl-[24px]  pr-[24px] md:pr-[24px] pt-[36px] md:pt-[32px] pb-[28px] md:pb-[32px]'
+  const rightTextSuperTitleStyle = 'block md:hidden text-[rgba(96,99,103,1)] font-[700] text-[10px] tracking-[1.5px] leading-[10px] uppercase'
+  const rightTextTitleStyle = 'text-[20px] md:text-[36px] leading-[30px] md:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1)] font-[700]'
+  const rightTextBodyStyle = 'text-[12px] md:text-[18px] font-[500] leading-[20px] md:leading-[32px] w-[232px] md:w-[356px] text-[rgba(96,99,103,1)] liga-off '
 
   const scheduleDemoClick = () => {
     gsap.to(window, { id: "longScroll", duration: 1, scrollTo: { y: demo.current, offsetY: 100, autoKill: true }, ease: "power3" })
@@ -497,7 +497,7 @@ export default function Home() {
 
       </Head>
 
-      <header id="header" ref={header} className='bg-white py-[12px] w-full grid h-[78px] static lg:sticky top-0 z-20 pr-[16px] pl-[24px]'>
+      <header id="header" ref={header} className='bg-white py-[12px] w-full grid h-[78px] static md:sticky top-0 z-20 pr-[16px] pl-[24px]'>
         <div className=" relative">
           <Image
             src={logo}
@@ -514,12 +514,12 @@ export default function Home() {
       </header>
 
 
-      <div ref={headerShadow} className='shadow-[0_2px_4px_rgba(60,64,67,0.1)] w-full h-[78px] absolute lg:fixed top-0 z-10 opacity-0' />
+      <div ref={headerShadow} className='shadow-[0_2px_4px_rgba(60,64,67,0.1)] w-full h-[78px] absolute md:fixed top-0 z-10 opacity-0' />
 
 
       <div id='hero-section' ref={heroSection} className='flex flex-col place-items-center text-center'>
 
-        <div className="relative aspect-square h-[36px] lg:h-[52px] mt-[28px] lg:mt-[12px]">
+        <div className="relative aspect-square h-[36px] md:h-[52px] mt-[28px] md:mt-[12px]">
           <Image
             src={logoSquare}
             layout='fill'
@@ -529,19 +529,19 @@ export default function Home() {
           />
         </div>
 
-        {/* <img src="/logo-square-mobile.svg" alt="logo-square-mobile" className='block lg:hidden  mt-[28px]' /> */}
+        {/* <img src="/logo-square-mobile.svg" alt="logo-square-mobile" className='block md:hidden  mt-[28px]' /> */}
         {/* h-[36px] */}
 
-        {/* <img src="/logo-square-desktop.svg" alt="logo-square-desktop" className='hidden lg:block  mt-[12px]' /> */}
+        {/* <img src="/logo-square-desktop.svg" alt="logo-square-desktop" className='hidden md:block  mt-[12px]' /> */}
         {/* h-[52px] */}
 
-        <h1 id="heroText" ref={heroText} className='mt-[24.49px] lg:mt-[24px] text-[rgba(60,64,67,1)] font-[700] text-[36px] lg:text-[72px] leading-[48px] lg:leading-[84px] tracking-[0.1px] max-w-[326px] lg:max-w-[639px]'>A <span className='text-[rgba(54,108,165,1)]'>better</span> way to generate leads</h1>
+        <h1 id="heroText" ref={heroText} className='mt-[24.49px] md:mt-[24px] text-[rgba(60,64,67,1)] font-[700] text-[36px] md:text-[72px] leading-[48px] md:leading-[84px] tracking-[0.1px] max-w-[326px] md:max-w-[639px]'>A <span className='text-[rgba(54,108,165,1)]'>better</span> way to generate leads</h1>
 
-        <p id="heroSubText" ref={headerSubText} className='text-[rgba(96,99,103,1)] mt-[15.51px] lg:mt-[16px] font-[500] lg:font-[400] text-[18px] lg:text-[26px] leading-[30px] lg:leading-[38px] max-w-[326px] lg:max-w-[575px] mb-[24.9px] lg:mb-[24px] liga-off'>Resider is a smart, efficient and helpful way to qualify and schedule your prospective tenants.</p>
+        <p id="heroSubText" ref={headerSubText} className='text-[rgba(96,99,103,1)] mt-[15.51px] md:mt-[16px] font-[500] text-[18px] md:text-[26px] leading-[30px] md:leading-[38px] max-w-[326px] md:max-w-[575px] mb-[24.9px] md:mb-[24px] liga-off'>Resider is a smart, efficient and helpful way to qualify and schedule your prospective tenants.</p>
 
         <div id="phone-hero" className='grid justify-items-center justify-center rounded-br-full rounded-bl-full overflow-hidden'>
 
-          <div ref={phoneHero} className='relative w-[303px] h-[303px] lg:w-[526px] lg:h-[526px] col-start-1 row-start-1 z-2'>
+          <div ref={phoneHero} className='relative w-[303px] h-[303px] md:w-[526px] md:h-[526px] col-start-1 row-start-1 z-2'>
             <Image
               src={phoneHeroImgSquare}
               alt="phoneHeroImgSquare"
@@ -551,7 +551,7 @@ export default function Home() {
             />
           </div>
 
-          <div ref={mapHero} className='relative w-[303px] h-[303px] lg:w-[526px] lg:h-[526px] col-start-1 row-start-1 '>
+          <div ref={mapHero} className='relative w-[303px] h-[303px] md:w-[526px] md:h-[526px] col-start-1 row-start-1 '>
             <Image
               src={map}
               alt='map'
@@ -565,26 +565,26 @@ export default function Home() {
       </div>
 
 
-      <div id="gridContainer" className='grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop z-20'>
+      <div id="gridContainer" className='grid grid-areas-mobile md:grid-areas-desktop grid-cols-mobile md:grid-cols-desktop grid-rows-mobile md:grid-rows-desktop z-20'>
 
-        <div id="phoneAndLeftText" ref={main} className='grid-in-left col-end-right grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop self-start  h-screen sticky left-0 top-0 opacity-0'>
+        <div id="phoneAndLeftText" ref={main} className='grid-in-left col-end-right grid grid-areas-mobile md:grid-areas-desktop grid-cols-mobile md:grid-cols-desktop grid-rows-mobile md:grid-rows-desktop self-start  h-screen sticky left-0 top-0 opacity-0'>
 
-          <div id="leftTextWrapper" ref={leftTextWrapper} className='hidden lg:block grid-in-left place-self-center text-[72px] font-[600] text-[rgba(60,64,67,1)]'>
+          <div id="leftTextWrapper" ref={leftTextWrapper} className='hidden md:block grid-in-left place-self-center text-[72px] font-[600] text-[rgba(60,64,67,1)]'>
             {leftText}
           </div>
 
 
-          <div id="phone" ref={phone} className='grid-in-left lg:grid-in-middle place-self-center min-w-[274px] lg:min-w[370px] grid grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop rounded-[42px]  ml-[24px] lg:ml-0 frame-shadow'>
+          <div id="phone" ref={phone} className='grid-in-left md:grid-in-middle place-self-center min-w-[274px] md:min-w[370px] grid grid-areas-phone grid-cols-phoneMobile md:grid-cols-phoneDesktop  grid-rows-phoneMobile md:grid-rows-phoneDesktop rounded-[42px]  ml-[24px] md:ml-0 frame-shadow'>
 
             <img id='frame' ref={frame} src="frame-hollow.svg" alt="frame" className=' w-full col-start-2 col-end-5 row-start-2 row-end-4  z-30' />
 
-            <div id="screen" ref={screen} className="grid col-start-3 col-end-4 row-start-3 row-end-4  grid-areas-screen grid-cols-screenMobile lg:grid-cols-screenDesktop grid-rows-screenMobile lg:grid-rows-screenDesktop overflow-hidden rounded-[20px]  lg:rounded-[42px]  z-20">
+            <div id="screen" ref={screen} className="grid col-start-3 col-end-4 row-start-3 row-end-4  grid-areas-screen grid-cols-screenMobile md:grid-cols-screenDesktop grid-rows-screenMobile md:grid-rows-screenDesktop overflow-hidden rounded-[20px]  md:rounded-[42px]  z-20">
 
               <img id="status-bar" ref={status} src="/status-bar-4x.png" alt="status-bar" className="z-20 grid-in-status self-start w-full opacity-100" />
 
               <div id="overlay" ref={overlayTour} className="bg-black opacity-50 grid-in-body z-15" />
 
-              <img src="/success-4x.png" alt="success" id="success" ref={success} className="z-18 grid-in-body place-self-center max-w-[206.01px] lg:max-w-[278.19px] hidden" />
+              <img src="/success-4x.png" alt="success" id="success" ref={success} className="z-18 grid-in-body place-self-center max-w-[206.01px] md:max-w-[278.19px] hidden" />
 
               <img src="/confirm-details-4x.png" alt="confirm-details" id="confirm-details" ref={confirmDetails} className="z-17 grid-in-body self-end w-full hidden" />
 
@@ -592,8 +592,8 @@ export default function Home() {
 
               <img src="/appointment-2-4x.png" alt="appointment-2" id="appointment2" ref={appointment2} className="z-16 grid-in-body self-end w-full hidden" />
 
-              <div id="sheet-bg" ref={sheetBg} className='grid bg-white col-start-[-2]  self-end  z-15 shadow-[0_0.918124px_5.50874px_rgba(60,64,67,0.3)] h-[381.42px] lg:h-[515.07px] rounded-t-[5.44px] lg:rounded-t-[7.34px]'>
-                <div id="handle" className='justify-self-center mt-[5.44px] lg:mt-[7.34px] rounded-full bg-[rgba(218,220,224,1)] w-[19.04px] h-[2.72px] lg:w-[25.71px] lg:h-[3.67px]' />
+              <div id="sheet-bg" ref={sheetBg} className='grid bg-white col-start-[-2]  self-end  z-15 shadow-[0_0.918124px_5.50874px_rgba(60,64,67,0.3)] h-[381.42px] md:h-[515.07px] rounded-t-[5.44px] md:rounded-t-[7.34px]'>
+                <div id="handle" className='justify-self-center mt-[5.44px] md:mt-[7.34px] rounded-full bg-[rgba(218,220,224,1)] w-[19.04px] h-[2.72px] md:w-[25.71px] md:h-[3.67px]' />
               </div>
 
               <img src="/tour-type-4x.png" alt="tour-type" id="tour-type" ref={tourTypeSheet} className="z-15 grid-in-body self-end w-full hidden opacity-0" />
@@ -630,7 +630,7 @@ export default function Home() {
 
 
               <div id='carousel' ref={carousel} className='col-start-1 row-start-2 justify-items-end self-end z-6 overflow-x-scroll snap-x scrollbar-hide h-28px ' >
-                <div ref={cards} className='flex flex-row gap-2 min-w-max pb-[17px] lg:pb-[22.95px] pl-[13.6px] lg:pl-[18.36px] pt-2'>
+                <div ref={cards} className='flex flex-row gap-2 min-w-max pb-[17px] md:pb-[22.95px] pl-[13.6px] md:pl-[18.36px] pt-2'>
                   <Card num="1" />
                   <Card num="2" />
                   <Card num="3" />
@@ -639,7 +639,7 @@ export default function Home() {
               </div>
 
 
-              <img src="/home.svg" alt="home" className=' grid-in-body justify-self-center self-end pb-[5.23px] z-20 w-[91px] lg:w-[123px]' />
+              <img src="/home.svg" alt="home" className=' grid-in-body justify-self-center self-end pb-[5.23px] z-20 w-[91px] md:w-[123px]' />
 
 
               <div className='relative grid-in-body'>
@@ -660,7 +660,7 @@ export default function Home() {
 
         </div>
 
-        <div id="rightTextCol" ref={rightTextCol} className='grid-in-right col-end-left lg:col-end-right flex flex-col gap-[110vh] lg:gap-[110vh]  z-10 w-fit min-w-[280px] lg:min-w-[404px] mr-[16px] lg:mr-[59px] place-items-start justify-self-end pt-[110vh]'>
+        <div id="rightTextCol" ref={rightTextCol} className='grid-in-right col-end-left md:col-end-right flex flex-col gap-[110vh] md:gap-[110vh] z-10 w-fit min-w-[280px] md:min-w-[404px] mr-[16px] md:mr-0 xl:mr-[59px] place-items-start justify-self-end md:justify-self-center lg:justify-self-end pt-[110vh]'>
 
 
           <div id='rightTextDataIntegrity' ref={rightTextDataIntegrity} className={rightTextBoxStyle}>
@@ -682,7 +682,7 @@ export default function Home() {
           </div>
 
           {/* personalizedPage has padding-bottom, since more animations 
-          // pb-[28px] lg:pb-[32px]
+          // pb-[28px] md:pb-[32px]
           */}
           <div id='rightTextPersonalizedPage' ref={rightTextPersonalizedPage} className={rightTextBoxStyle}>
 
@@ -747,8 +747,8 @@ export default function Home() {
       </div>
 
 
-      <div id="demo" ref={demo} className='flex flex-col h-[1000px] self-center text-center justify-center pt-[20] lg:pt-[36] pl-[24px] pr-[32px]'>
-        <h1 className=' font-bold text-[28px] lg:text-[48px]leading-[24px] text-[rgba(60,64,67,1)]'>Request a Demo</h1>
+      <div id="demo" ref={demo} className='flex flex-col h-[1000px] self-center text-center justify-center pt-[20] md:pt-[36] pl-[24px] pr-[32px]'>
+        <h1 className=' font-bold text-[28px] md:text-[48px]leading-[24px] text-[rgba(60,64,67,1)]'>Request a Demo</h1>
         <p className='text-[16px] text-[rgba(0,0,0,0.6)] leading-[24px] text-center font-[500]'>Sign up to learn more about Resider.</p>
       </div>
       {/* <div className='grid grid-cols-[repeat(6, minmax(319px,527px))] grid-rows-[repeat(6,56px)] border-1'>
