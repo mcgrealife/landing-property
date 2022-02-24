@@ -87,10 +87,26 @@ export default function Home() {
     // however, it catches scrollTriggers along the way and gets stuck
     // maybe the scrollTriggers should have `preventOverlaps` or `fastScrollEnd`.
     // maybe this funciton should manually pause the scrollTriggers
+    // https://codepen.io/GreenSock/pen/ZEyXPGj?editors=0010
+
+    ScrollTrigger.getAll().forEach(st => {
+      // st.progress.toFixed(1)
+      // st.scroll(100)
+      // st.preventOverlaps = true
+      // st.endAnimation()
+    })
+    autoKillVar = true
     gsap.to(window, { duration: 1, scrollTo: { y: demo.current, offsetY: 100, autoKill: true }, ease: "power3" })
+    autoKillVar = false
   }
+  // ScrollTrigger.defaults({
+  //   preventOverlaps: true
+  // })
+
+  const autoKillVar = false
 
   useEffect(() => {
+
 
     // onLoad map Animation
     gsap.timeline({
@@ -122,7 +138,7 @@ export default function Home() {
         opacity: 0,
       })
       .to(window, {
-        duration: 0.5, scrollTo: { y: main.current, autoKill: false },
+        duration: 0.5, scrollTo: { y: main.current, autoKill: true },
       }, "<")
       .to(main.current, {
         opacity: 1,
@@ -244,7 +260,7 @@ export default function Home() {
     gsap.timeline({
       scrollTrigger: {
         trigger: rightTextPersonalizedPage.current,
-        start: 'top bottom+=40%',
+        start: 'top bottom+=30%',
         endTrigger: rightTextTourType.current,
         end: "top bottom",
         // toggleActions: 'play reverse play reverse',
@@ -256,10 +272,6 @@ export default function Home() {
         opacity: 0,
         duration: 0.3
       })
-      .from(property.current, {
-        y: () => screen.current.getBoundingClientRect().height - status.current.getBoundingClientRect().height,
-        duration: 0.3
-      }, "<50%")
       .to(leftTextWrapper.current, {
         opacity: 0,
         duration: 0.1
@@ -269,7 +281,11 @@ export default function Home() {
         onReverseComplete: () => setLeftText("Filter"),
         opacity: 1,
         duration: 0.1
-      }, "<30%")
+      }, ">")
+      .from(property.current, {
+        y: () => screen.current.getBoundingClientRect().height - status.current.getBoundingClientRect().height,
+        duration: 0.3
+      }, "<")
       .from(propertyBar.current, {
         y: screen.current.getBoundingClientRect().height,
         duration: 0.3
@@ -278,8 +294,8 @@ export default function Home() {
         y: () => isDesktop() ? '-=235' : '-=174',
         // y: '-=235', // mobile -=174
         ease: "Power1.out",
-        duration: 0.3
-      }, ">30%")
+        duration: 0.2
+      }, ">20%")
       .set(propertyHeader.current, {
         display: 'block',
         duration: 5
