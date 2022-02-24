@@ -80,7 +80,7 @@ export default function Home() {
   const rightTextBoxStyle = 'bg-white lg:justify-self-end self-center lg:bg-transparent shadow-[0_1px_6px_rgba(60,64,67,0.24)] lg:shadow-none h-fit w-fit  rounded-[8px]  flex flex-col gap-[8px] lg:gap-[16px] pl-[24px]  pr-[24px] lg:pr-[24px] pt-[36px] lg:pt-[32px] pb-[28px] lg:pb-[32px]'
   const rightTextSuperTitleStyle = 'block lg:hidden text-[rgba(96,99,103,1)] font-[700] text-[10px] tracking-[1.5px] leading-[10px] uppercase'
   const rightTextTitleStyle = 'text-[20px] lg:text-[36px] leading-[30px] lg:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1)] font-[700]'
-  const rightTextBodyStyle = 'text-[12px] lg:text-[18px] font-[500] leading-[20px] lg:leading-[32px] w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'
+  const rightTextBodyStyle = 'text-[12px] lg:text-[18px] font-[500] leading-[20px] lg:leading-[32px] w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)] liga-off '
 
   const scheduleDemoClick = () => {
     // scrollTweenAutoKillBool = true
@@ -89,17 +89,18 @@ export default function Home() {
     // tlDown.pause()
     // gsap.timeline()
     // .to(window, { duration: 1, scrollTo: { y: demo.current, offsetY: 100, autoKill: true }, ease: "power3" })
-    scrollActive = true
-    console.log("scrollActive: ", scrollActive)
+    setScrollActive(true)
+    console.log("scrollActive: from click", scrollActive)
     gsap.to(window, { duration: 1, scrollTo: { y: demo.current, offsetY: 100, autoKill: true }, ease: "power3" })
-    scrollActive = false
+    setScrollActive(false)
     // scrollTweenAutoKillBool = false // force it to recalcualte vars
     // gsap.getById("tlDown").invalidate()
 
     // problem: the "scrollTween" tween and parent "tlDown" timeline don't exist yet. But keeping the timeline alive in a variable for reference is unrecheable from here, above the useEffect(). Otherwise, we could easily tlDown.invalidate() even if the scrollTrigger wasn't active
   }
 
-  let scrollActive = false
+  const [scrollActive, setScrollActive] = useState(false)
+
   let scrollTweenAutoKillBool = false
 
   useEffect(() => {
@@ -115,11 +116,9 @@ export default function Home() {
         y: () => "+=" + phoneHero.current.getBoundingClientRect().height,
       })
 
-    ScrollTrigger.defaults({
-      preventOverlaps: true
-    })
-
-    console.log("scrollActive:", scrollActive)
+    // ScrollTrigger.defaults({
+    //   preventOverlaps: true
+    // })
 
     // Scroll down from Section-1 to phone 
     let tlDown = gsap.timeline({
@@ -132,39 +131,34 @@ export default function Home() {
         end: "center center",
         ease: "power3.out",
         toggleActions: "play none none none",
-        // preventOverlaps: true,
         onEnter: () => {
-          if (scrollActive) {
-            console.log("scrolling page, do not play scrollDown timeline, or force it to end")
-          } else {
-            gsap.timeline({
-              onStart: () => console.log("tlDOWN onEnter")
+          gsap.timeline({
+            onStart: () => console.log("tlDOWN onEnter")
+          })
+            .to(heroSection.current, {
+              opacity: 0,
             })
-              .to(heroSection.current, {
-                opacity: 0,
-              })
-              .to(window, {
-                id: "scrollTweenDown",
-                duration: 0.5, scrollTo: { y: main.current, autoKill: scrollTweenAutoKillBool },
-              }, "<")
-              .set(header.current, {
-                opacity: () => !isDesktop() && 0
-              })
-              .to(main.current, {
-                opacity: 1,
-                duration: 1
-              })
-              .from(markers.current, {
-                y: () => isDesktop() ? '+=10' : '+=5',
-                opacity: 0,
-                duration: 1
-              }, "<25%")
-              .from(cards.current, {
-                y: () => isDesktop() ? "+=136" : "+=102",
-                ease: "Power3.out"
-              }, "<65%")
-          }
-
+            .to(window, {
+              id: "scrollTweenDown",
+              onStart: () => console.log("scrollActive before tween: ", scrollActive),
+              duration: 0.5, scrollTo: { y: main.current, autoKill: scrollTweenAutoKillBool },
+            }, "<")
+            .set(header.current, {
+              opacity: () => !isDesktop() && 0
+            })
+            .to(main.current, {
+              opacity: 1,
+              duration: 1
+            })
+            .from(markers.current, {
+              y: () => isDesktop() ? '+=10' : '+=5',
+              opacity: 0,
+              duration: 1
+            }, "<25%")
+            .from(cards.current, {
+              y: () => isDesktop() ? "+=136" : "+=102",
+              ease: "Power3.out"
+            }, "<65%")
         },
       },
     })
@@ -562,7 +556,7 @@ export default function Home() {
 
         <h1 id="heroText" ref={heroText} className='mt-[24.49px] lg:mt-[24px] text-[rgba(60,64,67,1)] font-[700] text-[36px] lg:text-[72px] leading-[48px] lg:leading-[84px] tracking-[0.1px] max-w-[326px] lg:max-w-[639px]'>A <span className='text-[rgba(54,108,165,1)]'>better</span> way to generate leads</h1>
 
-        <p id="heroSubText" ref={headerSubText} className='text-[rgba(96,99,103,1)] mt-[15.51px] lg:mt-[16px] font-[500] text-[18px] lg:text-[26px] leading-[30px] lg:leading-[38px] max-w-[326px] lg:max-w-[579px] mb-[24.9px] lg:mb-[24px]'>Resider is a smart, efficient and helpful way to qualify and schedule your prospective tenants.</p>
+        <p id="heroSubText" ref={headerSubText} className='text-[rgba(96,99,103,1)] mt-[15.51px] lg:mt-[16px] font-[500] lg:font-[400] text-[18px] lg:text-[26px] leading-[30px] lg:leading-[38px] max-w-[326px] lg:max-w-[575px] mb-[24.9px] lg:mb-[24px] liga-off'>Resider is a smart, efficient and helpful way to qualify and schedule your prospective tenants.</p>
 
         <div id="phone-hero" className='grid justify-items-center justify-center rounded-br-full rounded-bl-full overflow-hidden'>
 
