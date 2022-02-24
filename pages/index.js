@@ -95,85 +95,6 @@ export default function Home() {
     // problem: the "scrollTween" tween and parent "tlDown" timeline don't exist yet. But keeping the timeline alive in a variable for reference is unrecheable from here, above the useEffect(). Otherwise, we could easily tlDown.invalidate() even if the scrollTrigger wasn't active
   }
 
-  const tlDownFunction = () => {
-
-    gsap.timeline({
-      id: "tlDown",
-      scrollTrigger: {
-        id: "down",
-        trigger: headerSubText.current,
-        start: "top top+=10%",
-        endTrigger: main.current,
-        end: "center center",
-        ease: "power3.out",
-        onEnter: () => {
-          // possibly trigger timeline here
-        },
-        toggleActions: "play none none none",
-        onComplete: () => tlUpFunction()
-      },
-      onUpdate: () => console.log("tlDown update. log st down", console.log("onUpdate:", ScrollTrigger.getById("down")))
-    })
-      .to(heroSection.current, {
-        opacity: 0,
-      })
-      .to(window, {
-        id: "scrollTween",
-        duration: 0.5, scrollTo: { y: main.current, autoKill: scrollTweenAutoKillBool },
-      }, "<")
-      .to(main.current, {
-        opacity: 1,
-        duration: 1
-      })
-      .from(markers.current, {
-        y: () => isDesktop() ? '+=10' : '+=5',
-        opacity: 0,
-        duration: 1
-      }, "<25%")
-      .from(cards.current, {
-        y: () => isDesktop() ? "+=136" : "+=102",
-        ease: "Power3.out"
-      }, "<65%")
-      .set(header.current, {
-        opacity: () => !isDesktop() && 0
-      })
-  }
-
-  const tlUpFunction = () => {
-    gsap.timeline({
-      scrollTrigger: {
-        id: "up",
-        trigger: rightTextCol.current,
-        start: 'top top+=1',
-        endTrigger: heroSection.current,
-        end: "top top+=77",
-        toggleActions: "none none play none",
-        onEnterBack: () => console.log("tlUp: onEnter", gsap.getById("tlDown"), "scroller: up", ScrollTrigger.getById("up")),
-        // onUpdate: () => console.log(console.log(ScrollTrigger.getById("up")))
-      },
-      // onComplete: () => tlDownFunction()
-      onUpdate: () => console.log(console.log("onUpdate: tl up. st up", ScrollTrigger.getById("up")))
-    })
-      .to(main.
-        current, {
-        opacity: 0,
-        duration: 1,
-      })
-      .to(window, {
-        duration: 1, scrollTo: {
-          y: 0, autoKill: false
-        }
-      }, "<")
-      .to(heroSection.current, {
-        opacity: 1,
-        duration: 1,
-      })
-      .to(header.current, {
-        opacity: () => !isDesktop() && 1,
-        duration: 1
-      }, "<")
-  }
-
   const scrollTweenAutoKillBool = false
 
   useEffect(() => {
@@ -199,37 +120,39 @@ export default function Home() {
         endTrigger: main.current,
         end: "center center",
         ease: "power3.out",
-        onEnter: () => console.log("tlDown: onEnter", gsap.getById("tlDown"), "scroller: up", ScrollTrigger.getById("down")),
         toggleActions: "play none none none",
-      },
-      // onComplete: () => tlUpFunction()
+        onEnter: () => {
+          gsap.timeline()
+            .to(heroSection.current, {
+              opacity: 0,
+            })
+            .to(window, {
+              id: "scrollTween",
+              duration: 0.5, scrollTo: { y: main.current, autoKill: scrollTweenAutoKillBool },
+            }, "<")
+            .to(main.current, {
+              opacity: 1,
+              duration: 1
+            })
+            .from(markers.current, {
+              y: () => isDesktop() ? '+=10' : '+=5',
+              opacity: 0,
+              duration: 1
+            }, "<25%")
+            .from(cards.current, {
+              y: () => isDesktop() ? "+=136" : "+=102",
+              ease: "Power3.out"
+            }, "<65%")
+            .set(header.current, {
+              opacity: () => !isDesktop() && 0
+            })
+        }
 
+      },
       onUpdate: () => console.log("tlDown update. log st down", ScrollTrigger.getById("down"))
 
     })
-      .to(heroSection.current, {
-        opacity: 0,
-      })
-      .to(window, {
-        id: "scrollTween",
-        duration: 0.5, scrollTo: { y: main.current, autoKill: scrollTweenAutoKillBool },
-      }, "<")
-      .to(main.current, {
-        opacity: 1,
-        duration: 1
-      })
-      .from(markers.current, {
-        y: () => isDesktop() ? '+=10' : '+=5',
-        opacity: 0,
-        duration: 1
-      }, "<25%")
-      .from(cards.current, {
-        y: () => isDesktop() ? "+=136" : "+=102",
-        ease: "Power3.out"
-      }, "<65%")
-      .set(header.current, {
-        opacity: () => !isDesktop() && 0
-      })
+
 
     // Scroll up from Phone to Section-1
     let tlUp = gsap.timeline({
@@ -240,32 +163,35 @@ export default function Home() {
         endTrigger: heroSection.current,
         end: "top top+=77",
         toggleActions: "none none play none",
-        onEnterBack: () => console.log("tlUp: onEnter", gsap.getById("tlDown"), "scroller: up", ScrollTrigger.getById("up")),
+        onEnterBack: () => {
+          gsap.timeline()
+            .to(main.
+              current, {
+              opacity: 0,
+              duration: 1,
+            })
+            .to(window, {
+              duration: 1, scrollTo: {
+                y: 0, autoKill: false
+              }
+            }, "<")
+            .to(heroSection.current, {
+              opacity: 1,
+              duration: 1,
+            })
+            .to(header.current, {
+              opacity: () => !isDesktop() && 1,
+              duration: 1
+            }, "<")
+        },
+        // onEnterBack: () => console.log("tlUp: onEnter", gsap.getById("tlDown"), "scroller: up", ScrollTrigger.getById("up")),
         onUpdate: () => console.log(console.log(ScrollTrigger.getById("up"))),
-        // once: false
+
       },
-      // onComplete: () => tlDownFunction()
       onComplete: () => console.log("COMPLETE: Tl UP"),
       onUpdate: () => console.log("onUpdate: tl up. st up", ScrollTrigger.getById("up")),
     })
-      .to(main.
-        current, {
-        opacity: 0,
-        duration: 1,
-      })
-      .to(window, {
-        duration: 1, scrollTo: {
-          y: 0, autoKill: false
-        }
-      }, "<")
-      .to(heroSection.current, {
-        opacity: 1,
-        duration: 1,
-      })
-      .to(header.current, {
-        opacity: () => !isDesktop() && 1,
-        duration: 1
-      }, "<")
+
 
     // card swipe 1
     gsap.to(cards.current, {
