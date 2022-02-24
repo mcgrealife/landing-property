@@ -9,9 +9,10 @@ import logoSquare from '../public/logo-square-4x.png'
 import map from '../public/map-circle-4x.png'
 import phoneHeroImgSquare from '../public/phone-hero-img-square.png'
 import mapImg from '../public/map-img-4x.png'
+import Card from '../components/Card'
 
 export default function Home() {
-  
+
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
 
   const heroText = useRef()
@@ -29,17 +30,14 @@ export default function Home() {
   const rightTextTourConfirmation = useRef()
   const rightTextCol = useRef()
   const topLogo = useRef()
+  const header = useRef()
   const headerShadow = useRef()
   const heroSection = useRef()
   const main = useRef()
-  const mapMask = useRef()
-  const wrapperMapMask = useRef()
-  const frameMask = useRef()
   const frame = useRef()
   const screen = useRef()
   const carousel = useRef()
   const headerSubText = useRef()
-  const spacer = useRef()
   const overlay = useRef()
   const overlayTour = useRef()
   const calendar0 = useRef()
@@ -85,7 +83,11 @@ export default function Home() {
   const rightTextBodyStyle = 'text-[12px] lg:text-[18px] font-[500] leading-[20px] lg:leading-[32px] w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'
 
   const scheduleDemoClick = () => {
-    gsap.to(window, { duration: 1, scrollTo: { y: demo.current, offsetY: -300, autoKill: true }, ease: "power3", invalidateOnRefresh: true })
+    // this scrolls to the bottom of the page
+    // however, it catches scrollTriggers along the way and gets stuck
+    // maybe the scrollTriggers should have `preventOverlaps` or `fastScrollEnd`.
+    // maybe this funciton should manually pause the scrollTriggers
+    gsap.to(window, { duration: 1, scrollTo: { y: demo.current, offsetY: 100, autoKill: true }, ease: "power3" })
   }
 
   useEffect(() => {
@@ -101,80 +103,103 @@ export default function Home() {
         y: () => "+=" + phoneHero.current.getBoundingClientRect().height,
       })
 
-    // "once" logic for heroSection fadeOut
-    let happened = false
-    let fadeOutHero = () => {
-      if (!happened) {
-        gsap.to(heroSection.current, {
-          opacity: 0,
-        }
-        )
-      } else {
-      }
-      happened = true
-    }
-
-
-    // hero outro fade
+    // Scroll down from Section-1 to phone  
     gsap.timeline({
       scrollTrigger: {
-        // fastScrollEnd: 1000,
+        id: "down",
         trigger: headerSubText.current,
         start: "top top+=10%",
-        onEnter: fadeOutHero,
-        // onEnter: () => console.log("onEnter"),
-        // onLeave: () => console.log("onLeave"),
-        // onEnterBack: () => console.log("onEnterBack"),
-        // onLeaveBack: () => console.log("onLeaveBack"),
-        // markers: true
-        duration: 1.2,
-      },
+        endTrigger: main.current,
+        end: "center center",
+        ease: "power3.out",
+        onEnter: () => {
+          // possibly trigger timeline here
+        },
+        toggleActions: "play none none none",
+      }
     })
-      .to(window, { duration: 1, scrollTo: { y: main.current, autoKill: false }, ease: "Power2.in" })
-      .from(main.current, {
+      .to(heroSection.current, {
         opacity: 0,
-        duration: 1,
-        onComplete: () => gsap.to(heroSection.current, {
-          opacity: 100,
-        })
+      })
+      .to(window, {
+        duration: 0.5, scrollTo: { y: main.current, autoKill: false },
+      }, "<")
+      .to(main.current, {
+        opacity: 1,
+        duration: 1
       })
       .from(markers.current, {
         y: () => isDesktop() ? '+=10' : '+=5',
-        opacity: 0
+        opacity: 0,
+        duration: 1
       }, "<25%")
-      .to(cards.current, {
-        display: 'block'
-      }, "<50%")
       .from(cards.current, {
         y: () => isDesktop() ? "+=136" : "+=102",
         ease: "Power3.out"
+      }, "<65%")
+      .set(header.current, {
+        opacity: () => !isDesktop() && 0
+      })
+
+    // Scroll up from Phone to Section-1
+    gsap.timeline({
+      scrollTrigger: {
+        id: "up",
+        trigger: rightTextCol.current,
+        start: 'top top+=1',
+        endTrigger: heroSection.current,
+        end: "top top+=77",
+        toggleActions: "none none play none",
+      },
+    })
+      .to(main.
+        current, {
+        opacity: 0,
+        duration: 1,
+      })
+      .to(window, {
+        duration: 1, scrollTo: {
+          y: 0, autoKill: false
+        }
+      }, "<")
+      .to(heroSection.current, {
+        opacity: 1,
+        duration: 1,
+      })
+      .to(header.current, {
+        opacity: () => !isDesktop() && 1,
+        duration: 1
       }, "<")
 
-    // card swipe - 1
+    // card swipe 1
     gsap.to(cards.current, {
       scrollTrigger: {
         trigger: rightTextDataIntegrity.current,
         start: 'top 90%',
         end: '+=1',
-        scrub: 1,
+        // scrub: true,
         // ease: "power1.inOut",
         onEnter: () => setMarkerImage(imgUrl("desktop", 2)),
         onEnterBack: () => setMarkerImage(imgUrl("desktop", 1)),
+        toggleActions: "play none reverse none",
+        ease: "power3.inOut"
       },
-      x: () => isDesktop() ? '-=310' : '-=232',
+      x: () => isDesktop() ? '-=310' : '-=233',
     })
-    // card swipe - 2
+    // card swipe 2
     gsap.to(cards.current, {
       scrollTrigger: {
         trigger: rightTextDataIntegrity.current,
-        start: 'top 50%',
+        start: 'top 40%',
         end: '+=1',
-        scrub: 1,
+        // scrub: true,
         // ease: "power1.inOut",
         onEnter: () => setMarkerImage(imgUrl("desktop", 3)),
         onEnterBack: () => setMarkerImage(imgUrl("desktop", 2)),
+        toggleActions: "play none reverse none",
+        ease: "power3.inOut"
       },
-      x: () => isDesktop() ? '-=310' : '-=232'
+      x: () => isDesktop() ? '-=310' : '-=233'
     })
 
 
@@ -190,9 +215,14 @@ export default function Home() {
       },
     })
       .to(leftTextWrapper.current, {
+        opacity: 0,
+        duration: 0.1
+      })
+      .to(leftTextWrapper.current, {
         onStart: () => setLeftText("Filter"),
         onReverseComplete: () => setLeftText("Search"),
-        opacity: 100
+        opacity: 1,
+        duration: 0.1
       })
       .from(overlay.current, {
         opacity: 0,
@@ -209,13 +239,12 @@ export default function Home() {
       .to(calendar0.current, {
         display: 'none'
       })
-
     // probably move white bg fade into end of filter section (or move property trigger up)
 
     gsap.timeline({
       scrollTrigger: {
         trigger: rightTextPersonalizedPage.current,
-        start: 'top bottom+=10%',
+        start: 'top bottom+=40%',
         endTrigger: rightTextTourType.current,
         end: "top bottom",
         // toggleActions: 'play reverse play reverse',
@@ -227,15 +256,20 @@ export default function Home() {
         opacity: 0,
         duration: 0.3
       })
-      .to(leftTextWrapper.current, {
-        onStart: () => setLeftText("Property"),
-        onReverseComplete: () => setLeftText("Filter"),
-      }, "<30%")
       .from(property.current, {
         y: () => screen.current.getBoundingClientRect().height - status.current.getBoundingClientRect().height,
         duration: 0.3
-      }, "<15%")
-
+      }, "<50%")
+      .to(leftTextWrapper.current, {
+        opacity: 0,
+        duration: 0.1
+      }, "<")
+      .to(leftTextWrapper.current, {
+        onStart: () => setLeftText("Property"),
+        onReverseComplete: () => setLeftText("Filter"),
+        opacity: 1,
+        duration: 0.1
+      }, "<30%")
       .from(propertyBar.current, {
         y: screen.current.getBoundingClientRect().height,
         duration: 0.3
@@ -266,8 +300,14 @@ export default function Home() {
       },
     })
       .to(leftTextWrapper.current, {
+        opacity: 0,
+        duration: 0.1
+      })
+      .to(leftTextWrapper.current, {
         onStart: () => setLeftText("Booking"),
         onReverseComplete: () => setLeftText("Property"),
+        opacity: 1,
+        duration: 0.1
       })
       .from(overlayTour.current, {
         opacity: 0,
@@ -364,11 +404,11 @@ export default function Home() {
         opacity: 0
       })
       .to(appointment2.current, {
-        y: () => dx(confirmDetails.current, appointment2.current, "+", 'log'),
+        y: () => dx(confirmDetails.current, appointment2.current, "+"),
         opacity: 0
       }, "<")
       .to(sheetBg.current, {
-        y: () => dx(confirmDetails.current, appointment2.current, "+", "log"),
+        y: () => dx(confirmDetails.current, appointment2.current, "+"),
       }, "<")
       .to(tourTypeSheet2.current, {
         display: "none"
@@ -445,7 +485,7 @@ export default function Home() {
 
       </Head>
 
-      <header className='bg-white py-[12px] w-full grid h-[78px] static lg:sticky top-0 z-20 pr-[16px] pl-[24px]'>
+      <header id="header" ref={header} className='bg-white py-[12px] w-full grid h-[78px] static lg:sticky top-0 z-20 pr-[16px] pl-[24px]'>
         <div className=" relative">
           <Image
             src={logo}
@@ -462,7 +502,7 @@ export default function Home() {
       </header>
 
 
-      <div ref={headerShadow} className='shadow-[0_2px_4px_rgba(60,64,67,0.1)] w-full h-[78px] absolute lg:fixed top-0 z-10 opacity-100 lg:opacity-0' />
+      <div ref={headerShadow} className='shadow-[0_2px_4px_rgba(60,64,67,0.1)] w-full h-[78px] absolute lg:fixed top-0 z-10 opacity-0' />
 
 
       <div id='hero-section' ref={heroSection} className='flex flex-col place-items-center text-center'>
@@ -479,8 +519,8 @@ export default function Home() {
 
         {/* <img src="/logo-square-mobile.svg" alt="logo-square-mobile" className='block lg:hidden  mt-[28px]' /> */}
         {/* h-[36px] */}
-        {/* 
-        <img src="/logo-square-desktop.svg" alt="logo-square-desktop" className='hidden lg:block  mt-[12px]' /> */}
+
+        {/* <img src="/logo-square-desktop.svg" alt="logo-square-desktop" className='hidden lg:block  mt-[12px]' /> */}
         {/* h-[52px] */}
 
         <h1 id="heroText" ref={heroText} className='mt-[24.49px] lg:mt-[24px] text-[rgba(60,64,67,1)] font-[700] text-[36px] lg:text-[72px] leading-[48px] lg:leading-[84px] tracking-[0.1px] max-w-[326px] lg:max-w-[639px]'>A <span className='text-[rgba(54,108,165,1)]'>better</span> way to generate leads</h1>
@@ -512,15 +552,15 @@ export default function Home() {
         </div>
       </div>
 
-      {/* <div id="spacerHero" className='h-[500px] w-full' /> */}
 
       <div id="gridContainer" className='grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop z-20'>
 
-        <div id="phoneAndLeftText" ref={main} className='grid-in-left col-end-right grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop self-start  h-screen sticky left-0 top-0'>
+        <div id="phoneAndLeftText" ref={main} className='grid-in-left col-end-right grid grid-areas-mobile lg:grid-areas-desktop grid-cols-mobile lg:grid-cols-desktop grid-rows-mobile lg:grid-rows-desktop self-start  h-screen sticky left-0 top-0 opacity-0'>
 
           <div id="leftTextWrapper" ref={leftTextWrapper} className='hidden lg:block grid-in-left place-self-center text-[72px] font-[600] text-[rgba(60,64,67,1)]'>
             {leftText}
           </div>
+
 
           <div id="phone" ref={phone} className='grid-in-left lg:grid-in-middle place-self-center min-w-[274px] lg:min-w[370px] grid grid-areas-phone grid-cols-phoneMobile lg:grid-cols-phoneDesktop  grid-rows-phoneMobile lg:grid-rows-phoneDesktop rounded-[42px]  ml-[24px] lg:ml-0 frame-shadow'>
 
@@ -540,7 +580,7 @@ export default function Home() {
 
               <img src="/appointment-2-4x.png" alt="appointment-2" id="appointment2" ref={appointment2} className="z-16 grid-in-body self-end w-full hidden" />
 
-              <div id="sheet-bg" ref={sheetBg} className='grid bg-white col-start-[-2]  self-end  z-15 shadow-[0_0.918124px_5.50874px_rgba(60,64,67,0.3)] h-[318.42px] lg:h-[515.07px] rounded-t-[5.44px] lg:rounded-t-[7.34px]'>
+              <div id="sheet-bg" ref={sheetBg} className='grid bg-white col-start-[-2]  self-end  z-15 shadow-[0_0.918124px_5.50874px_rgba(60,64,67,0.3)] h-[381.42px] lg:h-[515.07px] rounded-t-[5.44px] lg:rounded-t-[7.34px]'>
                 <div id="handle" className='justify-self-center mt-[5.44px] lg:mt-[7.34px] rounded-full bg-[rgba(218,220,224,1)] w-[19.04px] h-[2.72px] lg:w-[25.71px] lg:h-[3.67px]' />
               </div>
 
@@ -577,10 +617,15 @@ export default function Home() {
                 className='grid-in-body self-start z-2 w-full ' />
 
 
-              {/* snap-x */}
-              <div id='carousel' ref={carousel} className=' grid-in-body justify-items-end self-end z-6 overflow-x-scroll scrollbar-hide h-28px'> 
-                <img src="/cards-4x-padded.png" ref={cards} alt="cards" className=' grid-in-body justify-self-start self-end z-6 min-w-[955px] lg:min-w-[1277px] overflow-visible' />
+              <div id='carousel' ref={carousel} className='col-start-1 row-start-2 justify-items-end self-end z-6 overflow-x-scroll snap-x scrollbar-hide h-28px ' >
+                <div ref={cards} className='flex flex-row gap-2 min-w-max pb-[17px] lg:pb-[22.95px] pl-[13.6px] lg:pl-[18.36px] pt-2'>
+                  <Card num="1" />
+                  <Card num="2" />
+                  <Card num="3" />
+                  <Card num="4" />
+                </div>
               </div>
+
 
               <img src="/home.svg" alt="home" className=' grid-in-body justify-self-center self-end pb-[5.23px] z-20 w-[91px] lg:w-[123px]' />
 
@@ -608,8 +653,7 @@ export default function Home() {
 
           <div id='rightTextDataIntegrity' ref={rightTextDataIntegrity} className={rightTextBoxStyle}>
 
-            <div className={rightTextSuperTitleStyle
-            }>Search</div>
+            <div className={rightTextSuperTitleStyle}>Search</div>
 
             <h1 className={rightTextTitleStyle}>Data <span className='text-resider-blue-primary '>integrity</span></h1>
             <p className={rightTextBodyStyle}>Resider solely consists of rental properties syndicated through data API’s. With up to date and accurate listings, your clients can browse with confidence.</p>
@@ -618,8 +662,7 @@ export default function Home() {
 
           <div id='rightTextMoveIn' ref={rightTextMoveIn} className={rightTextBoxStyle}>
 
-            <div className={rightTextSuperTitleStyle
-            }>Filter</div>
+            <div className={rightTextSuperTitleStyle}>Filter</div>
 
             <h1 className={rightTextTitleStyle}><span className='text-resider-blue-primary '>Move in</span> date</h1>
             <p className={rightTextBodyStyle}>Qualified leads are our emphasis. Allowing users to narrow down exact availability by their move in date is the first step.</p>
@@ -629,13 +672,9 @@ export default function Home() {
           {/* personalizedPage has padding-bottom, since more animations 
           // pb-[28px] lg:pb-[32px]
           */}
-
           <div id='rightTextPersonalizedPage' ref={rightTextPersonalizedPage} className={rightTextBoxStyle}>
 
-
-
-            <div className={rightTextSuperTitleStyle
-            }>Property</div>
+            <div className={rightTextSuperTitleStyle}>Property</div>
 
             <h1 className={rightTextTitleStyle}><span className='text-resider-blue-primary '>Personalized</span> page</h1>
             <p className={rightTextBodyStyle}>With a beautiful display of your property,
@@ -646,8 +685,7 @@ export default function Home() {
 
           <div id='rightTextFilteredAvailability' ref={rightTextFilteredAvailability} className={rightTextBoxStyle}>
 
-            <div className={rightTextSuperTitleStyle
-            }>Property</div>
+            <div className={rightTextSuperTitleStyle}>Property</div>
 
             <h1 className={rightTextTitleStyle}><span className='text-resider-blue-primary '>Filtered</span> availability</h1>
 
@@ -658,8 +696,7 @@ export default function Home() {
 
           <div id='rightTextTourType' ref={rightTextTourType} className={rightTextBoxStyle}>
 
-            <div className={rightTextSuperTitleStyle
-            }>Booking</div>
+            <div className={rightTextSuperTitleStyle}>Booking</div>
 
             <h1 className={rightTextTitleStyle}><span className='text-resider-blue-primary '>Tour</span> type</h1>
             <p className={rightTextBodyStyle}>Users are able to book an in-person tour, or a remote tour using Zoom.</p>
@@ -667,8 +704,7 @@ export default function Home() {
 
           <div id='rightTextInstantSchedule' ref={rightTextInstantSchedule} className={rightTextBoxStyle}>
 
-            <div className={rightTextSuperTitleStyle
-            }>Booking</div>
+            <div className={rightTextSuperTitleStyle}>Booking</div>
 
             <h1 className={rightTextTitleStyle}><span className='text-resider-blue-primary '>Instant</span> schedule</h1>
             <p className={rightTextBodyStyle}>Through the RENTCafé platform, Resider syncs to your appointment calender and allows the user to instantly schedule an available tour.</p>
@@ -677,8 +713,7 @@ export default function Home() {
 
           <div id='rightTextCaptureDetails' ref={rightTextCaptureDetails} className={rightTextBoxStyle}>
 
-            <div className={rightTextSuperTitleStyle
-            }>Booking</div>
+            <div className={rightTextSuperTitleStyle}>Booking</div>
 
             <h1 className={rightTextTitleStyle}><span className='text-resider-blue-primary '>Capture</span> required details</h1>
             <p className={rightTextBodyStyle}>Before successfully booking, users are instructed to fill in mandatory information vital to the lead qualifying process.</p>
@@ -686,8 +721,7 @@ export default function Home() {
 
           <div id='rightTextTourConfirmation' ref={rightTextTourConfirmation} className={rightTextBoxStyle}>
 
-            <div className={rightTextSuperTitleStyle
-            }>Booking</div>
+            <div className={rightTextSuperTitleStyle}>Booking</div>
 
             <h1 className={rightTextTitleStyle}><span className='text-resider-blue-primary '>Tour</span> confirmation</h1>
             <p className={rightTextBodyStyle}>Once a tour is booked, all captured information is logged as a guest card and stored in your RENTCafé CRM. </p>
