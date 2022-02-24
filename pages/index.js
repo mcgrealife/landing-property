@@ -122,37 +122,40 @@ export default function Home() {
         ease: "power3.out",
         toggleActions: "play none none none",
         onEnter: () => {
-          gsap.timeline()
-            .to(heroSection.current, {
-              opacity: 0,
+          if (gsap.getById("scrollTweenUP") == undefined) {
+            gsap.timeline({
+              onStart: () => console.log("tlDOWN onEnter")
             })
-            .to(window, {
-              id: "scrollTween",
-              duration: 0.5, scrollTo: { y: main.current, autoKill: scrollTweenAutoKillBool },
-            }, "<")
-            .to(main.current, {
-              opacity: 1,
-              duration: 1
-            })
-            .from(markers.current, {
-              y: () => isDesktop() ? '+=10' : '+=5',
-              opacity: 0,
-              duration: 1
-            }, "<25%")
-            .from(cards.current, {
-              y: () => isDesktop() ? "+=136" : "+=102",
-              ease: "Power3.out"
-            }, "<65%")
-            .set(header.current, {
-              opacity: () => !isDesktop() && 0
-            })
-        }
+              .to(heroSection.current, {
+                opacity: 0,
+              })
+              .to(window, {
+                id: "scrollTweenDown",
+                duration: 0.5, scrollTo: { y: main.current, autoKill: scrollTweenAutoKillBool },
+              }, "<")
+              .to(main.current, {
+                opacity: 1,
+                duration: 1
+              })
+              .from(markers.current, {
+                y: () => isDesktop() ? '+=10' : '+=5',
+                opacity: 0,
+                duration: 1
+              }, "<25%")
+              .from(cards.current, {
+                y: () => isDesktop() ? "+=136" : "+=102",
+                ease: "Power3.out"
+              }, "<65%")
+              .set(header.current, {
+                opacity: () => !isDesktop() && 0
+              })
+          } else {
+            console.log("scrollTweenUP is active")
+          }
 
+        },
       },
-      onUpdate: () => console.log("tlDown update. log st down", ScrollTrigger.getById("down"))
-
     })
-
 
     // Scroll up from Phone to Section-1
     let tlUp = gsap.timeline({
@@ -164,32 +167,35 @@ export default function Home() {
         end: "top top+=77",
         toggleActions: "none none play none",
         onEnterBack: () => {
-          gsap.timeline()
-            .to(main.
-              current, {
-              opacity: 0,
-              duration: 1,
+          if (gsap.getById("scrollTweenDown") == undefined) {
+            gsap.timeline({
+              onStart: () => console.log("tlUP onEnterBack")
             })
-            .to(window, {
-              duration: 1, scrollTo: {
-                y: 0, autoKill: false
-              }
-            }, "<")
-            .to(heroSection.current, {
-              opacity: 1,
-              duration: 1,
-            })
-            .to(header.current, {
-              opacity: () => !isDesktop() && 1,
-              duration: 1
-            }, "<")
-        },
-        // onEnterBack: () => console.log("tlUp: onEnter", gsap.getById("tlDown"), "scroller: up", ScrollTrigger.getById("up")),
-        onUpdate: () => console.log(console.log(ScrollTrigger.getById("up"))),
+              .to(main.
+                current, {
+                opacity: 0,
+                duration: 1,
+              })
+              .to(window, {
+                id: "scrollTweenUp",
+                duration: 1, scrollTo: {
+                  y: 0, autoKill: false
+                }
+              }, "<")
+              .to(heroSection.current, {
+                opacity: 1,
+                duration: 1,
+              })
+              .to(header.current, {
+                opacity: () => !isDesktop() && 1,
+                duration: 1
+              }, "<")
+          } else {
+            console.log("scrollTweenDown is active")
+          }
 
+        },
       },
-      onComplete: () => console.log("COMPLETE: Tl UP"),
-      onUpdate: () => console.log("onUpdate: tl up. st up", ScrollTrigger.getById("up")),
     })
 
 
