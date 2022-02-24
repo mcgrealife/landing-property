@@ -83,30 +83,18 @@ export default function Home() {
   const rightTextBodyStyle = 'text-[12px] lg:text-[18px] font-[500] leading-[20px] lg:leading-[32px] w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'
 
   const scheduleDemoClick = () => {
-    // this scrolls to the bottom of the page
-    // however, it catches scrollTriggers along the way and gets stuck
-    // maybe the scrollTriggers should have `preventOverlaps` or `fastScrollEnd`.
-    // maybe this funciton should manually pause the scrollTriggers
-    // https://codepen.io/GreenSock/pen/ZEyXPGj?editors=0010
-
-    ScrollTrigger.getAll().forEach(st => {
-      // st.progress.toFixed(1)
-      // st.scroll(100)
-      // st.preventOverlaps = true
-      // st.endAnimation()
-    })
-    autoKillVar = true
+    scrollTweenAutoKillBool = true
+    gsap.getById("scrollTween").invalidate() // force it to recalcualte vars
     gsap.to(window, { duration: 1, scrollTo: { y: demo.current, offsetY: 100, autoKill: true }, ease: "power3" })
-    autoKillVar = false
-  }
-  // ScrollTrigger.defaults({
-  //   preventOverlaps: true
-  // })
+    scrollTweenAutoKillBool = false // force it to recalcualte vars
+    gsap.getById("scrollTweem").invalidate()
 
-  const autoKillVar = false
+    // problem is that the tween and timeline don't exist yet. But keeping the timeline in a variable for reference is unrecheable from here, above the useEffect()
+  }
+
+  const scrollTweenAutoKillBool = false
 
   useEffect(() => {
-
 
     // onLoad map Animation
     gsap.timeline({
@@ -120,7 +108,8 @@ export default function Home() {
       })
 
     // Scroll down from Section-1 to phone  
-    gsap.timeline({
+    let tlDown = gsap.timeline({
+      id: "tlDown",
       scrollTrigger: {
         id: "down",
         trigger: headerSubText.current,
@@ -138,7 +127,8 @@ export default function Home() {
         opacity: 0,
       })
       .to(window, {
-        duration: 0.5, scrollTo: { y: main.current, autoKill: true },
+        id: "scrollTween",
+        duration: 0.5, scrollTo: { y: main.current, autoKill: scrollTweenAutoKillBool },
       }, "<")
       .to(main.current, {
         opacity: 1,
