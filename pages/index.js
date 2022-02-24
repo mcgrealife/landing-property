@@ -83,25 +83,9 @@ export default function Home() {
   const rightTextBodyStyle = 'text-[12px] lg:text-[18px] font-[500] leading-[20px] lg:leading-[32px] w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)] liga-off '
 
   const scheduleDemoClick = () => {
-    // scrollTweenAutoKillBool = true
-    // gsap.getById("tlDown").invalidate() // force it to recalcualte vars
-    // gsap.getById("tlDown").pause()
-    // tlDown.pause()
-    // gsap.timeline()
-    // .to(window, { duration: 1, scrollTo: { y: demo.current, offsetY: 100, autoKill: true }, ease: "power3" })
-    setScrollActive(true)
     console.log("scrollActive: from click", scrollActive)
-    gsap.to(window, { duration: 1, scrollTo: { y: demo.current, offsetY: 100, autoKill: true }, ease: "power3" })
-    setScrollActive(false)
-    // scrollTweenAutoKillBool = false // force it to recalcualte vars
-    // gsap.getById("tlDown").invalidate()
-
-    // problem: the "scrollTween" tween and parent "tlDown" timeline don't exist yet. But keeping the timeline alive in a variable for reference is unrecheable from here, above the useEffect(). Otherwise, we could easily tlDown.invalidate() even if the scrollTrigger wasn't active
+    gsap.to(window, { id: "longScroll", duration: 1, scrollTo: { y: demo.current, offsetY: 100, autoKill: true }, ease: "power3" })
   }
-
-  const [scrollActive, setScrollActive] = useState(false)
-
-  let scrollTweenAutoKillBool = false
 
   useEffect(() => {
 
@@ -116,9 +100,6 @@ export default function Home() {
         y: () => "+=" + phoneHero.current.getBoundingClientRect().height,
       })
 
-    // ScrollTrigger.defaults({
-    //   preventOverlaps: true
-    // })
 
     // Scroll down from Section-1 to phone 
     let tlDown = gsap.timeline({
@@ -131,6 +112,7 @@ export default function Home() {
         end: "center center",
         ease: "power3.out",
         toggleActions: "play none none none",
+        fastScrollEnd: 1000,
         onEnter: () => {
           gsap.timeline({
             onStart: () => console.log("tlDOWN onEnter")
@@ -140,8 +122,7 @@ export default function Home() {
             })
             .to(window, {
               id: "scrollTweenDown",
-              onStart: () => console.log("scrollActive before tween: ", scrollActive),
-              duration: 0.5, scrollTo: { y: main.current, autoKill: scrollTweenAutoKillBool },
+              duration: 0.5, scrollTo: { y: main.current, autoKill: () => gsap.getById("longScroll") == undefined ? false : true },
             }, "<")
             .set(header.current, {
               opacity: () => !isDesktop() && 0
@@ -172,6 +153,7 @@ export default function Home() {
         endTrigger: heroSection.current,
         end: "top top+=77",
         toggleActions: "none none play none",
+        // fastScrollEnd: 1000,
         onEnterBack: () => {
           gsap.timeline({
             onStart: () => console.log("tlUP onEnterBack")
