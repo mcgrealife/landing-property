@@ -83,7 +83,6 @@ export default function Home() {
   const rightTextBodyStyle = 'text-[12px] lg:text-[18px] font-[500] leading-[20px] lg:leading-[32px] w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)] liga-off '
 
   const scheduleDemoClick = () => {
-    console.log("scrollActive: from click", scrollActive)
     gsap.to(window, { id: "longScroll", duration: 1, scrollTo: { y: demo.current, offsetY: 100, autoKill: true }, ease: "power3" })
   }
 
