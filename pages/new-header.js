@@ -89,7 +89,7 @@ export default function Home() {
     // maybe this funciton should manually pause the scrollTriggers
     gsap.to(window, { duration: 1, scrollTo: { y: demo.current, offsetY: 100, autoKill: true }, ease: "power3" })
   }
- 
+
   useEffect(() => {
 
     // onLoad map Animation
@@ -118,28 +118,28 @@ export default function Home() {
         toggleActions: "play none none none",
       }
     })
-    .to(heroSection.current, {
-      opacity: 0,
-    })
-    .to(window, {
-      duration: 0.5, scrollTo: { y: main.current, autoKill: false },
-    }, "<")
-    .to(main.current, {
-      opacity: 1,
-      duration: 1
-    })
-    .from(markers.current, {
-      y: () => isDesktop() ? '+=10' : '+=5',
-      opacity: 0,
-      duration: 1
-    }, "<25%")
-    .from(cards.current, {
-      y: () => isDesktop() ? "+=136" : "+=102",
-      ease: "Power3.out"
-    }, "<65%")
-    .set(header.current, {
-      opacity: () => !isDesktop() && 0
-    })
+      .to(heroSection.current, {
+        opacity: 0,
+      })
+      .to(window, {
+        duration: 0.5, scrollTo: { y: main.current, autoKill: false },
+      }, "<")
+      .to(main.current, {
+        opacity: 1,
+        duration: 1
+      })
+      .from(markers.current, {
+        y: () => isDesktop() ? '+=10' : '+=5',
+        opacity: 0,
+        duration: 1
+      }, "<25%")
+      .from(cards.current, {
+        y: () => isDesktop() ? "+=136" : "+=102",
+        ease: "Power3.out"
+      }, "<65%")
+      .set(header.current, {
+        opacity: () => !isDesktop() && 0
+      })
 
     // Scroll up from Phone to Section-1
     gsap.timeline({
@@ -175,7 +175,7 @@ export default function Home() {
     gsap.to(cards.current, {
       scrollTrigger: {
         trigger: rightTextDataIntegrity.current,
-        start: 'top 90%', 
+        start: 'top 90%',
         end: '+=1',
         // scrub: true,
         // ease: "power1.inOut",
@@ -190,7 +190,7 @@ export default function Home() {
     gsap.to(cards.current, {
       scrollTrigger: {
         trigger: rightTextDataIntegrity.current,
-        start: 'top 50%',
+        start: 'top 40%',
         end: '+=1',
         // scrub: true,
         // ease: "power1.inOut",
@@ -215,9 +215,14 @@ export default function Home() {
       },
     })
       .to(leftTextWrapper.current, {
+        opacity: 0,
+        duration: 0.1
+      })
+      .to(leftTextWrapper.current, {
         onStart: () => setLeftText("Filter"),
         onReverseComplete: () => setLeftText("Search"),
-        opacity: 100
+        opacity: 1,
+        duration: 0.1
       })
       .from(overlay.current, {
         opacity: 0,
@@ -239,7 +244,7 @@ export default function Home() {
     gsap.timeline({
       scrollTrigger: {
         trigger: rightTextPersonalizedPage.current,
-        start: 'top bottom+=10%',
+        start: 'top bottom+=40%',
         endTrigger: rightTextTourType.current,
         end: "top bottom",
         // toggleActions: 'play reverse play reverse',
@@ -251,15 +256,20 @@ export default function Home() {
         opacity: 0,
         duration: 0.3
       })
-      .to(leftTextWrapper.current, {
-        onStart: () => setLeftText("Property"),
-        onReverseComplete: () => setLeftText("Filter"),
-      }, "<30%")
       .from(property.current, {
         y: () => screen.current.getBoundingClientRect().height - status.current.getBoundingClientRect().height,
         duration: 0.3
-      }, "<15%")
-
+      }, "<50%")
+      .to(leftTextWrapper.current, {
+        opacity: 0,
+        duration: 0.1
+      }, "<")
+      .to(leftTextWrapper.current, {
+        onStart: () => setLeftText("Property"),
+        onReverseComplete: () => setLeftText("Filter"),
+        opacity: 1,
+        duration: 0.1
+      }, "<30%")
       .from(propertyBar.current, {
         y: screen.current.getBoundingClientRect().height,
         duration: 0.3
@@ -290,8 +300,14 @@ export default function Home() {
       },
     })
       .to(leftTextWrapper.current, {
+        opacity: 0,
+        duration: 0.1
+      })
+      .to(leftTextWrapper.current, {
         onStart: () => setLeftText("Booking"),
         onReverseComplete: () => setLeftText("Property"),
+        opacity: 1,
+        duration: 0.1
       })
       .from(overlayTour.current, {
         opacity: 0,
@@ -600,16 +616,16 @@ export default function Home() {
               <img src="/search-filter-bar-4x.png" alt="search-filter"
                 className='grid-in-body self-start z-2 w-full ' />
 
-            
+
               <div id='carousel' ref={carousel} className='col-start-1 row-start-2 justify-items-end self-end z-6 overflow-x-scroll snap-x scrollbar-hide h-28px ' >
                 <div ref={cards} className='flex flex-row gap-2 min-w-max pb-[17px] lg:pb-[22.95px] pl-[13.6px] lg:pl-[18.36px] pt-2'>
-                    <Card num="1"/>
-                    <Card num="2"/>
-                    <Card num="3"/>
-                    <Card num="4"/>
+                  <Card num="1" />
+                  <Card num="2" />
+                  <Card num="3" />
+                  <Card num="4" />
                 </div>
               </div>
-            
+
 
               <img src="/home.svg" alt="home" className=' grid-in-body justify-self-center self-end pb-[5.23px] z-20 w-[91px] lg:w-[123px]' />
 
