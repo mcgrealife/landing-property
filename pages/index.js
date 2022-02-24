@@ -83,19 +83,24 @@ export default function Home() {
   const rightTextBodyStyle = 'text-[12px] lg:text-[18px] font-[500] leading-[20px] lg:leading-[32px] w-[232px] lg:w-[356px] text-[rgba(96,99,103,1)]'
 
   const scheduleDemoClick = () => {
-    scrollTweenAutoKillBool = true
-    // gsap.getById("scrollTween").invalidate() // force it to recalcualte vars
-    gsap.timeline()
-      .to(window, { duration: 1, scrollTo: { y: demo.current, offsetY: 100, autoKill: true }, ease: "power3" })
-      .to(window, { duration: 1, scrollTo: { y: demo.current, offsetY: 100, autoKill: true }, ease: "power3" })
-
-    scrollTweenAutoKillBool = false // force it to recalcualte vars
-    // gsap.getById("scrollTween").invalidate()
+    // scrollTweenAutoKillBool = true
+    // gsap.getById("tlDown").invalidate() // force it to recalcualte vars
+    // gsap.getById("tlDown").pause()
+    // tlDown.pause()
+    // gsap.timeline()
+    // .to(window, { duration: 1, scrollTo: { y: demo.current, offsetY: 100, autoKill: true }, ease: "power3" })
+    scrollActive = true
+    console.log("scrollActive: ", scrollActive)
+    gsap.to(window, { duration: 1, scrollTo: { y: demo.current, offsetY: 100, autoKill: true }, ease: "power3" })
+    scrollActive = false
+    // scrollTweenAutoKillBool = false // force it to recalcualte vars
+    // gsap.getById("tlDown").invalidate()
 
     // problem: the "scrollTween" tween and parent "tlDown" timeline don't exist yet. But keeping the timeline alive in a variable for reference is unrecheable from here, above the useEffect(). Otherwise, we could easily tlDown.invalidate() even if the scrollTrigger wasn't active
   }
 
-  const scrollTweenAutoKillBool = false
+  let scrollActive = false
+  let scrollTweenAutoKillBool = false
 
   useEffect(() => {
 
@@ -110,6 +115,12 @@ export default function Home() {
         y: () => "+=" + phoneHero.current.getBoundingClientRect().height,
       })
 
+    ScrollTrigger.defaults({
+      preventOverlaps: true
+    })
+
+    console.log("scrollActive:", scrollActive)
+
     // Scroll down from Section-1 to phone 
     let tlDown = gsap.timeline({
       id: "tlDown",
@@ -121,8 +132,11 @@ export default function Home() {
         end: "center center",
         ease: "power3.out",
         toggleActions: "play none none none",
+        // preventOverlaps: true,
         onEnter: () => {
-          if (gsap.getById("scrollTweenUP") == undefined) {
+          if (scrollActive) {
+            console.log("scrolling page, do not play scrollDown timeline, or force it to end")
+          } else {
             gsap.timeline({
               onStart: () => console.log("tlDOWN onEnter")
             })
@@ -133,6 +147,9 @@ export default function Home() {
                 id: "scrollTweenDown",
                 duration: 0.5, scrollTo: { y: main.current, autoKill: scrollTweenAutoKillBool },
               }, "<")
+              .set(header.current, {
+                opacity: () => !isDesktop() && 0
+              })
               .to(main.current, {
                 opacity: 1,
                 duration: 1
@@ -146,11 +163,6 @@ export default function Home() {
                 y: () => isDesktop() ? "+=136" : "+=102",
                 ease: "Power3.out"
               }, "<65%")
-              .set(header.current, {
-                opacity: () => !isDesktop() && 0
-              })
-          } else {
-            console.log("scrollTweenUP is active")
           }
 
         },
@@ -158,7 +170,7 @@ export default function Home() {
     })
 
     // Scroll up from Phone to Section-1
-    let tlUp = gsap.timeline({
+    gsap.timeline({
       scrollTrigger: {
         id: "up",
         trigger: rightTextCol.current,
@@ -167,33 +179,28 @@ export default function Home() {
         end: "top top+=77",
         toggleActions: "none none play none",
         onEnterBack: () => {
-          if (gsap.getById("scrollTweenDown") == undefined) {
-            gsap.timeline({
-              onStart: () => console.log("tlUP onEnterBack")
+          gsap.timeline({
+            onStart: () => console.log("tlUP onEnterBack")
+          })
+            .to(main.
+              current, {
+              opacity: 0,
+              duration: 1,
             })
-              .to(main.
-                current, {
-                opacity: 0,
-                duration: 1,
-              })
-              .to(window, {
-                id: "scrollTweenUp",
-                duration: 1, scrollTo: {
-                  y: 0, autoKill: false
-                }
-              }, "<")
-              .to(heroSection.current, {
-                opacity: 1,
-                duration: 1,
-              })
-              .to(header.current, {
-                opacity: () => !isDesktop() && 1,
-                duration: 1
-              }, "<")
-          } else {
-            console.log("scrollTweenDown is active")
-          }
-
+            .to(window, {
+              id: "scrollTweenUp",
+              duration: 1, scrollTo: {
+                y: 0, autoKill: false
+              }
+            }, "<")
+            .to(heroSection.current, {
+              opacity: 1,
+              duration: 1,
+            })
+            .to(header.current, {
+              opacity: () => !isDesktop() && 1,
+              duration: 1
+            }, "<")
         },
       },
     })
@@ -225,7 +232,7 @@ export default function Home() {
         onEnter: () => setMarkerImage(imgUrl("desktop", 3)),
         onEnterBack: () => setMarkerImage(imgUrl("desktop", 2)),
         toggleActions: "play none reverse none",
-        ease: "power3.inOut"
+        ease: "power3.inOut",
       },
       x: () => isDesktop() ? '-=310' : '-=233'
     })
@@ -429,7 +436,8 @@ export default function Home() {
       })
       .from(confirmDetails.current, {
         y: () => dx(confirmDetails.current, appointment2.current, "-"),
-        opacity: 0
+        opacity: 0,
+        // duration: 0.5
       })
       .to(appointment2.current, {
         y: () => dx(confirmDetails.current, appointment2.current, "+"),
@@ -456,11 +464,11 @@ export default function Home() {
         // end: 'bottom bottom',
         // toggleActions: 'play pause reverse pause',
         scrub: true,
-        // markers: true
       },
     })
       .to(confirmDetails.current, {
         y: () => "+=" + confirmDetails.current.getBoundingClientRect().height,
+        duration: 0.5
       })
       .to(sheetBg.current, {
         y: () => "+=" + confirmDetails.current.getBoundingClientRect().height
@@ -469,7 +477,8 @@ export default function Home() {
         display: 'block',
       })
       .from(success.current, {
-        opacity: 0
+        opacity: 0,
+        duration: 0.3
       }, "<")
 
 
