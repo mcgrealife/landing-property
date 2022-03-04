@@ -85,6 +85,9 @@ export default function Home() {
   const rightTextTitleStyle = 'text-[20px] md:text-[36px] leading-[30px] md:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1)] font-[700]'
   const rightTextBodyStyle = 'text-[12px] md:text-[18px] font-[500] leading-[20px] md:leading-[32px] w-[232px] md:w-[356px] text-[rgba(96,99,103,1)] liga-off '
 
+  const textFieldFlexStyle = 'flex flex-wrap justify-center gap-x-[18px] md:mx-[184px] ml-[24px] mr-[32px]'
+  const textFieldStyle = 'border rounded-[4px] border-[rgba(218,220,224,1)] min-w-[319px] md:max-w-[527px] mb-[16px] md:mb-[28px] w-full h-[56px] text-left  text-[16px] font-[roboto] font-[400] leading - [24px] text - [rgba(0, 0, 0, 0.6)] py - [16px] pl - [16px]'
+
   const scheduleDemoClick = () => {
     gsap.to(window, { id: "longScroll", duration: 1, scrollTo: { y: demo.current, offsetY: 100, autoKill: true }, ease: "power3" })
   }
@@ -510,6 +513,7 @@ export default function Home() {
       <Head>
         <title>Resider</title>
 
+
       </Head>
 
       <header id="header" ref={header} className='bg-white py-[12px] w-full grid h-[78px] static md:sticky top-0 z-20 pr-[16px] pl-[24px]'>
@@ -772,13 +776,18 @@ export default function Home() {
       </div >
 
 
-      <div id="demo" ref={demo} className='flex flex-col h-[1000px] self-center text-center justify-center pt-[20] md:pt-[36] pl-[24px] pr-[32px]'>
-        <h1 className=' font-bold text-[28px] md:text-[48px]leading-[24px] text-[rgba(60,64,67,1)]'>Request a Demo</h1>
-        <p className='text-[16px] text-[rgba(0,0,0,0.6)] leading-[24px] text-center font-[500]'>Sign up to learn more about Resider.</p>
+      <div id="demo" ref={demo} className='flex flex-col  self-center text-center justify-center pt-[2px] md:pt-[178px]  pb-[32px] md:pb-[82px] gap:[16px] md:gap-[18px]'>
+        <h1 className=' font-[500] text-[28px] md:text-[48px] leading-[36px] md:leading-[56px] text-[rgba(60,64,67,1)]'>Request a Demo</h1>
+        <p className='text-[16px] text-[rgba(0,0,0,0.6)] leading-[24px] text-center font-[400]'>Sign up to learn more about Resider.</p>
       </div>
-      {/* <div className='grid grid-cols-[repeat(6, minmax(319px,527px))] grid-rows-[repeat(6,56px)] border-1'>
-        <div className=''>test</div>
-      </div> */}
+      <div className={textFieldFlexStyle}>
+        <div className={textFieldStyle}>Full name *</div>
+        <div className={textFieldStyle}>Property name *</div>
+        <div className={textFieldStyle}>Work Email *</div>
+        <div className={textFieldStyle}>Property management company *</div>
+        <div className={textFieldStyle}>Phone number *</div>
+        <div className={textFieldStyle}>Property size</div>
+      </div>
 
     </div >
 
