@@ -344,10 +344,6 @@ export default function Home() {
         ease: "power1.out",
         duration: 0.2
       }, "<")
-      .set(tourTypeSheet.current, {
-        opacity: 100,
-        duration: 0.2
-      }, "<")
       .from(tourTypeSheet.current, {
         y: () => tourTypeSheet.current.getBoundingClientRect().height,
         ease: "power1.out",
@@ -356,10 +352,6 @@ export default function Home() {
       .to(tourTypeSheet2.current, {
         display: "block"
       }, ">25%")
-      .set(tourTypeSheet.current, {
-        display: "none",
-        opacity: 0
-      }, "<1%")
 
     let dx = (el1, el2, sign, log) => {
       let a = el1.getBoundingClientRect().height
@@ -390,25 +382,25 @@ export default function Home() {
         display: "block",
       })
       .to(sheetBg.current, {
-        y: () => dx(appointment1.current, tourTypeSheet2.current, "+")
-      }, "<")
-      .to(tourTypeSheet2.current, {
         y: () => dx(appointment1.current, tourTypeSheet2.current, "+"),
-        opacity: 0
       }, "<")
       .from(appointment1.current, {
         y: () => dx(appointment1.current, tourTypeSheet2.current, "-"),
-        opacity: 0
+        opacity: 0,
+      }, "<")
+      .to(tourTypeSheet.current, {
+        y: () => dx(appointment1.current, tourTypeSheet2.current, "+"),
+        opacity: 0,
+        display: "none"
       }, "<")
       .to(tourTypeSheet2.current, {
+        y: () => dx(appointment1.current, tourTypeSheet2.current, "+"),
+        opacity: 0,
         display: "none"
-      })
+      }, "<")
       .to(appointment2.current, {
         display: "block",
-      }, ">90%")
-      .set(appointment1.current, {
-        display: "none",
-      }, "<1%")
+      }, ">70%")
 
 
 
@@ -427,16 +419,20 @@ export default function Home() {
         display: 'block',
       })
       .from(confirmDetails.current, {
-        y: () => dx(confirmDetails.current, appointment2.current, "-"),
+        y: () => dx(confirmDetails.current, appointment1.current, "-"),
         opacity: 0,
         // duration: 0.5
       })
       .to(appointment2.current, {
-        y: () => dx(confirmDetails.current, appointment2.current, "+"),
+        y: () => dx(confirmDetails.current, appointment1.current, "+"),
+        opacity: 0
+      }, "<")
+      .to(appointment1.current, {
+        y: () => dx(confirmDetails.current, appointment1.current, "+"),
         opacity: 0
       }, "<")
       .to(sheetBg.current, {
-        y: () => dx(confirmDetails.current, appointment2.current, "+"),
+        y: () => dx(confirmDetails.current, appointment1.current, "+"),
       }, "<")
       .to(tourTypeSheet2.current, {
         display: "none"
@@ -607,15 +603,15 @@ export default function Home() {
 
               <img src="/appointment-1-4x.png" alt="appointment1" id="appointment1" ref={appointment1} className="z-16 grid-in-body self-end w-full hidden" />
 
-              <img src="/appointment-2-4x.png" alt="appointment-2" id="appointment2" ref={appointment2} className="z-16 grid-in-body self-end w-full hidden" />
+              <img src="/appointment-2-chopped-4x.png" alt="appointment-2" id="appointment2" ref={appointment2} className="z-16 grid-in-body self-end w-full hidden" />
 
               <div id="sheet-bg" ref={sheetBg} className='grid bg-white col-start-[-2]  self-end  z-15 shadow-[0_0.918124px_5.50874px_rgba(60,64,67,0.3)] h-[381.42px] md:h-[515.07px] rounded-t-[5.44px] md:rounded-t-[7.34px]'>
                 <div id="handle" className='justify-self-center mt-[5.44px] md:mt-[7.34px] rounded-full bg-[rgba(218,220,224,1)] w-[19.04px] h-[2.72px] md:w-[25.71px] md:h-[3.67px]' />
               </div>
 
-              <img src="/tour-type-4x.png" alt="tour-type" id="tour-type" ref={tourTypeSheet} className="z-15 grid-in-body self-end w-full hidden opacity-0" />
+              <img src="/tour-type-4x.png" alt="tour-type" id="tour-type" ref={tourTypeSheet} className="z-15 grid-in-body self-end w-full hidden " />
 
-              <img src="/tour-type-2-4x.png" alt="tour-type" id="tour-type" ref={tourTypeSheet2} className="z-15 grid-in-body self-end w-full hidden" />
+              <img src="/tour-type-2-chopped-4x.png" alt="tour-type" id="tour-type" ref={tourTypeSheet2} className="z-15 grid-in-body self-end w-full hidden" />
 
 
 
