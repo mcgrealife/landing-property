@@ -799,7 +799,12 @@ export default function Home() {
             <input type="text" placeholder="Phone number *" required className={textStyle} />
           </div>
           <div className={textFieldStyle}>
-            <input type="text" placeholder="Property size" className={textStyle} />
+            <select type="text" placeholder="Property size" className={textStyle} >
+              <option value="option 1">Option 1</option>
+              <option value="option 2">Option 2</option>
+              <option value="option 3">Option 3</option>
+              <option value="option 4">Option 4</option>
+            </select>
             <img src="arrow_drop_down_black_24dp.svg" alt="dropdown-arrow" className='h-[24px] w-[24px]' />
           </div>
           <div id="bottomRow" className='flex  w-full  md:max-w-[1072px] mt-[12px] md:mt-[28px] justify-end'>
