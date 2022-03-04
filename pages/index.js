@@ -47,6 +47,8 @@ export default function Home() {
   const availability = useRef()
   const leftTextWrapper = useRef()
   const markers = useRef()
+  const markersBase = useRef()
+  const markersWrapper = useRef()
   const demo = useRef()
   const propertyHeader = useRef()
   const whiteBgPropIntro = useRef()
@@ -136,7 +138,7 @@ export default function Home() {
               opacity: 1,
               duration: 0.5
             })
-            .from(markers.current, {
+            .from(markersWrapper.current, {
               y: () => isDesktop() ? '+=10' : '+=5',
               opacity: 0,
               // duration: 1,
@@ -637,10 +639,17 @@ export default function Home() {
 
               <img src="calendar-1-4x.png" alt="calendar1" id="calendar1" ref={calendar1} className="z-10 grid-in-body self-end w-full hidden" />
 
-              <div id="markers" ref={markers} className='grid-in-body self-end z-1'>
-                <img src={markerImage} alt="markers-1-desktop" />
+              <div id="markersWrapper" ref={markersWrapper} className='grid-in-body self-start z-1 mt-[89.25px] md:mt-[123.79px]'>
+                <div id="markers" ref={markers}>
+                  <img src={markerImage} alt="markers-1-desktop" />
+                </div>
+                <div id="markersBase" ref={markersBase} >
+                  <img src={imgUrl("desktop", 0)} alt="markers-1-desktop" />
+                </div>
 
               </div>
+
+
 
 
               <img src="/search-filter-bar-4x.png" alt="search-filter"
