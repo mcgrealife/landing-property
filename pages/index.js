@@ -87,7 +87,7 @@ export default function Home() {
 
   const demoFormFields = 'flex flex-wrap justify-center gap-x-[18px] md:mx-[184px] ml-[24px] mr-[32px]'
   const textFieldStyle = 'border rounded-[4px] border-[rgba(218,220,224,1)] min-w-[319px] md:max-w-[527px] mb-[16px] md:mb-[28px] w-full h-[56px]  py-[16px] pl-[16px] pr-[12px] flex items-center justify-between'
-  const textStyle = 'text-left  text-[16px] font-[roboto] font-[400] leading - [24px] text - [rgba(0, 0, 0, 0.6)]'
+  const textStyle = 'text-left  text-[16px] placeholder:text-[16px] font-[roboto] palceholder:font-[roboto] font-[400] placeholder:font-[400] leading-[24px] placeholder:leading-[24px] text-[rgba(0,0,0,0.6)] placeholder:text-[rgba(0,0,0,0.6)] focus:outline-none w-full'
 
   const scheduleDemoClick = () => {
     gsap.to(window, { id: "longScroll", duration: 1, scrollTo: { y: demo.current, offsetY: 100, autoKill: true }, ease: "power3" })
@@ -780,35 +780,26 @@ export default function Home() {
       <div id="demo" ref={demo} className='flex flex-col h-screen  place-content-center  text-center    pb-[32px] md:pb-[82px] '>
         <h1 className=' font-[500] text-[28px] md:text-[48px] leading-[36px] md:leading-[56px] text-[rgba(60,64,67,1)] mb-[16px] md:mb-[18px]'>Request a Demo</h1>
         <p className='text-[16px] text-[rgba(0,0,0,0.6)] leading-[24px] text-center font-[400] font-[roboto] mb-[32px] md:mb-[82px]'>Sign up to learn more about Resider.</p>
-        <div className={demoFormFields}>
+        <form className={demoFormFields}>
           <div className={textFieldStyle}>
 
-            <input type="text" className={textStyle}>
-              Full name *
-            </input>
+            <input type="text" placeholder="Full name *" required className={textStyle} />
 
           </div>
           <div className={textFieldStyle}>
-            <input type="text" className={textStyle}>
-            </input>
+            <input type="text" placeholder="Property name *" required className={textStyle} />
           </div>
           <div className={textFieldStyle}>
-            <input type="text" placeholder="Work Email *" className={textStyle} />
+            <input type="text" placeholder="Work Email *" required className={textStyle} />
           </div>
           <div className={textFieldStyle}>
-            <input type="text" className={textStyle}>
-              Property management company *
-            </input>
+            <input type="text" required placeholder="Property management company *" className={textStyle} />
           </div>
           <div className={textFieldStyle}>
-            <input type="text" className={textStyle}>
-              Phone number *
-            </input>
+            <input type="text" placeholder="Phone number *" required className={textStyle} />
           </div>
           <div className={textFieldStyle}>
-            <input type="text" className={textStyle}>
-              Property size
-            </input>
+            <input type="text" placeholder="Property size" className={textStyle} />
             <img src="arrow_drop_down_black_24dp.svg" alt="dropdown-arrow" className='h-[24px] w-[24px]' />
           </div>
           <div id="bottomRow" className='flex  w-full  md:max-w-[1072px] mt-[12px] md:mt-[28px] justify-end'>
@@ -818,11 +809,9 @@ export default function Home() {
               Chicago, IL 60661
             </div>
             <div id="spacer" className='w-screen h-1' />
-            <button id="submit" className=' bg-resider-blue-primary text-white font-[600] text-[16px] leading-[20px] px-[28px] py-[14px] rounded-[4px]'>
-              Submit
-            </button>
+            <input type="submit" value="Submit" id="submit" className=' bg-resider-blue-primary text-white font-[600] text-[16px] leading-[20px] px-[28px] py-[14px] rounded-[4px]' />
           </div>
-        </div>
+        </form>
       </div>
 
 
