@@ -134,17 +134,17 @@ export default function Home() {
             })
             .to(main.current, {
               opacity: 1,
-              duration: 1
+              duration: 0.5
             })
             .from(markers.current, {
               y: () => isDesktop() ? '+=10' : '+=5',
               opacity: 0,
-              duration: 1
+              // duration: 1,
             }, "<25%")
             .from(cards.current, {
               y: () => isDesktop() ? "+=136" : "+=102",
               ease: "Power3.out"
-            }, "<65%")
+            }, "<10%")
         },
       },
     })
