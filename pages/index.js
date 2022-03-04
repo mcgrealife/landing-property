@@ -85,8 +85,9 @@ export default function Home() {
   const rightTextTitleStyle = 'text-[20px] md:text-[36px] leading-[30px] md:leading-[48px] tracking-[0.1px] text-[rgba(60,64,67,1)] font-[700]'
   const rightTextBodyStyle = 'text-[12px] md:text-[18px] font-[500] leading-[20px] md:leading-[32px] w-[232px] md:w-[356px] text-[rgba(96,99,103,1)] liga-off '
 
-  const textFieldFlexStyle = 'flex flex-wrap justify-center gap-x-[18px] md:mx-[184px] ml-[24px] mr-[32px]'
-  const textFieldStyle = 'border rounded-[4px] border-[rgba(218,220,224,1)] min-w-[319px] md:max-w-[527px] mb-[16px] md:mb-[28px] w-full h-[56px] text-left  text-[16px] font-[roboto] font-[400] leading - [24px] text - [rgba(0, 0, 0, 0.6)] py - [16px] pl - [16px]'
+  const demoFormFields = 'flex flex-wrap justify-center gap-x-[18px] md:mx-[184px] ml-[24px] mr-[32px]'
+  const textFieldStyle = 'border rounded-[4px] border-[rgba(218,220,224,1)] min-w-[319px] md:max-w-[527px] mb-[16px] md:mb-[28px] w-full h-[56px]  py-[16px] pl-[16px] pr-[12px] flex items-center justify-between'
+  const textStyle = 'text-left  text-[16px] font-[roboto] font-[400] leading - [24px] text - [rgba(0, 0, 0, 0.6)]'
 
   const scheduleDemoClick = () => {
     gsap.to(window, { id: "longScroll", duration: 1, scrollTo: { y: demo.current, offsetY: 100, autoKill: true }, ease: "power3" })
@@ -776,18 +777,54 @@ export default function Home() {
       </div >
 
 
-      <div id="demo" ref={demo} className='flex flex-col  self-center text-center justify-center pt-[2px] md:pt-[178px]  pb-[32px] md:pb-[82px] gap:[16px] md:gap-[18px]'>
-        <h1 className=' font-[500] text-[28px] md:text-[48px] leading-[36px] md:leading-[56px] text-[rgba(60,64,67,1)]'>Request a Demo</h1>
-        <p className='text-[16px] text-[rgba(0,0,0,0.6)] leading-[24px] text-center font-[400]'>Sign up to learn more about Resider.</p>
+      <div id="demo" ref={demo} className='flex flex-col h-screen  place-content-center  text-center    pb-[32px] md:pb-[82px] '>
+        <h1 className=' font-[500] text-[28px] md:text-[48px] leading-[36px] md:leading-[56px] text-[rgba(60,64,67,1)] mb-[16px] md:mb-[18px]'>Request a Demo</h1>
+        <p className='text-[16px] text-[rgba(0,0,0,0.6)] leading-[24px] text-center font-[400] font-[roboto] mb-[32px] md:mb-[82px]'>Sign up to learn more about Resider.</p>
+        <div className={demoFormFields}>
+          <div className={textFieldStyle}>
+
+            <input type="text" className={textStyle}>
+              Full name *
+            </input>
+
+          </div>
+          <div className={textFieldStyle}>
+            <input type="text" className={textStyle}>
+            </input>
+          </div>
+          <div className={textFieldStyle}>
+            <input type="text" placeholder="Work Email *" className={textStyle} />
+          </div>
+          <div className={textFieldStyle}>
+            <input type="text" className={textStyle}>
+              Property management company *
+            </input>
+          </div>
+          <div className={textFieldStyle}>
+            <input type="text" className={textStyle}>
+              Phone number *
+            </input>
+          </div>
+          <div className={textFieldStyle}>
+            <input type="text" className={textStyle}>
+              Property size
+            </input>
+            <img src="arrow_drop_down_black_24dp.svg" alt="dropdown-arrow" className='h-[24px] w-[24px]' />
+          </div>
+          <div id="bottomRow" className='flex  w-full  md:max-w-[1072px] mt-[12px] md:mt-[28px] justify-end'>
+            <div id="address" className='hidden md:block font-[roboto] text-[12px] leading-[18px] font-[400] text-[rgba(95,99,104,1)] min-w-[199px] text-left'>
+              Resider LLC <br />
+              550 West Washington Blvd. Suite 201 <br />
+              Chicago, IL 60661
+            </div>
+            <div id="spacer" className='w-screen h-1' />
+            <button id="submit" className=' bg-resider-blue-primary text-white font-[600] text-[16px] leading-[20px] px-[28px] py-[14px] rounded-[4px]'>
+              Submit
+            </button>
+          </div>
+        </div>
       </div>
-      <div className={textFieldFlexStyle}>
-        <div className={textFieldStyle}>Full name *</div>
-        <div className={textFieldStyle}>Property name *</div>
-        <div className={textFieldStyle}>Work Email *</div>
-        <div className={textFieldStyle}>Property management company *</div>
-        <div className={textFieldStyle}>Phone number *</div>
-        <div className={textFieldStyle}>Property size</div>
-      </div>
+
 
     </div >
 
