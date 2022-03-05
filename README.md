@@ -2,7 +2,9 @@
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/mcgrealife/landing-property)
 
-> This will open VScode in the browser, run commands configured in gitpod.yml, and open a localhost on port :3000.
+> This will install/start the project on a gitpod VM.
+> Then open VScode in one browser tab and a localhost loopback in another.
+> Vscode will alert of an available port. Otherwise, it can be accessed via VScode's "Remote Explorer" Panel ([example photo](public/remote-explorer-vsCode.png)).
 
 ## Next.js
 
