@@ -89,18 +89,21 @@ export default function Home() {
   const textFieldStyle = 'border rounded-[4px] border-[rgba(218,220,224,1)] min-w-[319px] md:max-w-[527px] mb-[16px] md:mb-[28px] w-full h-[56px]  py-[16px] pl-[16px] pr-[12px] flex items-center justify-between'
   const textStyle = 'text-left  text-[16px] placeholder:text-[16px] font-[roboto] palceholder:font-[roboto] font-[400] placeholder:font-[400] leading-[24px] placeholder:leading-[24px] text-[rgba(0,0,0,0.6)] placeholder:text-[rgba(0,0,0,0.6)] focus:outline-none w-full'
 
+  // MARK : Problem 1 - "LongScroll" triggers other scrollTriggers while scroling to bottom section
   const scheduleDemoClick = () => {
     gsap.to(window, { id: "longScroll", duration: 1, scrollTo: { y: demo.current, offsetY: 100, autoKill: true }, ease: "power3" })
   }
 
   useEffect(() => {
 
+    // Setting all ScrollTriggers to these defaults did not fix problem 1
     ScrollTrigger.defaults({
       // preventOverlaps: true
       // fastScrollEnd: 5000
     })
 
-    // onLoad map Animation
+
+    // onLoad map Animation (no problems)
     gsap.timeline({
     })
       .from(mapHero.current, {
@@ -112,7 +115,7 @@ export default function Home() {
       })
 
 
-    // Scroll down from Section-1 to phone 
+    // MARK : Problem 2.1 - Scroll down from Section-1 to phone 
     let tlDown = gsap.timeline({
       id: "tlDown",
       scrollTrigger: {
@@ -123,10 +126,10 @@ export default function Home() {
         end: "center center",
         ease: "power3.out",
         toggleActions: "play none none none",
-        fastScrollEnd: 1000,
+        // fastScrollEnd: 1000,
+        // preventOverlaps: true,
         onEnter: () => {
           gsap.timeline({
-            onStart: () => console.log("tlDOWN onEnter")
           })
             .to(heroSection.current, {
               opacity: 0,
@@ -145,7 +148,6 @@ export default function Home() {
             .from(markersWrapper.current, {
               y: () => isDesktop() ? '+=10' : '+=5',
               opacity: 0,
-              // duration: 1,
             }, "<25%")
             .from(cards.current, {
               y: () => isDesktop() ? "+=136" : "+=102",
@@ -165,9 +167,9 @@ export default function Home() {
         end: "top top+=77",
         toggleActions: "none none play none",
         // fastScrollEnd: 1000,
+        // preventOverlaps: true,
         onEnterBack: () => {
           gsap.timeline({
-            onStart: () => console.log("tlUP onEnterBack")
           })
             .to(main.
               current, {
@@ -199,8 +201,6 @@ export default function Home() {
         trigger: rightTextDataIntegrity.current,
         start: 'top 90%',
         end: '+=1',
-        // scrub: true,
-        // ease: "power1.inOut",
         onEnter: () => setMarkerImage(imgUrl("desktop", 2)),
         onEnterBack: () => setMarkerImage(imgUrl("desktop", 1)),
         toggleActions: "play none reverse none",
@@ -214,8 +214,6 @@ export default function Home() {
         trigger: rightTextDataIntegrity.current,
         start: 'top 40%',
         end: '+=1',
-        // scrub: true,
-        // ease: "power1.inOut",
         onEnter: () => setMarkerImage(imgUrl("desktop", 3)),
         onEnterBack: () => setMarkerImage(imgUrl("desktop", 2)),
         toggleActions: "play none reverse none",
@@ -325,7 +323,6 @@ export default function Home() {
         end: "top bottom",
         // toggleActions: 'play reverse play reverse',
         scrub: true,
-        // markers: true
       },
     })
       .to(leftTextWrapper.current, {
@@ -482,7 +479,6 @@ export default function Home() {
 
       // Desktop
       "(min-width: 800px)": function () {
-
         // header shadow desktop override only
         gsap.to(headerShadow.current, {
           opacity: 100,
@@ -498,7 +494,6 @@ export default function Home() {
 
       // Mobile
       "(max-width: 799px)": function () {
-
 
       }
     })
@@ -548,12 +543,6 @@ export default function Home() {
           // objectPosition='left'
           />
         </div>
-
-        {/* <img src="/logo-square-mobile.svg" alt="logo-square-mobile" className='block md:hidden  mt-[28px]' /> */}
-        {/* h-[36px] */}
-
-        {/* <img src="/logo-square-desktop.svg" alt="logo-square-desktop" className='hidden md:block  mt-[12px]' /> */}
-        {/* h-[52px] */}
 
         <h1 id="heroText" ref={heroText} className='mt-[24.49px] md:mt-[24px] text-[rgba(60,64,67,1)] font-[700] text-[36px] md:text-[72px] leading-[48px] md:leading-[84px] tracking-[0.1px] max-w-[326px] md:max-w-[639px]'>A <span className='text-[rgba(54,108,165,1)]'>better</span> way to generate leads</h1>
 
@@ -711,9 +700,6 @@ export default function Home() {
 
           </div>
 
-          {/* personalizedPage has padding-bottom, since more animations 
-          // pb-[28px] md:pb-[32px]
-          */}
           <div id='rightTextPersonalizedPage' ref={rightTextPersonalizedPage} className={rightTextBoxStyle}>
 
             <div className={rightTextSuperTitleStyle}>Property</div>
