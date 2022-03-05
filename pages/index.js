@@ -89,7 +89,7 @@ export default function Home() {
   const textFieldStyle = 'border rounded-[4px] border-[rgba(218,220,224,1)] min-w-[319px] md:max-w-[527px] mb-[16px] md:mb-[28px] w-full h-[56px]  py-[16px] pl-[16px] pr-[12px] flex items-center justify-between'
   const textStyle = 'text-left  text-[16px] placeholder:text-[16px] font-[roboto] placeholder:font-[roboto] font-[400] placeholder:font-[400] leading-[24px] placeholder:leading-[24px] text-[rgba(0,0,0,0.6)] placeholder:text-[rgba(0,0,0,0.6)] focus:outline-none w-full'
 
-  // MARK : Problem 1 - "LongScroll" triggers other scrollTriggers while scroling to bottom section
+  // MARK : Problem 1 - "LongScroll" only works on desktop. On mobile browsers (actual mobile device, not just mobile width), scrollTo triggers other scrollTriggers while scroling to bottom section
   const scheduleDemoClick = () => {
     gsap.to(window, { id: "longScroll", duration: 1, scrollTo: { y: demo.current, offsetY: 100, autoKill: true }, ease: "power3" })
   }
@@ -115,7 +115,9 @@ export default function Home() {
       })
 
 
-    // MARK : Problem 2.1 - Scroll down from Section-1 to phone 
+    // MARK : Problem 2.1 - Scroll down from Section-1 to phone
+    // Works well for single scrolls or flicks. 
+    // However, if scrolling/flicking quickly multiple times near this section (before timeline completes), then the next scrollTrigger id="up" seems to trigger and scroll user back up. Easier to reproduce on desktop scroll. I've tried to kill/pause scrollTrigger id="up" until this scrollTrigger id="down" completes, but without success. I've also tried applying fastScrollEnd and preventoverlap, also without success.
     gsap.timeline({
       id: "tlDown",
       scrollTrigger: {
@@ -158,6 +160,7 @@ export default function Home() {
     })
 
     // MARK : Problem 2.2 - Scroll UP from phone to Section-1
+    // Same as problem 1.1 but in reverse.
     gsap.timeline({
       scrollTrigger: {
         id: "up",
