@@ -87,7 +87,7 @@ export default function Home() {
 
   const demoFormFields = 'flex flex-wrap justify-center gap-x-[18px] md:mx-[184px] ml-[24px] mr-[32px]'
   const textFieldStyle = 'border rounded-[4px] border-[rgba(218,220,224,1)] min-w-[319px] md:max-w-[527px] mb-[16px] md:mb-[28px] w-full h-[56px]  py-[16px] pl-[16px] pr-[12px] flex items-center justify-between'
-  const textStyle = 'text-left  text-[16px] placeholder:text-[16px] font-[roboto] palceholder:font-[roboto] font-[400] placeholder:font-[400] leading-[24px] placeholder:leading-[24px] text-[rgba(0,0,0,0.6)] placeholder:text-[rgba(0,0,0,0.6)] focus:outline-none w-full'
+  const textStyle = 'text-left  text-[16px] placeholder:text-[16px] font-[roboto] placeholder:font-[roboto] font-[400] placeholder:font-[400] leading-[24px] placeholder:leading-[24px] text-[rgba(0,0,0,0.6)] placeholder:text-[rgba(0,0,0,0.6)] focus:outline-none w-full'
 
   // MARK : Problem 1 - "LongScroll" triggers other scrollTriggers while scroling to bottom section
   const scheduleDemoClick = () => {
@@ -116,7 +116,7 @@ export default function Home() {
 
 
     // MARK : Problem 2.1 - Scroll down from Section-1 to phone 
-    let tlDown = gsap.timeline({
+    gsap.timeline({
       id: "tlDown",
       scrollTrigger: {
         id: "down",
@@ -157,7 +157,7 @@ export default function Home() {
       },
     })
 
-    // Scroll up from Phone to Section-1
+    // MARK : Problem 2.2 - Scroll UP from phone to Section-1
     gsap.timeline({
       scrollTrigger: {
         id: "up",
