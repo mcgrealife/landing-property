@@ -11,7 +11,7 @@
 
 ## Deployed
 
-- This project is deployed on vercel at [https://landing-property.vercel.app/](https://landing-property.vercel.app/) and [https://landing-property.vercel.app/new-header](https://landing-property.vercel.app/new-header)
+- This project is deployed on vercel at [https://landing-property.vercel.app/](https://landing-property.vercel.app/)
 
 ## TailwindCSS
 
