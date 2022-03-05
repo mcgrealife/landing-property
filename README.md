@@ -2,9 +2,9 @@
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/mcgrealife/landing-property)
 
-> This will install/start the project on a gitpod VM.
-> Then open VScode in one browser tab and a localhost loopback in another.
-> Vscode will alert of an available port. Otherwise, it can be accessed via VScode's "Remote Explorer" Panel ([example photo](public/remote-explorer-vsCode.png)).
+- This will install/start the project on a gitpod VM.
+- Then open VScode in one browser tab and a localhost loopback in another.
+- Vscode will alert of an available port. Otherwise, it can be accessed via VScode's "Remote Explorer" Panel ([example photo](public/documentation-ref/remote-explorer-vsCode.png)).
 
 ## Next.js
 
@@ -37,3 +37,24 @@
 
 - If you use Gitpod in the browser often (rather than opening in local IDE), these browser settings are recommended [https://www.gitpod.io/docs/configure/browser-settings](https://www.gitpod.io/docs/configure/browser-settings)
 - Gitpod command
+
+## Current problems
+
+### Problem 1
+
+[Video 1 - duration:37s](https://github.com/mcgrealife/landing-property/blob/main/public/documentation-ref/PROBLEM%202%20-%20doubleFlick%20down%20triggers%20scrollTrigger%20id=_up_%20before%20animation%20on%20scrollTrigger%20id=_down_%20is%20complete.mp4%20-%205%20March%202022%201.mp4)
+
+- there is a button in the top right that triggers a "scrollTo" tween to scroll to the bottom of the page
+- on desktop, it works well
+- on mobile devices (not just mobile width), it seems to get stuck on other scrollTriggers (at different positions in chrome vs safari)
+- (note: the same was happening on desktop initially. I solved desktop by adding a conditional "autokill" to scrollTrigger ids="up" and "down" to true if the "longScroll" tween was active. But this did not solve it for mobile)
+
+### Problem 2
+
+[Video 2 - duration:52s](https://github.com/mcgrealife/landing-property/blob/main/public/documentation-ref/PROBLEM%202%20-%20doubleFlick%20down%20triggers%20scrollTrigger%20id=_up_%20before%20animation%20on%20scrollTrigger%20id=_down_%20is%20complete.mp4%20-%205%20March%202022%201.mp4)
+
+- ScrollTrigger id="down" contains a scrollTo that scrolls from section-1 to section-2. It only plays "onEnter"
+- ScrollTrigger id="up" contains a scrollTo that scrolls from section-2 to section-1. It only plays "onEnterBack"
+- For single scroll/flicks, the animation works well!
+- However, when scrolling/flicking multiple times quickly from section-1 to section-2 (scrollTrigger id="down"), it seems to prematurely trigger scrollTrigger id="up", and scrollTo in the opposite direction.
+- I tried killing/pausing scrollTrigger id="down" until the animation on scrollTrigger id="up" was complete, but couldn't make it work.
