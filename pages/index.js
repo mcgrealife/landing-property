@@ -359,16 +359,10 @@ export default function Home() {
         display: "block"
       }, ">25%")
 
-    let dx = (el1, el2, sign, log) => {
+    let dx = (el1, el2, sign) => {
       let a = el1.getBoundingClientRect().height
       let b = el2.getBoundingClientRect().height
       let dx = b - a
-
-      if (log) {
-        console.log("el2", b)
-        console.log("el1", a)
-        console.log(b - a)
-      }
 
       return `${sign}=${dx}`
     }
@@ -624,7 +618,7 @@ export default function Home() {
 
 
               <div ref={property} className="z-12 grid-in-body self-start w-full opacity-100 grid">
-                <div id="tabSelector" ref={tabSelector} className="bg-resider-blue-primary h-[2.04px] md:h-[2.75px] w-[41.47px] md:w-[56.01px] rounded-t-[9px] md:rounded-t-full row-start-1 col-start-1 z-2 mt-[236.2px] md:mt-[318.8px] ml-[47.59px] md:ml-[64.27px] overflow-hidden" />
+                <div id="tabSelector" ref={tabSelector} className="bg-resider-blue-primary h-[2.04px] md:h-[2.75px] w-[41.47px] md:w-[56.01px] rounded-t-[9px] md:rounded-t-full row-start-1 col-start-1 z-2 mt-[236.2px] md:mt-[318.8px] ml-[47.59px] md:ml-[64.27px] overflow-hidden will-change-transform" />
 
                 <img src="/property-4x.png" alt="property-page" id="property" className='row-start-1 col-start-1 w-fit' />
               </div>
